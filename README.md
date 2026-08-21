@@ -1,6 +1,9 @@
-# Portfolio 3D — Võ Quốc Bảo (Unity Developer)
+# Portfolio — Võ Quốc Bảo (Unity Developer)
 
-React Three Fiber + Drei + TailwindCSS v4 + Vite. Layout & token theo design Figma.
+Thế giới **isometric** tương tác: 8 hòn đảo nổi (Experience, Skills + 6 project), nhân vật chibi tự
+đi lại, kéo để pan bản đồ, click đảo để mở panel chi tiết.
+
+React Three Fiber + Drei + TailwindCSS v4 + Vite. Màu/font theo design Figma.
 
 ## Chạy
 
@@ -9,12 +12,12 @@ npm install
 npm run dev
 ```
 
-Build: `npm run build` → `dist/` (deploy thẳng lên Vercel / Netlify / GitHub Pages).
+Build: `npm run build` → `dist/`. Push lên `main` là GitHub Actions tự deploy (xem `.github/workflows/deploy.yml`).
 
 ## Thêm ảnh thumbnail
 
 1. Copy ảnh vào `public/thumbnails/` (JPG/WebP, tỉ lệ **16:9**, ~1024×576, < 500 KB).
-2. Mở `src/data/projects.js`, sửa `image: null` thành đường dẫn tương ứng:
+2. Mở `src/data/portfolio.js`, sửa `image: null` thành đường dẫn:
 
 ```js
 {
@@ -24,49 +27,59 @@ Build: `npm run build` → `dist/` (deploy thẳng lên Vercel / Netlify / GitHu
 }
 ```
 
-Đường dẫn bắt đầu bằng `/` (không phải `./public/...`). Vite tự phục vụ mọi thứ trong `public/`.
-
-Nếu để `image: null`, card tự vẽ ảnh placeholder gradient + tên project bằng canvas — app vẫn chạy
-bình thường, không lỗi thiếu file.
+Ảnh này dùng cho cả tấm billboard 3D trên đảo lẫn ảnh lớn trong panel. Để `image: null` thì tự sinh
+placeholder gradient bằng canvas — app vẫn chạy, không lỗi thiếu file.
 
 ## Cập nhật nội dung
 
-Toàn bộ nằm trong `src/data/projects.js`:
+Tất cả nằm trong `src/data/portfolio.js`:
 
-- `profile` — tên, vai trò, email, phone, LinkedIn, GitHub, About, skills.
-- `projects` — 5 project (lấy từ CV). Mỗi project có `category` (dòng chữ nhỏ màu accent trên card),
-  `title`, `role`, `period`, `color` (accent của card + glow 3D), `description`, `highlights`,
-  `tech`, `demo`, `github`.
-- `demo` / `github` để `null` thì nút hiện dạng mờ (disabled). Điền link vào là nút chạy ngay:
-  - Tower Defense: link gameplay demo
-  - Rehab Platform: link video "Mediapipe Pose Tracking Balance / Reach"
+- `profile` — tên, vai trò, email, phone, LinkedIn, GitHub, About.
+- `experience` — 4 công việc (đảo **Experience Town**).
+- `skillGroups` — kỹ năng chia nhóm (đảo **Skills Forge**).
+- `projects` — 6 project. Mỗi cái có `category`, `title`, `role`, `period`, `color` (màu đảo + glow),
+  `description`, `highlights`, `metrics` (ô số liệu, không bắt buộc), `tech`, `demo`, `github`.
+- `zones` — sơ đồ bản đồ. Layout lưới 4×2 (`GRID`), muốn đổi vị trí đảo thì sửa toạ độ ở đây.
+  Thêm project mới vào `projects` là tự có đảo, nhớ thêm một ô vào `GRID`.
+
+**Còn thiếu, cần điền tay:**
+- `paw-voyage.period` đang `null` — file idea không ghi thời gian.
+- `demo` của Tower Defense (link gameplay) và Rehab Platform (video MediaPipe Pose Tracking).
+- Nút Play Demo / GitHub để `null` thì hiện dạng mờ, không bấm được.
 
 ## Cấu trúc
 
 ```
 src/
-  App.jsx                  # Layout theo Figma: header + 2 cột card + stage giữa, state hover/select
-  index.css                # Token @theme: font Inter + Plus Jakarta Sans, màu, nền gradient + blob
-  data/projects.js         # Toàn bộ nội dung + getThumb() sinh ảnh placeholder
+  App.jsx                  # Header + World + hint + panel; state zone hover/selected
+  index.css                # Token @theme: font Inter + Plus Jakarta Sans, màu, nền gradient
+  data/portfolio.js        # Toàn bộ nội dung + sơ đồ zones + getThumb()
   components/
-    Stage.jsx              # Sân khấu giữa: HUD vòng tròn + chấm quay + Canvas R3F + empty state
-    ShowcaseCard.jsx       # Card 3D ở giữa: texture project, parallax theo chuột, glow màu accent
-    ProjectCard.jsx        # Card HTML 280x278 (ảnh 16:9 + vạch accent + eyebrow + title + tag)
-    InfoPanel.jsx          # Panel kính mờ trượt từ phải, nút Play Demo / GitHub
+    World.jsx              # Canvas, camera orthographic (isometric), lưới nền, kéo-pan, danh sách zone
+    Zone.jsx               # 1 hòn đảo: bệ + props theo kind (toà nhà / tinh thể / billboard) + nhãn
+    Character.jsx          # Nhân vật chibi tự đi giữa các đảo, đi thẳng tới đảo được chọn
+    InfoPanel.jsx          # Panel kính mờ: project / experience / skills
 ```
 
-Tương tác: **hover** card → stage 3D preview project đó (card sáng viền tím + nhấc lên);
-**click** → mở panel chi tiết bên phải. Đóng bằng nút **×** hoặc phím **ESC**.
+## Tương tác
+
+| | |
+|---|---|
+| Kéo chuột (hoặc vuốt) | Pan bản đồ, giới hạn ±9 / ±7 đơn vị |
+| Hover đảo | Đảo nhấc lên, bệ sáng, vầng sáng dưới chân loe ra, tên đảo hiện dưới màn hình |
+| Click đảo | Mở panel bên phải, các đảo khác mờ đi, nhân vật đi tới đảo đó |
+| **ESC** hoặc **×** | Đóng panel |
+
+Camera isometric đặt ở `(12,12,12)` nhìn về gốc, dùng `OrthographicCamera` nên không có phối cảnh —
+đúng chất isometric game. Zoom tự co theo bề rộng màn hình (`zoomForWidth`).
 
 ## Design token (từ Figma)
 
 | | |
 |---|---|
-| Nền | `#070B18` + `linear-gradient(140.67deg, #070B18 → #0C0E28 40% → #0A0820 70% → #07091A)` + 3 blob blur |
-| Accent | `#6C63FF` (brand) · `#00D4FF` (glow) · `#A855F7` · `#F472B6` · `#2DD4BF` |
-| Chữ | `#E8EAF6` — Plus Jakarta Sans (H1 800/52, title 700/19) + Inter (body, label) |
-| Card | 280×278, radius 20, `rgba(255,255,255,.04)` + backdrop-blur 10, viền `rgba(255,255,255,.07)` |
-| Card active | viền `rgba(108,99,255,.35)` + shadow `0 20px 60px rgba(0,0,0,.5), 0 0 30px rgba(108,99,255,.2)` |
-| Tag | pill radius 999, `bg rgba(108,99,255,.13)`, viền `.28`, chữ `#B4B0FF` 11px |
+| Nền | `#070B18` + `linear-gradient(140.67deg, …)` + 3 blob radial |
+| Accent | `#6C63FF` (brand) · `#00D4FF` (glow) · mỗi đảo một màu riêng trong `zones` |
+| Chữ | `#E8EAF6` — Plus Jakarta Sans (H1 800/52) + Inter (body, label) |
+| Panel | glass `rgba(255,255,255,.04)`, backdrop-blur 10, radius 20, viền `rgba(255,255,255,.07)` |
 
 Đổi màu/font: sửa block `@theme` trong `src/index.css`.

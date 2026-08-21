@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Toàn bộ nội dung portfolio nằm ở file này (lấy từ CV Võ Quốc Bảo).
+// Toàn bộ nội dung portfolio (lấy từ CV Võ Quốc Bảo) + sơ đồ thế giới isometric.
 // THAY ẢNH: bỏ file vào public/thumbnails/ rồi sửa `image` thành '/thumbnails/ten-file.jpg'
-// Để `image: null` thì card tự dùng placeholder màu (vẽ bằng canvas, không cần file).
+// Để `image: null` thì tự dùng placeholder vẽ bằng canvas (không cần file nào).
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const profile = {
@@ -18,12 +18,47 @@ export const profile = {
     'Unity Developer với 4 năm kinh nghiệm phát triển game mobile và ứng dụng 3D tương tác. ' +
     'Chuyên sâu về tích hợp motion tracking (MediaPipe, Nuitrack, Kinect) và tối ưu hiệu năng game. ' +
     'Đã ship 4+ dự án mobile trong mảng gaming và healthcare.',
-  skills: [
-    'Unity 2D/3D', 'C# / OOP / SOLID', 'Design Patterns', 'URP & Shader',
-    'MediaPipe', 'Nuitrack', 'Kinect', 'UGUI', 'Asset Bundles',
-    'REST / WebSocket', 'Unity Profiler', 'Git',
-  ],
 }
+
+export const experience = [
+  {
+    role: 'Unity Developer / Software Engineer',
+    company: 'Taggle Pte Ltd · Singapore',
+    period: '07/2024 – 07/2026',
+    desc: 'Game vật lý trị liệu cho kiosk y tế & mobile, tracking lai Kinect/Nuitrack + MediaPipe, ' +
+      'feedback tư thế real-time. Ứng dụng quản lý y tế với mini-app tải theo Asset Bundle. ' +
+      'Làm việc trực tiếp với đối tác Singapore.',
+  },
+  {
+    role: 'Unity Developer',
+    company: 'KBG Studio',
+    period: '02/2023 – 05/2024',
+    desc: 'Game blockchain RunNow.io: nhiều mini game + marketplace, shop, mint, inventory. ' +
+      'Multiplayer real-time qua WebSocket. Tối ưu build size và hiệu năng mobile. Team 15 người.',
+  },
+  {
+    role: 'Unity Developer',
+    company: 'Playground., ltd',
+    period: '01/2022 – 02/2023',
+    desc: 'Game NFT (Creature Hunter, Bingo) cho Android & WebGL. Gameplay mechanic, Spine animation, ' +
+      'tích hợp socket API và giao dịch blockchain.',
+  },
+  {
+    role: 'Software Developer',
+    company: 'Hitachi Vantara VN',
+    period: '09/2020 – 09/2021',
+    desc: 'Ứng dụng UI/WPF hiệu năng cao. Phân tích yêu cầu khách hàng, thiết kế và cài đặt giải pháp, viết test case.',
+  },
+]
+
+export const skillGroups = [
+  { name: 'Unity Engine', items: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Mobile · PC · Kiosk'] },
+  { name: 'Ngôn ngữ & kiến trúc', items: ['C#', 'OOP', 'SOLID', 'Observer', 'Singleton', 'Factory', 'Strategy', 'Flyweight', 'Object Pool', 'State Machine'] },
+  { name: 'Motion Tracking', items: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose estimation'] },
+  { name: 'Tối ưu hiệu năng', items: ['Unity Profiler', 'Draw call', 'Memory', 'GC Alloc', 'Async loading', 'Texture compression'] },
+  { name: 'Data & Networking', items: ['RESTful API', 'JSON', 'WebSocket', 'Firebase SDK'] },
+  { name: 'Tools', items: ['Git', 'Sourcetree', 'Jira', 'Rider', 'DOTween', 'Spine', 'Photoshop'] },
+]
 
 export const projects = [
   {
@@ -42,11 +77,43 @@ export const projects = [
       'MVC + Event Bus; Strategy (4 chế độ gán gate), Flyweight (ScriptableObject config), Object Pool, State Machine',
       'URP Renderer Feature: toon shading + geometry outline, shader custom depth-test cho HP bar world-space',
       'Procedural maze bằng Recursive Backtracker + A* (Manhattan), 6 layout map, multi-gate cách ly đường đi',
-      'Giảm 60% build size (255 → 102 MB), giảm 68% draw call (2792 → 887 batches), runtime zero-alloc',
+      'Shader variant stripping + nén ASTC 6x6, Static Batching, async wave loop (async/await + CancellationToken)',
+    ],
+    metrics: [
+      { num: '−60%', label: 'build size' },
+      { num: '−68%', label: 'draw calls' },
+      { num: '0', label: 'GC alloc' },
     ],
     tech: ['Unity 2022', 'URP', 'C#', 'DOTween', 'Shader Graph', 'A*', 'Object Pooling'],
     demo: null, // dán link gameplay demo vào đây
     github: 'https://github.com/Bao1106',
+  },
+  {
+    id: 'paw-voyage',
+    title: 'Paw Voyage: Pet Sort',
+    role: 'Solo Developer — Personal Project',
+    period: null, // TODO: điền thời gian làm project
+    color: '#fbbf24',
+    category: 'Puzzle Mobile · Solo Dev',
+    image: null,
+    description:
+      'Game puzzle sắp xếp kiểu Bus-Sort làm một mình từ core loop tới meta progression. ' +
+      'Mobile dọc, 50 level, cân bằng dựa trên dữ liệu.',
+    highlights: [
+      '50 level tinh chỉnh tay kèm sao thưởng, rương, booster và onboarding',
+      'Trọn vòng win/lose, UI, VFX, level map progression',
+      'Tinh chỉnh game feel: vật lý nước, pet nhảy, hiệu ứng lên tàu cho màn hình nhỏ',
+      'Tool authoring cho designer: nhập thông số → tự sinh, validate và chấm độ khó bàn chơi, không thể ship bàn bí',
+      'Bot tự chơi và quay video để kiểm chứng cân bằng — chỉ ship khi người chơi cẩn thận clear ≥ 95% (36/36 level pass)',
+    ],
+    metrics: [
+      { num: '50', label: 'levels' },
+      { num: '95%', label: 'clear rate' },
+      { num: 'Solo', label: 'developer' },
+    ],
+    tech: ['Unity', 'C#', 'Editor Tooling', 'Automated Playtest', 'Level Design'],
+    demo: null,
+    github: null,
   },
   {
     id: 'rehab-platform',
@@ -135,8 +202,27 @@ export const projects = [
   },
 ]
 
+// ── Sơ đồ thế giới: lưới 4x2, mỗi platform cách nhau 3.6 đơn vị ──────────────
+// kind quyết định props nổi trên platform và loại nội dung trong panel.
+const GRID = [
+  [-5.4, -2.2], [-1.8, -2.2], [1.8, -2.2], [5.4, -2.2],
+  [-5.4, 2.2], [-1.8, 2.2], [1.8, 2.2], [5.4, 2.2],
+]
+
+export const zones = [
+  { id: 'experience', kind: 'experience', label: 'Experience Town', color: '#22d3ee', pos: GRID[0] },
+  { id: 'skills', kind: 'skills', label: 'Skills Forge', color: '#a78bfa', pos: GRID[1] },
+  ...projects.map((p, i) => ({
+    id: p.id,
+    kind: 'project',
+    label: p.title.split(' — ')[0],
+    color: p.color,
+    pos: GRID[i + 2],
+    project: p,
+  })),
+]
+
 // ── Placeholder: vẽ ảnh gradient + tên project bằng canvas, trả về data URL ──
-// Nhờ vậy app chạy được ngay cả khi chưa có ảnh thật; có ảnh thật thì chỉ cần set `image`.
 const cache = new Map()
 
 export function getThumb(p) {
@@ -169,7 +255,8 @@ export function getThumb(p) {
   ctx.fillStyle = 'rgba(255,255,255,0.6)'
   ctx.fillText('PLACEHOLDER — thay ảnh ở public/thumbnails/', c.width / 2, c.height - 60)
 
-  const url = c.toDataURL('image/png')
+  // JPEG cho nhẹ: PNG gradient 1024x576 ra tận ~950 KB data URL, JPEG chỉ vài chục KB
+  const url = c.toDataURL('image/jpeg', 0.82)
   cache.set(p.id, url)
   return url
 }

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import { getThumb } from '../data/projects'
+import { experience, getThumb, skillGroups } from '../data/portfolio'
 
 /**
- * Panel chi tiết trượt vào từ bên phải (HTML overlay, kính mờ theo token Figma).
- * Luôn nằm trong DOM để animation đóng/mở mượt.
+ * Panel chi tiết trượt vào từ bên phải. Render 3 loại nội dung theo zone.kind:
+ * project (ảnh + highlight + metric + tech) / experience (timeline) / skills (nhóm kỹ năng).
  */
-export default function InfoPanel({ project, onClose }) {
-  // giữ project cuối để nội dung không biến mất giữa lúc panel đang trượt ra
-  const [shown, setShown] = useState(project)
-  useEffect(() => { if (project) setShown(project) }, [project])
+export default function InfoPanel({ zone, onClose }) {
+  // giữ zone cuối để nội dung không biến mất giữa lúc panel đang trượt ra
+  const [shown, setShown] = useState(zone)
+  useEffect(() => { if (zone) setShown(zone) }, [zone])
 
-  const open = Boolean(project)
-  const p = shown
+  const open = Boolean(zone)
+  const z = shown
 
   return (
     <aside
@@ -21,7 +21,7 @@ export default function InfoPanel({ project, onClose }) {
         transition-[translate,opacity] duration-500 ease-out sm:w-[440px]
         ${open ? 'translate-x-0 opacity-100' : 'pointer-events-none translate-x-full opacity-0'}`}
     >
-      {!p ? null : (
+      {!z ? null : (
         <>
           <button
             onClick={onClose}
@@ -33,59 +33,136 @@ export default function InfoPanel({ project, onClose }) {
             ×
           </button>
 
-          {/* Ảnh lớn: cùng anatomy với card (accent line + gradient phủ) */}
-          <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-panel">
-            <img src={getThumb(p)} alt={p.title} className="h-full w-full object-cover opacity-[0.78]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,24,0)_30%,rgba(7,9,24,0.9)_100%)]" />
-            <div
-              className="absolute inset-x-0 top-0 h-[2px]"
-              style={{ background: `linear-gradient(90deg, ${p.color}90 0%, ${p.color}00 100%)` }}
-            />
-          </div>
+          <PanelHero zone={z} />
 
           {/* min-h-0 + flex-1 để vùng nội dung scroll được bên trong panel cao 100% */}
           <div className="min-h-0 flex-1 overflow-y-auto px-[22px] pb-6 pt-5 scrollbar-none">
-            <span
-              className="text-[10px] font-semibold uppercase leading-[15px] tracking-[1.2px]"
-              style={{ color: p.color }}
-            >
-              {p.category}
-            </span>
-
-            <h2 className="mt-1.5 font-display text-[24px] font-bold leading-[30px] text-ink">{p.title}</h2>
-            <p className="mt-1 text-[12px] leading-[18px] tracking-[0.6px] text-ink/40">{p.role} · {p.period}</p>
-
-            <p className="mt-4 text-[13px] leading-relaxed text-ink/75">{p.description}</p>
-
-            <ul className="mt-4 space-y-2">
-              {p.highlights.map((h) => (
-                <li key={h} className="flex gap-2.5 text-[13px] leading-relaxed text-ink/60">
-                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full" style={{ background: p.color }} />
-                  {h}
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-5 flex flex-wrap gap-1.5">
-              {p.tech.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-brand/30 bg-brand/15 px-[9.8px] py-[2.8px]
-                    text-[11px] font-medium leading-4 tracking-[0.22px] text-[#b4b0ff]"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 flex gap-2.5">
-              <PanelLink href={p.demo} primary>▶ Play Demo</PanelLink>
-              <PanelLink href={p.github}>GitHub</PanelLink>
-            </div>
+            {z.kind === 'project' && <ProjectBody p={z.project} />}
+            {z.kind === 'experience' && <ExperienceBody />}
+            {z.kind === 'skills' && <SkillsBody />}
           </div>
         </>
       )}
     </aside>
+  )
+}
+
+// Ảnh lớn cho project; zone khác dùng dải màu + tên zone
+function PanelHero({ zone }) {
+  const accent = zone.color
+
+  if (zone.kind === 'project') {
+    return (
+      <div className="relative h-[200px] w-full shrink-0 overflow-hidden bg-panel">
+        <img src={getThumb(zone.project)} alt={zone.project.title} className="h-full w-full object-cover opacity-[0.78]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,24,0)_30%,rgba(7,9,24,0.9)_100%)]" />
+        <div className="absolute inset-x-0 top-0 h-[2px]"
+          style={{ background: `linear-gradient(90deg, ${accent}90 0%, ${accent}00 100%)` }} />
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative h-[120px] w-full shrink-0 overflow-hidden"
+      style={{ background: `linear-gradient(135deg, ${accent}33 0%, rgba(8,10,28,0.9) 70%)` }}>
+      <div className="absolute inset-x-0 top-0 h-[2px]"
+        style={{ background: `linear-gradient(90deg, ${accent}90 0%, ${accent}00 100%)` }} />
+      <div className="absolute bottom-5 left-[22px]">
+        <span className="text-[10px] font-semibold uppercase leading-[15px] tracking-[1.2px]" style={{ color: accent }}>
+          {zone.kind === 'experience' ? 'Kinh nghiệm' : 'Kỹ năng'}
+        </span>
+        <h2 className="font-display text-[24px] font-bold leading-[30px] text-ink">{zone.label}</h2>
+      </div>
+    </div>
+  )
+}
+
+function ProjectBody({ p }) {
+  return (
+    <>
+      <span className="text-[10px] font-semibold uppercase leading-[15px] tracking-[1.2px]" style={{ color: p.color }}>
+        {p.category}
+      </span>
+
+      <h2 className="mt-1.5 font-display text-[24px] font-bold leading-[30px] text-ink">{p.title}</h2>
+      <p className="mt-1 text-[12px] leading-[18px] tracking-[0.6px] text-ink/40">
+        {p.role}{p.period ? ` · ${p.period}` : ''}
+      </p>
+
+      <p className="mt-4 text-[13px] leading-relaxed text-ink/75">{p.description}</p>
+
+      {p.metrics && (
+        <div className="mt-5 flex gap-2.5">
+          {p.metrics.map((m) => (
+            <div key={m.label} className="flex-1 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3 text-center">
+              <div className="font-display text-[20px] font-bold tabular-nums" style={{ color: p.color }}>{m.num}</div>
+              <div className="mt-0.5 text-[10px] text-ink/40">{m.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <ul className="mt-5 space-y-2">
+        {p.highlights.map((h) => (
+          <li key={h} className="flex gap-2.5 text-[13px] leading-relaxed text-ink/60">
+            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full" style={{ background: p.color }} />
+            {h}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-5 flex flex-wrap gap-1.5">
+        {p.tech.map((t) => <Tag key={t}>{t}</Tag>)}
+      </div>
+
+      <div className="mt-6 flex gap-2.5">
+        <PanelLink href={p.demo} primary>▶ Play Demo</PanelLink>
+        <PanelLink href={p.github}>GitHub</PanelLink>
+      </div>
+    </>
+  )
+}
+
+function ExperienceBody() {
+  return (
+    <ol className="space-y-4">
+      {experience.map((e) => (
+        <li key={e.company} className="border-b border-white/[0.05] pb-4 last:border-0">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <div className="text-[13px] font-semibold text-ink">{e.role}</div>
+              <div className="text-[12px] text-ink/55">{e.company}</div>
+            </div>
+            <span className="whitespace-nowrap text-[11px] text-ink/35 tabular-nums">{e.period}</span>
+          </div>
+          <p className="mt-2 text-[12px] leading-relaxed text-ink/50">{e.desc}</p>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+function SkillsBody() {
+  return (
+    <div className="space-y-4">
+      {skillGroups.map((g) => (
+        <div key={g.name}>
+          <h4 className="text-[10px] font-semibold uppercase tracking-[1.2px] text-glow">{g.name}</h4>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {g.items.map((s) => <Tag key={s}>{s}</Tag>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function Tag({ children }) {
+  return (
+    <span className="rounded-full border border-brand/30 bg-brand/15 px-[9.8px] py-[2.8px]
+      text-[11px] font-medium leading-4 tracking-[0.22px] text-[#b4b0ff]">
+      {children}
+    </span>
   )
 }
 
@@ -95,10 +172,8 @@ function PanelLink({ href, primary, children }) {
 
   if (!href) {
     return (
-      <span
-        className={`${base} cursor-not-allowed border border-white/[0.08] bg-white/[0.03] text-ink/25`}
-        title="Chưa có link — cập nhật trong src/data/projects.js"
-      >
+      <span className={`${base} cursor-not-allowed border border-white/[0.08] bg-white/[0.03] text-ink/25`}
+        title="Chưa có link — cập nhật trong src/data/portfolio.js">
         {children}
       </span>
     )

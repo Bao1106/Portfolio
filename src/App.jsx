@@ -1,21 +1,15 @@
 import { useEffect, useState } from 'react'
-import Stage from './components/Stage'
-import ProjectCard from './components/ProjectCard'
+import World from './components/World'
 import InfoPanel from './components/InfoPanel'
-import { profile, projects } from './data/projects'
-
-// Chia card 2 bên như design: cột trái 2 card, cột phải 3 card
-const LEFT = projects.slice(0, 2)
-const RIGHT = projects.slice(2)
+import { profile, zones } from './data/portfolio'
 
 export default function App() {
-  const [selectedId, setSelectedId] = useState(null) // project đang mở panel
-  const [hoveredId, setHoveredId] = useState(null)   // project đang hover (preview ở stage)
+  const [selectedId, setSelectedId] = useState(null) // zone đang mở panel
+  const [hoveredId, setHoveredId] = useState(null)   // zone đang rê chuột
   const [info, setInfo] = useState(null)             // 'about' | 'contact' | null
 
-  const selected = projects.find((p) => p.id === selectedId) ?? null
-  const hovered = projects.find((p) => p.id === hoveredId) ?? null
-  const active = hovered ?? selected // hover được ưu tiên -> rê chuột là đổi card 3D ngay
+  const selected = zones.find((z) => z.id === selectedId) ?? null
+  const hovered = zones.find((z) => z.id === hoveredId) ?? null
 
   useEffect(() => {
     const onKey = (e) => {
@@ -27,43 +21,41 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  const cardProps = (p) => ({
-    project: p,
-    active: active?.id === p.id,
-    onSelect: (x) => setSelectedId(x.id),
-    onHover: (x) => setHoveredId(x?.id ?? null),
-  })
-
   return (
     <div className="relative h-full w-full overflow-hidden font-sans">
+      <World
+        selectedId={selectedId}
+        hoveredId={hoveredId}
+        onSelect={(z) => setSelectedId(z.id)}
+        onHover={(z) => setHoveredId(z?.id ?? null)}
+      />
+
       <Header info={info} setInfo={setInfo} />
 
-      <main
-        className="grid h-full grid-cols-1 gap-6 overflow-y-auto px-6 pt-[168px] pb-10
-          lg:grid-cols-[280px_1fr_280px] lg:gap-[23.8px] lg:overflow-hidden lg:px-12 lg:pt-[139px] lg:pb-24"
-      >
-        <div className="flex min-h-0 flex-col gap-4 lg:overflow-y-auto lg:scrollbar-none">
-          {LEFT.map((p) => <ProjectCard key={p.id} {...cardProps(p)} />)}
-        </div>
+      {/* Tên zone đang hover + hướng dẫn thao tác */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-7 z-10 flex flex-col items-center gap-1.5">
+        <span
+          className={`font-display text-[15px] font-bold text-ink transition-opacity duration-300
+            ${hovered && !selected ? 'opacity-100' : 'opacity-0'}`}
+        >
+          {hovered?.label ?? ' '}
+        </span>
+        <span className="text-[12px] tracking-[0.6px] text-ink/25">
+          Kéo để di chuyển bản đồ · click vào đảo để xem chi tiết
+        </span>
+      </div>
 
-        <Stage project={active} />
-
-        <div className="flex min-h-0 flex-col gap-4 lg:overflow-y-auto lg:scrollbar-none">
-          {RIGHT.map((p) => <ProjectCard key={p.id} {...cardProps(p)} />)}
-        </div>
-      </main>
-
-      <InfoPanel project={selected} onClose={() => setSelectedId(null)} />
+      <InfoPanel zone={selected} onClose={() => setSelectedId(null)} />
     </div>
   )
 }
 
 function Header({ info, setInfo }) {
   const parts = profile.name.split(' ')
-  const last = parts.pop() // chữ cuối được tô gradient như design
+  const last = parts.pop() // chữ cuối tô gradient
 
   return (
-    <header className="absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-6 px-6 pt-9 lg:px-12">
+    <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-6 px-6 pt-9 lg:px-12">
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2.5">
           <span className="h-[9px] w-[9px] rounded-full bg-brand shadow-[0_0_12px_#6c63ff,0_0_24px_rgba(108,99,255,0.4)]" />
@@ -85,8 +77,7 @@ function Header({ info, setInfo }) {
         </p>
       </div>
 
-      <div className="relative flex shrink-0 flex-col items-end gap-2.5">
-        {/* Pill trạng thái góc phải */}
+      <div className="pointer-events-auto relative flex shrink-0 flex-col items-end gap-2.5">
         <span className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04]
           px-[17.8px] py-[7.8px] backdrop-blur-[10px]">
           <span className="h-[7px] w-[7px] rounded-full bg-glow shadow-[0_0_8px_#00d4ff]" />
@@ -138,13 +129,10 @@ function InfoCard({ kind, onClose }) {
         <>
           <h3 className="text-[10px] font-semibold uppercase tracking-[1.2px] text-brand">About</h3>
           <p className="mt-2 text-[13px] leading-relaxed text-ink/75">{profile.about}</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {profile.skills.map((s) => (
-              <span key={s} className="rounded-full border border-brand/30 bg-brand/15 px-2.5 py-1 text-[11px] text-[#b4b0ff]">
-                {s}
-              </span>
-            ))}
-          </div>
+          <p className="mt-3 text-[12px] leading-relaxed text-ink/45">
+            Bấm vào đảo <span className="text-ink/70">Skills Forge</span> để xem chi tiết kỹ năng,
+            <span className="text-ink/70"> Experience Town</span> để xem quá trình làm việc.
+          </p>
         </>
       ) : (
         <>
