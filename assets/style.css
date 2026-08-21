@@ -133,6 +133,16 @@ body {
   line-height: 1.7;
 }
 
+.version-switch { margin-top: 22px; font-size: 13px; }
+.version-switch a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent-border);
+  padding-bottom: 2px;
+  transition: all 0.25s;
+}
+.version-switch a:hover { border-bottom-color: var(--accent); text-shadow: 0 0 12px rgba(0, 212, 170, 0.4); }
+
 .stats-bar { display: flex; justify-content: center; gap: 40px; margin-top: 28px; flex-wrap: wrap; }
 .stat { text-align: center; }
 .stat-num { font-size: 32px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }

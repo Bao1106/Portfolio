@@ -44,10 +44,17 @@ Thêm project mới: thêm một object vào mảng tương ứng, nếu muốn 
 
 ## Deploy
 
-Repo dùng chung một site GitHub Pages cho mọi branch, nên workflow ở đây **chỉ chạy khi bấm tay**
-(Actions → Deploy 2D portfolio → Run workflow) để không đè lên bản 3D đang chạy.
+Repo chỉ có một site GitHub Pages nên workflow gom cả hai bản vào một lần deploy:
 
-Sau khi chạy: https://bao1106.github.io/Portfolio/
+| Đường dẫn | Bản | Nguồn |
+|---|---|---|
+| https://bao1106.github.io/Portfolio/ | 2D | branch  (file tĩnh, copy thẳng) |
+| https://bao1106.github.io/Portfolio/3d/ | 3D | branch  (workflow chạy ) |
+
+File  giống hệt nhau ở cả hai branch và checkout cả hai, nên push
+branch nào cũng deploy đủ cả hai bản — không còn cảnh branch này đè branch kia.
+
+Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub Actions**.
 
 ## Ghi chú kỹ thuật
 
