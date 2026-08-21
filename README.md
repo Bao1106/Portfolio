@@ -63,4 +63,5 @@ Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub A
 - Tôn trọng `prefers-reduced-motion`: tắt glitch, typewriter, hạt bay và các transition.
 - Ảnh minh hoạ project mặc định không dùng file ảnh nào — tất cả là div + CSS. Riêng Paw Voyage dùng icon thật (WebP 512, 33 KB).
 - Video demo đặt preload="none" + có poster: 10 MB chỉ tải khi người xem bấm play, không tốn băng thông của khách vãng lai.
-- Video gốc 17.5 MB (720x1612) được nén còn 10.3 MB bằng ffmpeg: scale 540 rộng, CRF 27, +faststart để phát được ngay khi chưa tải xong.
+- Video nén bằng ffmpeg trước khi commit: Paw Voyage 17.5 MB -> 10.3 MB (dọc, rộng 540, CRF 27), Tower Defense 81 MB -> 8.0 MB (ngang, rộng 1024, 60fps -> 30fps, CRF 29). Đều thêm +faststart để phát ngay khi chưa tải xong.
+- Clip dọc và clip ngang dùng chung component: đặt `wide: true` trong `media` thì video tràn hết bề ngang modal, không thì bó lại 280px.

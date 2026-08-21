@@ -389,7 +389,8 @@ body {
 }
 .pr-card:hover .pr-icon { transform: scale(1.06) translateY(-2px); }
 
-/* Video demo trong modal — quay dọc nên giới hạn chiều cao, canh giữa */
+/* Video demo trong modal. Mặc định là clip quay dọc (mobile) nên bó hẹp lại;
+   .wide dành cho clip quay ngang (game PC) thì cho tràn hết bề ngang modal. */
 .modal-video {
   display: block;
   width: 100%;
@@ -400,6 +401,7 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
   background: #000;
 }
+.modal-video.wide { max-width: 100%; max-height: 46vh; }
 
 .sc-paw { background: linear-gradient(160deg, #0a2e2e, #0d4a3d, #146b54); }
 .sc-paw::before {

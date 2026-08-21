@@ -311,6 +311,7 @@ const PERSONAL_PROJECTS = [
     tags: [{ t: '3D Sci-Fi' }, { t: 'MVC + Event Bus', sec: true }, { t: 'Procedural', sec: true }],
     sub: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026',
     link: { label: 'View on GitHub', href: PROFILE.github },
+    media: { video: 'assets/media/tower-defense-demo.mp4', poster: 'assets/media/tower-defense-poster.jpg', wide: true },
     body: `
       <p>A 3D sci-fi tower defense with decoupled architecture, procedural maze generation and aggressive performance work.</p>
       <h4>System architecture</h4>
@@ -465,7 +466,7 @@ function openModal(id) {
   el('mSub').textContent = p.sub
   // preload="none": video 10 MB chỉ tải khi người xem thật sự bấm play
   const video = p.media
-    ? `<video class="modal-video" controls playsinline preload="none" poster="${p.media.poster}">
+    ? `<video class="modal-video${p.media.wide ? ' wide' : ''}" controls playsinline preload="none" poster="${p.media.poster}">
          <source src="${p.media.video}" type="video/mp4" />
          Trình duyệt không phát được video — <a href="${p.media.video}">tải xuống</a>.
        </video>`
