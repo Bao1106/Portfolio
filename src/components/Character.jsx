@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import chibiUrl from '../assets/chibi.glb?url'
 import walkingClip from '../assets/walking.json'
 
@@ -17,7 +17,13 @@ const groundY = (x, z) =>
     ? PLATFORM_TOP
     : 0
 
-const MODEL = chibiUrl
+// Bản build nhúng model thành data URI (assetsInlineLimit trong vite.config).
+// Tự giải mã base64 thay vì fetch: mở file:// hay host chặn connect-src vẫn chạy.
+// Lúc dev thì chibiUrl là đường dẫn thường -> fetch bình thường.
+const loadModelBuffer = () =>
+  chibiUrl.startsWith('data:')
+    ? Promise.resolve(Uint8Array.from(atob(chibiUrl.slice(chibiUrl.indexOf(',') + 1)), (c) => c.charCodeAt(0)).buffer)
+    : fetch(chibiUrl).then((r) => r.arrayBuffer())
 
 const HEIGHT = 1.25      // chiều cao mong muốn trong world (model gốc ~47 đơn vị)
 const SPEED = 3.4        // đơn vị/giây
@@ -43,25 +49,36 @@ export default function Character({ target, onArrive, onManualMove }) {
   const model = useRef()
   const keys = useRef(new Set())
 
-  const { scene } = useGLTF(MODEL)
+  const [scene, setScene] = useState(null)
+
+  useEffect(() => {
+    let alive = true
+    loadModelBuffer()
+      .then((buf) => new GLTFLoader().parse(buf, '', (g) => { if (alive) setScene(g.scene) }))
+      .catch((e) => console.error('Không đọc được model chibi:', e))
+    return () => { alive = false }
+  }, [])
+
   // clip đã retarget sẵn ra JSON (scripts/retarget-anim.mjs) nên runtime không cần FBXLoader
   const clip = useMemo(() => THREE.AnimationClip.parse(walkingClip), [])
 
   // scale model về đúng tầm vóc bản đồ, tính từ bounding box thật của file
   const fitScale = useMemo(() => {
+    if (!scene) return 1
     const box = new THREE.Box3().setFromObject(scene)
     const h = box.max.y - box.min.y
     return h > 0 ? HEIGHT / h : 1
   }, [scene])
 
-  const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene])
+  const mixer = useMemo(() => (scene ? new THREE.AnimationMixer(scene) : null), [scene])
   const action = useRef(null)
 
   useEffect(() => {
+    if (!mixer) return
     const a = mixer.clipAction(clip)
     a.play()
     action.current = a
-    return () => { a.stop(); mixer.uncacheClip(clip) }
+    return () => { a.stop(); mixer.uncacheClip(clip); action.current = null }
   }, [clip, mixer])
 
   useEffect(() => {
@@ -125,10 +142,10 @@ export default function Character({ target, onArrive, onManualMove }) {
         a.time = IDLE_TIME
       }
     }
-    mixer.update(step) // action.paused lo phần đứng yên
+    mixer?.update(step) // action.paused lo phần đứng yên
 
     const t = state.clock.elapsedTime
-    model.current.position.y = moving ? 0 : Math.sin(t * 2.2) * 0.015
+    if (model.current) model.current.position.y = moving ? 0 : Math.sin(t * 2.2) * 0.015
   })
 
   return (
@@ -140,10 +157,8 @@ export default function Character({ target, onArrive, onManualMove }) {
       </mesh>
 
       <group ref={model}>
-        <primitive object={scene} scale={fitScale} />
+        {scene && <primitive object={scene} scale={fitScale} />}
       </group>
     </group>
   )
 }
-
-useGLTF.preload(MODEL)
