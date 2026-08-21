@@ -1,8 +1,11 @@
 name: Deploy 2D portfolio
 
-# Chỉ chạy khi bấm tay: repo dùng chung 1 site Pages với branch 3d_web,
-# chạy tự động sẽ đè bản kia mỗi lần push.
+# Repo dùng chung 1 site Pages với branch 3d_web -> branch nào chạy sau thì bản đó lên sóng.
+# Nút "Run workflow" chỉ hiện khi file workflow nằm ở default branch (đang là 3d_web),
+# nên ở đây dùng trigger push để deploy được từ chính branch này.
 on:
+  push:
+    branches: [2d_web]
   workflow_dispatch:
 
 permissions:
