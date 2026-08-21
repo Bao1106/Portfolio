@@ -12,7 +12,10 @@ npm install
 npm run dev
 ```
 
-Build: `npm run build` → `dist/`. Push lên `main` là GitHub Actions tự deploy (`.github/workflows/deploy.yml`).
+Build: `npm run build` → `dist/`. Push lên `main` hoặc `3d_web` là GitHub Actions tự deploy
+(`.github/workflows/deploy.yml`) → https://bao1106.github.io/Portfolio/
+
+Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub Actions**.
 
 ## Bản đồ
 
