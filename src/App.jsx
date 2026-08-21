@@ -1,150 +1,111 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import World from './components/World'
-import InfoPanel from './components/InfoPanel'
+import DetailPanel from './components/DetailPanel'
 import { profile, zones } from './data/portfolio'
 
 export default function App() {
-  const [selectedId, setSelectedId] = useState(null) // zone đang mở panel
-  const [hoveredId, setHoveredId] = useState(null)   // zone đang rê chuột
-  const [info, setInfo] = useState(null)             // 'about' | 'contact' | null
+  const [selectedId, setSelectedId] = useState(null)
+  const [hoveredId, setHoveredId] = useState(null)
+  const [charTarget, setCharTarget] = useState(null) // đích nhân vật chạy tới
+  const [openKey, setOpenKey] = useState(0)          // đổi mỗi lần mở panel -> thanh skill chạy lại
 
   const selected = zones.find((z) => z.id === selectedId) ?? null
-  const hovered = zones.find((z) => z.id === hoveredId) ?? null
+
+  const selectZone = (zone) => {
+    setSelectedId(zone.id)
+    setOpenKey((k) => k + 1)
+    // đứng ở mép trước đảo cho khỏi lọt vào giữa đống props
+    setCharTarget([zone.pos[0], zone.pos[1] + 2.4])
+  }
+
+  const clearTarget = useCallback(() => setCharTarget(null), [])
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key !== 'Escape') return
-      setSelectedId(null)
-      setInfo(null)
-    }
+    const onKey = (e) => { if (e.key === 'Escape') setSelectedId(null) }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   return (
-    <div className="relative h-full w-full overflow-hidden font-sans">
-      <World
-        selectedId={selectedId}
-        hoveredId={hoveredId}
-        onSelect={(z) => setSelectedId(z.id)}
-        onHover={(z) => setHoveredId(z?.id ?? null)}
-      />
+    <div className="h-full overflow-y-auto">
+      <Header />
 
-      <Header info={info} setInfo={setInfo} />
+      <section className="relative mx-auto h-[62vh] min-h-[420px] w-full max-w-[1400px]">
+        <World
+          selectedId={selectedId}
+          hoveredId={hoveredId}
+          onSelect={selectZone}
+          onHover={(z) => setHoveredId(z?.id ?? null)}
+          charTarget={charTarget}
+          onArrive={clearTarget}
+          onManualMove={clearTarget}
+        />
+      </section>
 
-      {/* Tên zone đang hover + hướng dẫn thao tác */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-7 z-10 flex flex-col items-center gap-1.5">
-        <span
-          className={`font-display text-[15px] font-bold text-ink transition-opacity duration-300
-            ${hovered && !selected ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {hovered?.label ?? ' '}
-        </span>
-        <span className="text-[12px] tracking-[0.6px] text-ink/25">
-          Kéo để di chuyển bản đồ · click vào đảo để xem chi tiết
-        </span>
-      </div>
+      <p className="pb-12 pt-3 text-center text-[12px] tracking-[0.4px] text-ink3">
+        WASD để đi · Click zones to explore · Drag to pan
+      </p>
 
-      <InfoPanel zone={selected} onClose={() => setSelectedId(null)} />
+      <DetailPanel zone={selected} openKey={openKey} onClose={() => setSelectedId(null)} />
     </div>
   )
 }
 
-function Header({ info, setInfo }) {
-  const parts = profile.name.split(' ')
-  const last = parts.pop() // chữ cuối tô gradient
+function Header() {
+  const [showContact, setShowContact] = useState(false)
 
   return (
-    <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-6 px-6 pt-9 lg:px-12">
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2.5">
-          <span className="h-[9px] w-[9px] rounded-full bg-brand shadow-[0_0_12px_#6c63ff,0_0_24px_rgba(108,99,255,0.4)]" />
-          <span className="text-[12px] font-medium uppercase leading-[18px] tracking-[1.92px] text-ink/40">
-            {profile.role} · 4 yrs
-          </span>
-        </div>
+    <header className="mx-auto max-w-[680px] px-4 pt-10 text-center sm:pt-12">
+      <h1 className="text-[30px] font-extrabold tracking-[0.5px] text-ink sm:text-[40px]">{profile.name}</h1>
+      <p className="mt-1 text-[14px] text-ink2 sm:text-[15px]">{profile.subtitle}</p>
 
-        <h1 className="flex items-center font-display text-[38px] font-extrabold leading-none tracking-[-1.56px] lg:text-[52px] lg:leading-[52px]">
-          <span className="text-ink">{parts.join(' ')}&nbsp;</span>
-          <span className="bg-[linear-gradient(124.19deg,#6c63ff_0%,#00d4ff_100%)] bg-clip-text text-transparent
-            drop-shadow-[0_0_18px_rgba(108,99,255,0.4)]">
-            {last}
-          </span>
-        </h1>
+      {/* Mobile: gộp thành 1 nút Contact; từ sm trở lên hiện đủ chip */}
+      <button
+        onClick={() => setShowContact((v) => !v)}
+        className="mt-3 rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-[13px]
+          text-ink2 transition hover:text-ink sm:hidden"
+      >
+        {showContact ? 'Ẩn liên hệ' : 'Contact'}
+      </button>
 
-        <p className="hidden pt-1 text-[14px] leading-[21px] tracking-[0.14px] text-ink/40 sm:block">
-          {profile.tagline}
-        </p>
+      <div className={`mt-3 flex-wrap justify-center gap-2 ${showContact ? 'flex' : 'hidden'} sm:flex`}>
+        <Chip href={`mailto:${profile.email}`} label="Email" title={profile.email}>
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </Chip>
+        <Chip href={`tel:${profile.phoneRaw}`} label="Phone" title={profile.phone}>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+        </Chip>
+        <Chip href={profile.github} label="GitHub" external>
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+        </Chip>
+        <Chip href={profile.linkedin} label="LinkedIn" external>
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect x="2" y="9" width="4" height="12" />
+          <circle cx="4" cy="4" r="2" />
+        </Chip>
       </div>
 
-      <div className="pointer-events-auto relative flex shrink-0 flex-col items-end gap-2.5">
-        <span className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04]
-          px-[17.8px] py-[7.8px] backdrop-blur-[10px]">
-          <span className="h-[7px] w-[7px] rounded-full bg-glow shadow-[0_0_8px_#00d4ff]" />
-          <span className="text-[12px] font-medium leading-[18px] text-ink/55">Open to remote</span>
-        </span>
-
-        <nav className="flex gap-1 rounded-full border border-white/[0.06] bg-white/[0.03] p-1 backdrop-blur-[10px]">
-          <NavButton active={info === 'about'} onClick={() => setInfo(info === 'about' ? null : 'about')}>About</NavButton>
-          <NavButton active={info === 'contact'} onClick={() => setInfo(info === 'contact' ? null : 'contact')}>Contact</NavButton>
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full px-3.5 py-1.5 text-[12px] text-ink/60 transition hover:bg-white/10 hover:text-ink"
-          >
-            GitHub
-          </a>
-        </nav>
-
-        {info && <InfoCard kind={info} onClose={() => setInfo(null)} />}
-      </div>
+      <p className="mx-auto mt-4 max-w-[60ch] text-[13px] leading-relaxed text-ink3">{profile.tagline}</p>
     </header>
   )
 }
 
-function NavButton({ active, onClick, children }) {
+function Chip({ href, label, title, external, children }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`rounded-full px-3.5 py-1.5 text-[12px] transition ${
-        active ? 'bg-brand/20 text-ink' : 'text-ink/60 hover:bg-white/10 hover:text-ink'
-      }`}
+    <a
+      href={href}
+      title={title}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03]
+        px-3 py-1.5 text-[12px] text-ink2 transition hover:-translate-y-px hover:border-white/20 hover:text-ink"
     >
-      {children}
-    </button>
-  )
-}
-
-// Popover About / Contact thả xuống dưới thanh nav
-function InfoCard({ kind, onClose }) {
-  return (
-    <div className="absolute right-0 top-full z-30 mt-3 w-[min(86vw,420px)] rounded-2xl border border-white/[0.08]
-      bg-panel/85 p-5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.5)] backdrop-blur-[10px]">
-      <button onClick={onClose} aria-label="Đóng"
-        className="absolute right-3 top-2 text-ink/40 transition hover:text-ink">×</button>
-
-      {kind === 'about' ? (
-        <>
-          <h3 className="text-[10px] font-semibold uppercase tracking-[1.2px] text-brand">About</h3>
-          <p className="mt-2 text-[13px] leading-relaxed text-ink/75">{profile.about}</p>
-          <p className="mt-3 text-[12px] leading-relaxed text-ink/45">
-            Bấm vào đảo <span className="text-ink/70">Skills Forge</span> để xem chi tiết kỹ năng,
-            <span className="text-ink/70"> Experience Town</span> để xem quá trình làm việc.
-          </p>
-        </>
-      ) : (
-        <>
-          <h3 className="text-[10px] font-semibold uppercase tracking-[1.2px] text-glow">Contact</h3>
-          <ul className="mt-2 space-y-1.5 text-[13px] text-ink/75">
-            <li>✉ <a className="hover:text-ink" href={`mailto:${profile.email}`}>{profile.email}</a></li>
-            <li>☎ {profile.phone}</li>
-            <li>📍 {profile.location}</li>
-            <li>in <a className="hover:text-ink" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></li>
-          </ul>
-        </>
-      )}
-    </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"
+        strokeLinejoin="round" className="h-3.5 w-3.5 shrink-0">
+        {children}
+      </svg>
+      {label}
+    </a>
   )
 }

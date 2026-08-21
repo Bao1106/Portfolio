@@ -1,69 +1,149 @@
-import { useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import chibiUrl from '../assets/chibi.glb?url'
+import walkingClip from '../assets/walking.json'
 
-const { damp } = THREE.MathUtils
-const STAND_OFF = 1.9 // đứng trước đảo chứ không đứng đè lên đảo
-const AUTO_EVERY = 2.6 // giây
+import { zones } from '../data/portfolio'
+
+const { damp, dampAngle, clamp } = THREE.MathUtils
+
+// Đứng trong phạm vi một hòn đảo thì cao bằng mặt đảo, ra ngoài thì rơi về mặt lưới.
+const PLATFORM_TOP = 0.21
+const PLATFORM_HALF = 1.62
+const groundY = (x, z) =>
+  zones.some((zn) => Math.abs(x - zn.pos[0]) < PLATFORM_HALF && Math.abs(z - zn.pos[1]) < PLATFORM_HALF)
+    ? PLATFORM_TOP
+    : 0
+
+const MODEL = chibiUrl
+
+const HEIGHT = 1.25      // chiều cao mong muốn trong world (model gốc ~47 đơn vị)
+const SPEED = 3.4        // đơn vị/giây
+const ARRIVE = 0.25      // tới gần đích cỡ này thì dừng
+const BOUND = 11         // không cho đi ra ngoài bản đồ
+const IDLE_TIME = 0.22   // frame "hai chân chụm" của clip walk, dùng làm tư thế đứng
+
+// WASD/phím mũi tên -> hướng trên màn hình isometric
+// lên màn hình = (-x,-z), phải màn hình = (+x,-z)
+const KEY_DIR = {
+  KeyW: [-1, -1], ArrowUp: [-1, -1],
+  KeyS: [1, 1], ArrowDown: [1, 1],
+  KeyA: [-1, 1], ArrowLeft: [-1, 1],
+  KeyD: [1, -1], ArrowRight: [1, -1],
+}
 
 /**
- * Nhân vật chibi tự đi vòng quanh các đảo cho thế giới có sự sống.
- * Có zone được chọn thì đi thẳng tới đảo đó.
+ * Nhân vật chibi: model GLB + clip Walking đã retarget sẵn (xem scripts/retarget-anim.mjs).
+ * Điều khiển bằng WASD, hoặc click vào zone thì tự chạy tới đó.
  */
-export default function Character({ points, target }) {
+export default function Character({ target, onArrive, onManualMove }) {
   const root = useRef()
-  const bob = useRef()
-  const idx = useRef(0)
-  const lastSwitch = useRef(0)
+  const model = useRef()
+  const keys = useRef(new Set())
+
+  const { scene } = useGLTF(MODEL)
+  // clip đã retarget sẵn ra JSON (scripts/retarget-anim.mjs) nên runtime không cần FBXLoader
+  const clip = useMemo(() => THREE.AnimationClip.parse(walkingClip), [])
+
+  // scale model về đúng tầm vóc bản đồ, tính từ bounding box thật của file
+  const fitScale = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(scene)
+    const h = box.max.y - box.min.y
+    return h > 0 ? HEIGHT / h : 1
+  }, [scene])
+
+  const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene])
+  const action = useRef(null)
+
+  useEffect(() => {
+    const a = mixer.clipAction(clip)
+    a.play()
+    action.current = a
+    return () => { a.stop(); mixer.uncacheClip(clip) }
+  }, [clip, mixer])
+
+  useEffect(() => {
+    const down = (e) => {
+      if (!KEY_DIR[e.code]) return
+      keys.current.add(e.code)
+      onManualMove?.() // gõ phím thì bỏ đích click
+    }
+    const up = (e) => keys.current.delete(e.code)
+    window.addEventListener('keydown', down)
+    window.addEventListener('keyup', up)
+    return () => {
+      window.removeEventListener('keydown', down)
+      window.removeEventListener('keyup', up)
+    }
+  }, [onManualMove])
 
   useFrame((state, dt) => {
     const g = root.current
     if (!g) return
-    const t = state.clock.elapsedTime
+    const step = Math.min(dt, 0.05) // tab chạy nền lâu quay lại không bị nhảy cóc
 
-    // chọn đích: zone đang chọn, hoặc tự luân phiên
-    let tx, tz
-    if (target) {
-      ;[tx, tz] = target
-    } else {
-      if (t - lastSwitch.current > AUTO_EVERY) {
-        lastSwitch.current = t
-        idx.current = (idx.current + 1) % points.length
-      }
-      ;[tx, tz] = points[idx.current]
+    // 1. hướng đi: ưu tiên bàn phím, không có thì đi tới đích được click
+    let dx = 0
+    let dz = 0
+    for (const code of keys.current) {
+      const d = KEY_DIR[code]
+      if (d) { dx += d[0]; dz += d[1] }
     }
-    tz += STAND_OFF
 
-    const nx = damp(g.position.x, tx, 2.2, dt)
-    const nz = damp(g.position.z, tz, 2.2, dt)
-    const moving = Math.hypot(nx - g.position.x, nz - g.position.z) > 0.0015
+    if (dx || dz) {
+      const len = Math.hypot(dx, dz)
+      dx /= len; dz /= len
+    } else if (target) {
+      const tx = target[0] - g.position.x
+      const tz = target[1] - g.position.z
+      const dist = Math.hypot(tx, tz)
+      if (dist > ARRIVE) { dx = tx / dist; dz = tz / dist }
+      else onArrive?.()
+    }
 
-    if (moving) g.rotation.y = Math.atan2(tx - g.position.x, tz - g.position.z)
-    g.position.x = nx
-    g.position.z = nz
+    const moving = dx !== 0 || dz !== 0
 
-    // đi thì nhảy tưng tưng, đứng yên thì thở nhẹ
-    bob.current.position.y = moving ? Math.abs(Math.sin(t * 9)) * 0.1 : Math.sin(t * 2) * 0.02
+    if (moving) {
+      g.position.x = clamp(g.position.x + dx * SPEED * step, -BOUND, BOUND)
+      g.position.z = clamp(g.position.z + dz * SPEED * step, -BOUND, BOUND)
+      // model Mixamo quay mặt về +Z nên atan2(dx, dz) là đúng hướng đi
+      g.rotation.y = dampAngle(g.rotation.y, Math.atan2(dx, dz), 9, step)
+    }
+
+    // bước lên/xuống đảo cho mượt thay vì nhảy cấp
+    g.position.y = damp(g.position.y, groundY(g.position.x, g.position.z), 8, step)
+
+    // 2. animation: đi thì chạy clip, đứng thì khoá ở frame hai chân chụm + nhún thở
+    const a = action.current
+    if (a) {
+      if (moving) {
+        a.paused = false
+      } else {
+        a.paused = true
+        a.time = IDLE_TIME
+      }
+    }
+    mixer.update(step) // action.paused lo phần đứng yên
+
+    const t = state.clock.elapsedTime
+    model.current.position.y = moving ? 0 : Math.sin(t * 2.2) * 0.015
   })
 
   return (
-    <group ref={root} position={[-5.4, 0, 0]}>
-      {/* bóng đổ giả, luôn nằm trên mặt đất */}
-      <mesh rotation-x={-Math.PI / 2} position-y={0.01}>
-        <circleGeometry args={[0.2, 20]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.35} depthWrite={false} />
+    <group ref={root} position={[0, PLATFORM_TOP, 0.95]}>
+      {/* bóng đổ giả */}
+      <mesh rotation-x={-Math.PI / 2} position-y={0.02}>
+        <circleGeometry args={[0.28, 24]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.4} depthWrite={false} />
       </mesh>
 
-      <group ref={bob}>
-        <mesh position-y={0.18}>
-          <boxGeometry args={[0.22, 0.24, 0.18]} />
-          <meshStandardMaterial color="#6c63ff" emissive="#6c63ff" emissiveIntensity={0.25} roughness={0.5} />
-        </mesh>
-        <mesh position-y={0.4}>
-          <sphereGeometry args={[0.14, 20, 20]} />
-          <meshStandardMaterial color="#fbbf24" emissive="#fbbf24" emissiveIntensity={0.45} roughness={0.4} />
-        </mesh>
+      <group ref={model}>
+        <primitive object={scene} scale={fitScale} />
       </group>
     </group>
   )
 }
+
+useGLTF.preload(MODEL)

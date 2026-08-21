@@ -1,9 +1,9 @@
-# Portfolio — Võ Quốc Bảo (Unity Developer)
+# Vo Quoc Bao — Isometric Portfolio
 
-Thế giới **isometric** tương tác: 8 hòn đảo nổi (Experience, Skills + 6 project), nhân vật chibi tự
-đi lại, kéo để pan bản đồ, click đảo để mở panel chi tiết.
+Portfolio dạng bản đồ game isometric: 5 hòn đảo nổi, nhân vật chibi 3D đi lại bằng **WASD** hoặc
+click vào đảo, click đảo mở bottom sheet chi tiết.
 
-React Three Fiber + Drei + TailwindCSS v4 + Vite. Màu/font theo design Figma.
+React Three Fiber + Drei + TailwindCSS v4 + Vite.
 
 ## Chạy
 
@@ -12,74 +12,91 @@ npm install
 npm run dev
 ```
 
-Build: `npm run build` → `dist/`. Push lên `main` là GitHub Actions tự deploy (xem `.github/workflows/deploy.yml`).
+Build: `npm run build` → `dist/`. Push lên `main` là GitHub Actions tự deploy (`.github/workflows/deploy.yml`).
 
-## Thêm ảnh thumbnail
+## Bản đồ
 
-1. Copy ảnh vào `public/thumbnails/` (JPG/WebP, tỉ lệ **16:9**, ~1024×576, < 500 KB).
-2. Mở `src/data/portfolio.js`, sửa `image: null` thành đường dẫn:
+| Đảo | Màu | Nội dung |
+|---|---|---|
+| Profile Plaza (giữa) | `#00d4aa` | Objective, education, hướng dẫn điều khiển |
+| Experience Town (dưới) | `#10b981` | 4 công việc, mỗi toà nhà 1 công ty, cột cờ T/K/P/H |
+| Skills Forge (phải) | `#8b5cf6` | 5 tinh thể xoay + 5 thanh skill chạy từ 0% + tag cloud |
+| Project Arena (trái) | `#f59e0b` | Công trường: cần cẩu, giàn giáo, hologram — 4 project công ty |
+| Personal Lab (trên) | `#ec4899` | Lab: bình thí nghiệm, màn hình game — 3 project cá nhân |
 
-```js
-{
-  id: 'tower-defense',
-  image: '/thumbnails/tower-defense.jpg',  // đường dẫn tính từ thư mục public/
-  ...
-}
+## Điều khiển
+
+| | |
+|---|---|
+| `W` `A` `S` `D` / phím mũi tên | Đi bộ theo hướng màn hình (isometric) |
+| Click vào đảo | Nhân vật chạy tới đảo đó + mở panel chi tiết |
+| Kéo nền | Pan bản đồ (kéo quá 5px thì không tính là click) |
+| `ESC` | Đóng panel |
+
+Nhân vật tự bước lên mặt đảo khi đi vào phạm vi đảo, và bị giới hạn trong bán kính 11 đơn vị.
+
+## Nhân vật 3D & animation
+
+- Model: `src/assets/chibi.glb` (Sketchfab, rig kiểu Mixamo — xương `Hips_01`, `Spine_02`…).
+- Animation gốc: `Walking.fbx` của Mixamo — xương `mixamorig:Hips`… **không trùng tên** với model,
+  rest pose lệch nhau (hông 118°, chân 180°), nên phải retarget.
+- `scripts/retarget-anim.mjs` chạy **offline**: đọc FBX bằng FBXLoader, chuyển "độ lệch so với rest
+  pose" ở không gian world sang rig chibi, xuất ra `src/assets/walking.json` (~72 KB).
+  Runtime chỉ cần `AnimationClip.parse` — không phải kèm FBXLoader hay file FBX 466 KB vào bundle.
+
+Thêm animation mới (Idle, Run… tải từ Mixamo, chọn **Without Skin**):
+
+```bash
+node scripts/retarget-anim.mjs "G:/Unity/Idle.fbx" Idle src/assets/idle.json
 ```
 
-Ảnh này dùng cho cả tấm billboard 3D trên đảo lẫn ảnh lớn trong panel. Để `image: null` thì tự sinh
-placeholder gradient bằng canvas — app vẫn chạy, không lỗi thiếu file.
+Kiểm tra clip có bind đúng vào skeleton không (chạy được cả trong CI, không cần trình duyệt):
+
+```bash
+node scripts/check-anim.mjs
+```
+
+> Hiện chỉ có clip Walking, nên tư thế đứng yên là frame "hai chân chụm" của clip đi bộ cộng nhún
+> thở nhẹ. Có `Idle.fbx` thì chạy script trên rồi trộn thêm action là thành idle thật.
 
 ## Cập nhật nội dung
 
 Tất cả nằm trong `src/data/portfolio.js`:
 
-- `profile` — tên, vai trò, email, phone, LinkedIn, GitHub, About.
-- `experience` — 4 công việc (đảo **Experience Town**).
-- `skillGroups` — kỹ năng chia nhóm (đảo **Skills Forge**).
-- `projects` — 6 project. Mỗi cái có `category`, `title`, `role`, `period`, `color` (màu đảo + glow),
-  `description`, `highlights`, `metrics` (ô số liệu, không bắt buộc), `tech`, `demo`, `github`.
-- `zones` — sơ đồ bản đồ. Layout lưới 4×2 (`GRID`), muốn đổi vị trí đảo thì sửa toạ độ ở đây.
-  Thêm project mới vào `projects` là tự có đảo, nhớ thêm một ô vào `GRID`.
-
-**Còn thiếu, cần điền tay:**
-- `paw-voyage.period` đang `null` — file idea không ghi thời gian.
-- `demo` của Tower Defense (link gameplay) và Rehab Platform (video MediaPipe Pose Tracking).
-- Nút Play Demo / GitHub để `null` thì hiện dạng mờ, không bấm được.
+- `profile` — tên, subtitle, tagline, contact, objective, education, references.
+- `experience` — 4 công việc (`flag` là chữ trên cột cờ, `height` là chiều cao toà nhà trên đảo).
+- `skills` (5 thanh + icon tinh thể) và `skillTags` (tag cloud).
+- `companyProjects` (4) và `personalProjects` (3, có `metrics` hiện thành ô số liệu).
+- `zones` — vị trí `[x, z]` của 5 đảo. Camera iso nên: `-x` = lên trái, `-z` = lên phải.
 
 ## Cấu trúc
 
 ```
 src/
-  App.jsx                  # Header + World + hint + panel; state zone hover/selected
-  index.css                # Token @theme: font Inter + Plus Jakarta Sans, màu, nền gradient
-  data/portfolio.js        # Toàn bộ nội dung + sơ đồ zones + getThumb()
+  App.jsx                    # Header (tên, contact chip, tagline) + khung bản đồ + hint + panel
+  index.css                  # Design token @theme, font Inter, nền void
+  data/portfolio.js          # Toàn bộ nội dung + sơ đồ 5 đảo
+  assets/chibi.glb           # Model nhân vật (inline vào bundle khi build)
+  assets/walking.json        # Clip đi bộ đã retarget
   components/
-    World.jsx              # Canvas, camera orthographic (isometric), lưới nền, kéo-pan, danh sách zone
-    Zone.jsx               # 1 hòn đảo: bệ + props theo kind (toà nhà / tinh thể / billboard) + nhãn
-    Character.jsx          # Nhân vật chibi tự đi giữa các đảo, đi thẳng tới đảo được chọn
-    InfoPanel.jsx          # Panel kính mờ: project / experience / skills
+    World.jsx                # Canvas, OrthographicCamera iso, lưới nền, bụi sáng, kéo-pan
+    Zone.jsx                 # 1 đảo: bệ + viền sáng + vòng sáng khi click + nhãn
+    ZoneProps.jsx            # Đồ trang trí từng đảo (bệ sáng, toà nhà, tinh thể, cần cẩu, lab)
+    Character.jsx            # Model + clip + WASD + đi tới đích + bám mặt đảo
+    DetailPanel.jsx          # Bottom sheet, 5 loại nội dung, thanh skill chạy từ 0%
+scripts/
+  retarget-anim.mjs          # FBX Mixamo -> clip JSON hợp skeleton chibi
+  check-anim.mjs             # Kiểm tra clip bind đúng xương
 ```
 
-## Tương tác
+## Design token
 
 | | |
 |---|---|
-| Kéo chuột (hoặc vuốt) | Pan bản đồ, giới hạn ±9 / ±7 đơn vị |
-| Hover đảo | Đảo nhấc lên, bệ sáng, vầng sáng dưới chân loe ra, tên đảo hiện dưới màn hình |
-| Click đảo | Mở panel bên phải, các đảo khác mờ đi, nhân vật đi tới đảo đó |
-| **ESC** hoặc **×** | Đóng panel |
-
-Camera isometric đặt ở `(12,12,12)` nhìn về gốc, dùng `OrthographicCamera` nên không có phối cảnh —
-đúng chất isometric game. Zoom tự co theo bề rộng màn hình (`zoomForWidth`).
-
-## Design token (từ Figma)
-
-| | |
-|---|---|
-| Nền | `#070B18` + `linear-gradient(140.67deg, …)` + 3 blob radial |
-| Accent | `#6C63FF` (brand) · `#00D4FF` (glow) · mỗi đảo một màu riêng trong `zones` |
-| Chữ | `#E8EAF6` — Plus Jakarta Sans (H1 800/52) + Inter (body, label) |
-| Panel | glass `rgba(255,255,255,.04)`, backdrop-blur 10, radius 20, viền `rgba(255,255,255,.07)` |
+| Nền | `#0b0f1a` + 3 lớp radial glow mờ |
+| Surface / card | `#1a1f2e` / `#131826` |
+| Chữ | `#e6e6e6` · `#a0a3b1` · `#6b6f80` |
+| Viền | `1px solid rgba(255,255,255,0.06)` · radius 12 (card) / 16 (panel) |
+| Font | Inter |
 
 Đổi màu/font: sửa block `@theme` trong `src/index.css`.
