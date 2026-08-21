@@ -12,8 +12,20 @@ npm install
 npm run dev
 ```
 
-Build: `npm run build` → `dist/`. Push lên `main` hoặc `3d_web` là GitHub Actions tự deploy
-(`.github/workflows/deploy.yml`) → https://bao1106.github.io/Portfolio/
+Build: `npm run build` → `dist/`.
+
+## Deploy
+
+Repo chỉ có một site GitHub Pages nên workflow (`.github/workflows/deploy.yml`, giống hệt nhau ở cả
+hai branch) checkout cả hai branch và gom thành một site:
+
+| Đường dẫn | Bản | Nguồn |
+|---|---|---|
+| https://bao1106.github.io/Portfolio/ | 2D | branch `2d_web` (file tĩnh) |
+| https://bao1106.github.io/Portfolio/3d/ | 3D | branch `3d_web` (workflow chạy `npm ci && npm run build`) |
+
+Push branch nào cũng deploy đủ cả hai bản. Bản 3D chạy được ở thư mục con nhờ `base: './'` trong
+`vite.config.js` — đừng đổi thành `/`.
 
 Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub Actions**.
 

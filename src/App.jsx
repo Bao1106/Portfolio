@@ -87,6 +87,13 @@ function Header() {
       </div>
 
       <p className="mx-auto mt-4 max-w-[60ch] text-[13px] leading-relaxed text-ink3">{profile.tagline}</p>
+
+      {/* Bản 2D nằm ở thư mục gốc của site, bản này ở /3d/ */}
+      <p className="mt-3 text-[13px]">
+        <a href="../" className="text-[#00d4aa] underline decoration-dotted underline-offset-4 transition hover:brightness-125">
+          ← Về bản portfolio 2D
+        </a>
+      </p>
     </header>
   )
 }

@@ -1,8 +1,12 @@
-name: Deploy to GitHub Pages
+name: Deploy portfolio (2D + 3D)
 
+# Repo chỉ có 1 site GitHub Pages, nên workflow này gom cả hai bản vào một lần deploy:
+#   /            -> bản 2D  (branch 2d_web)
+#   /3d/         -> bản 3D  (branch 3d_web, build bằng Vite)
+# File này giống hệt nhau ở cả 2 branch, push branch nào cũng deploy đủ cả hai.
 on:
   push:
-    branches: [main, 3d_web]
+    branches: [2d_web, 3d_web]
   workflow_dispatch:
 
 permissions:
@@ -15,27 +19,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Lay ban 2D
+        uses: actions/checkout@v4
+        with:
+          ref: 2d_web
+          path: site-2d
+
+      - name: Lay ban 3D
+        uses: actions/checkout@v4
+        with:
+          ref: 3d_web
+          path: src-3d
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src-3d/package-lock.json
+
+      - name: Build ban 3D
+        working-directory: src-3d
+        run: |
+          npm ci
+          npm run build
+
+      # base cua Vite la './' nen ban 3D chay duoc o thu muc con, khong can sua gi them
+      - name: Gom thanh mot site
+        run: |
+          mkdir -p _site/3d
+          cp site-2d/index.html _site/
+          cp -r site-2d/assets _site/
+          cp -r src-3d/dist/. _site/3d/
+          echo "--- noi dung _site ---"
+          find _site -maxdepth 2 -type f | head -20
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
