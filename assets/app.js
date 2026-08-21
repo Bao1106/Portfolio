@@ -18,8 +18,7 @@ const PROFILE = {
 const STATS = [
   { num: 4, label: 'years exp' },
   { num: 4, label: 'shipped projects' },
-  { num: 3, label: 'personal builds' },
-  { num: 50, label: 'levels designed' },
+  { num: 2, label: 'personal builds' },
 ]
 
 const EXPERIENCE = [
@@ -78,12 +77,12 @@ const ICON = {
 }
 
 const SKILLS = [
-  { name: 'Unity Engine', icon: ICON.cube, value: 95, tags: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Multi-platform'] },
-  { name: 'C# & Architecture', icon: ICON.code, value: 92, tags: ['OOP', 'SOLID', 'Design Patterns', 'Event-driven'] },
-  { name: 'Motion Tracking', icon: ICON.globe, value: 88, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
-  { name: 'Performance', icon: ICON.bolt, value: 90, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
-  { name: 'Networking', icon: ICON.monitor, value: 82, tags: ['REST API', 'WebSocket', 'JSON', 'Firebase'] },
-  { name: 'Tools', icon: ICON.tool, value: 85, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'DOTween', 'Spine'] },
+  { name: 'Unity Engine', icon: ICON.cube, value: 85, tags: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Multi-platform'] },
+  { name: 'C# & Architecture', icon: ICON.code, value: 82, tags: ['OOP', 'SOLID', 'Design Patterns', 'Event-driven'] },
+  { name: 'Motion Tracking', icon: ICON.globe, value: 78, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
+  { name: 'Performance', icon: ICON.bolt, value: 80, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
+  { name: 'Networking', icon: ICON.monitor, value: 72, tags: ['REST API', 'WebSocket', 'JSON', 'Firebase'] },
+  { name: 'Tools', icon: ICON.tool, value: 75, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'DOTween', 'Spine'] },
 ]
 
 /* ── Ảnh minh hoạ mỗi project, dựng bằng CSS thuần ─────────────────────────── */
