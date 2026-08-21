@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vo Quoc Bao — Unity Developer Portfolio</title>
+  <meta name="description" content="Unity Developer with 4+ years in mobile games and interactive 3D apps. Motion tracking, performance optimization, end-to-end game development." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🎮</text></svg>" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<div class="container">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge float">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      Available for opportunities
+    </div>
+    <h1 class="glitch" data-text="Vo Quoc Bao">Vo Quoc Bao</h1>
+    <p class="role"><span class="typewriter">Unity Developer · 4+ Years Experience</span></p>
+    <p class="tagline">Shipping mobile games &amp; interactive 3D apps. Specialized in motion tracking, performance optimization, and end-to-end game development.</p>
+
+    <div class="stats-bar" id="stats"></div>
+    <div class="contact-bar" id="contact"></div>
+  </section>
+
+  <!-- About -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <h2 class="sec-title">About</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>What I do</h4>
+        <p>Unity Developer with 4 years building mobile games and interactive 3D applications. Specialized in motion tracking (MediaPipe, Nuitrack, Kinect) and performance optimization. Shipped 4+ projects across gaming and healthcare, working with teams of up to 23 people and partners in Singapore.</p>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Core strengths</h4>
+        <ul>
+          <li>End-to-end game development (core loop → meta)</li>
+          <li>Real-time skeletal tracking &amp; pose estimation</li>
+          <li>Performance: draw calls, memory, GC alloc</li>
+          <li>Clean architecture: SOLID, patterns, event-driven</li>
+          <li>Cross-functional &amp; international collaboration</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Education</h4>
+        <p><strong class="edu-major">Communications and Computer Networks</strong><br />University of Information Technology — HCM<br /><span class="edu-date">08/2017 – 08/2022</span></p>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Languages &amp; ways of working</h4>
+        <ul>
+          <li>Fluent English for day-to-day team collaboration</li>
+          <li>Design log: every gameplay/balance call written down with its reasoning</li>
+          <li>Comfortable owning a feature from spec to store build</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <h2 class="sec-title">Experience</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="tl-wrap" id="timeline"></div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <h2 class="sec-title">Skills</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="sk-grid" id="skills"></div>
+  </section>
+
+  <!-- Work projects -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <h2 class="sec-title">Work Projects</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="pr-grid" id="workProjects"></div>
+  </section>
+
+  <!-- Personal projects -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <h2 class="sec-title">Personal Projects</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="pr-grid" id="personalProjects"></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section reveal">
+    <div class="cta">
+      <div class="cta-inner">
+        <h3>Let's build something together</h3>
+        <p>Interested in collaborating or have a project in mind? I'm open to new opportunities.</p>
+        <a href="mailto:baovo110699@gmail.com" class="btn pri">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Get in touch
+        </a>
+        <p class="refs" id="refs"></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Modal -->
+<div class="modal-ov" id="modalOv">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="modal-head">
+      <div>
+        <h2 id="mTitle">Project</h2>
+        <div class="modal-sub" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="mClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-foot" id="mFoot"></div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
