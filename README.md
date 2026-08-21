@@ -48,10 +48,10 @@ Repo chỉ có một site GitHub Pages nên workflow gom cả hai bản vào m�
 
 | Đường dẫn | Bản | Nguồn |
 |---|---|---|
-| https://bao1106.github.io/Portfolio/ | 2D | branch  (file tĩnh, copy thẳng) |
-| https://bao1106.github.io/Portfolio/3d/ | 3D | branch  (workflow chạy ) |
+| https://bao1106.github.io/Portfolio/ | 2D | branch `2d_web` (file tĩnh, copy thẳng) |
+| https://bao1106.github.io/Portfolio/3d/ | 3D | branch `3d_web` (workflow chạy `npm ci && npm run build`) |
 
-File  giống hệt nhau ở cả hai branch và checkout cả hai, nên push
+File `.github/workflows/deploy.yml` giống hệt nhau ở cả hai branch và checkout cả hai, nên push
 branch nào cũng deploy đủ cả hai bản — không còn cảnh branch này đè branch kia.
 
 Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub Actions**.
