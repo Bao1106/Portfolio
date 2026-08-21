@@ -61,4 +61,6 @@ Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub A
 - Thanh skill và số liệu chỉ chạy một lần khi cuộn tới (`IntersectionObserver` + `unobserve`).
 - Card project là `<button>` nên bấm được bằng bàn phím; modal trả focus về đúng card khi đóng.
 - Tôn trọng `prefers-reduced-motion`: tắt glitch, typewriter, hạt bay và các transition.
-- Ảnh minh hoạ project không dùng file ảnh nào — tất cả là div + CSS, nên trang nhẹ và không vỡ layout khi thiếu asset.
+- Ảnh minh hoạ project mặc định không dùng file ảnh nào — tất cả là div + CSS. Riêng Paw Voyage dùng icon thật (WebP 512, 33 KB).
+- Video demo đặt preload="none" + có poster: 10 MB chỉ tải khi người xem bấm play, không tốn băng thông của khách vãng lai.
+- Video gốc 17.5 MB (720x1612) được nén còn 10.3 MB bằng ffmpeg: scale 540 rộng, CRF 27, +faststart để phát được ngay khi chưa tải xong.

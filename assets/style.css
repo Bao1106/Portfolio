@@ -376,6 +376,31 @@ body {
 .pr-tag.sec { background: rgba(255,255,255,0.04); color: var(--text-tertiary); border-color: rgba(255,255,255,0.06); }
 
 /* ── Mini-screen: mỗi project một hình minh hoạ dựng bằng CSS ────────────── */
+
+/* Icon thật của game (Paw Voyage) */
+.pr-icon {
+  position: relative;
+  z-index: 2;
+  width: 128px;
+  height: 128px;
+  border-radius: 26px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.12);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pr-card:hover .pr-icon { transform: scale(1.06) translateY(-2px); }
+
+/* Video demo trong modal — quay dọc nên giới hạn chiều cao, canh giữa */
+.modal-video {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  max-height: 58vh;
+  margin: 0 auto 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #000;
+}
+
 .sc-paw { background: linear-gradient(160deg, #0a2e2e, #0d4a3d, #146b54); }
 .sc-paw::before {
   content: '';

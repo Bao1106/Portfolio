@@ -88,10 +88,10 @@ const SKILLS = [
 
 /* ── Ảnh minh hoạ mỗi project, dựng bằng CSS thuần ─────────────────────────── */
 
-const pawScreen = () => {
-  const cells = ['c1', 'c2', 'c1', 'e', 'c2', 'c3', 'c1', 'c2', 'e', 'c1', 'c3', 'e', 'c3', 'c2', 'e', 'c1', 'c1', 'e', 'c2', 'c3']
-  return `<div class="paw-grid">${cells.map((c) => `<div class="paw-cell ${c}"></div>`).join('')}</div>`
-}
+// Paw Voyage có icon thật nên dùng luôn thay vì vẽ lưới giả
+const pawScreen = () => `
+  <img class="pr-icon" src="assets/media/paw-voyage-icon.webp" alt="Icon game Paw Voyage: Pet Sort"
+       width="512" height="512" loading="lazy" decoding="async" />`
 
 const towerScreen = () => `
   <div class="tower-map">
@@ -268,6 +268,7 @@ const PERSONAL_PROJECTS = [
     screen: pawScreen,
     tags: [{ t: 'Mobile Puzzle' }, { t: '50 Levels', sec: true }, { t: 'Auto Playtest', sec: true }],
     sub: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present',
+    media: { video: 'assets/media/paw-voyage-demo.mp4', poster: 'assets/media/paw-voyage-poster.jpg' },
     body: `
       <p>A sorting puzzle (Bus-Sort style) designed and shipped solo — from core loop to meta progression.</p>
       <h4>End-to-end game ownership</h4>
@@ -463,11 +464,21 @@ function openModal(id) {
   lastFocus = document.activeElement
   el('mTitle').textContent = p.title
   el('mSub').textContent = p.sub
-  el('mBody').innerHTML = p.body + `<h4>Tech stack</h4><div class="sk-tags">${p.tech.map((t) => `<span class="sk-tag">${t}</span>`).join('')}</div>`
+  // preload="none": video 10 MB chỉ tải khi người xem thật sự bấm play
+  const video = p.media
+    ? `<video class="modal-video" controls playsinline preload="none" poster="${p.media.poster}">
+         <source src="${p.media.video}" type="video/mp4" />
+         Trình duyệt không phát được video — <a href="${p.media.video}">tải xuống</a>.
+       </video>`
+    : ''
+
+  el('mBody').innerHTML = video + p.body + `<h4>Tech stack</h4><div class="sk-tags">${p.tech.map((t) => `<span class="sk-tag">${t}</span>`).join('')}</div>`
   el('mFoot').innerHTML =
+    (p.media ? '<button class="btn" data-play-demo type="button">▶ Watch gameplay demo</button>' : '') +
     (p.link
       ? `<a class="btn" href="${p.link.href}" target="_blank" rel="noreferrer">${p.link.label}</a>`
-      : '<span class="btn" aria-disabled="true" title="Liên hệ để xem demo">Demo on request</span>') +
+      : '') +
+    (!p.media && !p.link ? '<span class="btn" aria-disabled="true" title="Liên hệ để xem demo">Demo on request</span>' : '') +
     `<a href="mailto:${PROFILE.email}?subject=${encodeURIComponent(p.title)}" class="btn pri">Ask me about this project</a>`
   overlay.classList.add('active')
   document.body.style.overflow = 'hidden'
@@ -475,10 +486,20 @@ function openModal(id) {
 }
 
 function closeModal() {
+  overlay.querySelector('video')?.pause() // đóng modal thì tắt tiếng luôn
   overlay.classList.remove('active')
   document.body.style.overflow = ''
   lastFocus?.focus()
 }
+
+// Nút trong footer: cuộn tới video rồi phát
+el('mFoot').addEventListener('click', (ev) => {
+  if (!ev.target.closest('[data-play-demo]')) return
+  const v = el('mBody').querySelector('video')
+  if (!v) return
+  v.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  v.play()
+})
 
 document.addEventListener('click', (ev) => {
   const card = ev.target.closest('[data-project]')
