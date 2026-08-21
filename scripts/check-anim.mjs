@@ -49,6 +49,31 @@ console.log(`bind được: ${clip.tracks.length - missing.length}/${clip.tracks
 console.log(`xương đổi tư thế: ${moved} (lệch lớn nhất ${maxDeg.toFixed(1)}°)`)
 if (missing.length) console.log('KHÔNG khớp tên:', missing.join(', '))
 
+// ── Đo bước chân để suy ra tốc độ mà clip "ăn khớp mặt đất" ─────────────────
+// Đi nhanh hơn tốc độ này thì phải tăng timeScale, không thì chân trượt trên băng.
+// Con số in ra ở đây chính là CLIP_SPEED trong src/components/Character.jsx.
+const foot = (side) => objs.find((o) => new RegExp(`^${side}_?Foot`, 'i').test(o.name))
+const [lf, rf] = [foot('Left'), foot('Right')]
+const head = objs.find((o) => /HeadTop/i.test(o.name))
+const hip = objs.find((o) => /^Hips/i.test(o.name))
+
+if (lf && rf && head && hip) {
+  const a = new THREE.Vector3(); const b = new THREE.Vector3()
+  let stride = 0
+  for (let i = 0; i <= 40; i++) {
+    mixer.setTime((clip.duration * i) / 40)
+    root.updateMatrixWorld(true)
+    lf.getWorldPosition(a); rf.getWorldPosition(b)
+    stride = Math.max(stride, Math.abs(a.z - b.z)) // 2 bàn chân cách nhau xa nhất = độ dài 1 bước
+  }
+  mixer.setTime(0); root.updateMatrixWorld(true)
+  head.getWorldPosition(a)
+  const modelH = a.y // chiều cao model trong đơn vị scene
+  const perCycle = 2 * stride // 1 chu kỳ = 2 bước
+  console.log(`bước chân: ${stride.toFixed(4)} / model cao ${modelH.toFixed(4)} đơn vị scene`)
+  console.log(`=> CLIP_SPEED = ${((perCycle / modelH) / clip.duration).toFixed(3)} × HEIGHT (đơn vị/giây)`)
+}
+
 const ok = missing.length === 0 && moved >= 15 && maxDeg > 10
 console.log(ok ? 'OK — animation sẽ chạy trên model' : 'LỖI — clip không tác động lên skeleton')
 process.exit(ok ? 0 : 1)

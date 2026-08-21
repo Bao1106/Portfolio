@@ -25,11 +25,18 @@ const loadModelBuffer = () =>
     ? Promise.resolve(Uint8Array.from(atob(chibiUrl.slice(chibiUrl.indexOf(',') + 1)), (c) => c.charCodeAt(0)).buffer)
     : fetch(chibiUrl).then((r) => r.arrayBuffer())
 
-const HEIGHT = 1.25      // chiều cao mong muốn trong world (model gốc ~47 đơn vị)
-const SPEED = 3.4        // đơn vị/giây
-const ARRIVE = 0.25      // tới gần đích cỡ này thì dừng
+const HEIGHT = 1.6       // chiều cao nhân vật trong world (model gốc cao 0.475 đơn vị scene)
+const SPEED = 1.4        // đơn vị/giây
+const ACCEL = 9          // hệ số damp cho vận tốc: tăng/giảm tốc mượt thay vì bật/tắt
+const ARRIVE = 0.3       // tới gần đích cỡ này thì thả ga, vận tốc tự tắt dần
 const BOUND = 11         // không cho đi ra ngoài bản đồ
 const IDLE_TIME = 0.22   // frame "hai chân chụm" của clip walk, dùng làm tư thế đứng
+
+// Chibi chân rất ngắn (chân ~13% chiều cao) nên clip đi bộ chỉ "ăn khớp mặt đất" ở tốc độ này.
+// Đo bằng `node scripts/check-anim.mjs`: bước chân 0.046 đơn vị scene, model cao 0.475.
+// Đi nhanh hơn thì phải tua clip nhanh lên, nếu không chân sẽ trượt như trên băng.
+const CLIP_SPEED = 0.226 * HEIGHT // 0.226 là số scripts/check-anim.mjs in ra
+const TIMESCALE_MAX = 3.4         // trần tua clip: cao hơn nữa thì chân đạp như chong chóng
 
 // WASD/phím mũi tên -> hướng trên màn hình isometric
 // lên màn hình = (-x,-z), phải màn hình = (+x,-z)
@@ -48,6 +55,7 @@ export default function Character({ target, onArrive, onManualMove }) {
   const root = useRef()
   const model = useRef()
   const keys = useRef(new Set())
+  const vel = useRef(new THREE.Vector2()) // vận tốc hiện tại (x, z)
 
   const [scene, setScene] = useState(null)
 
@@ -101,7 +109,7 @@ export default function Character({ target, onArrive, onManualMove }) {
     if (!g) return
     const step = Math.min(dt, 0.05) // tab chạy nền lâu quay lại không bị nhảy cóc
 
-    // 1. hướng đi: ưu tiên bàn phím, không có thì đi tới đích được click
+    // 1. hướng mong muốn: ưu tiên bàn phím, không có thì đi tới đích được click
     let dx = 0
     let dz = 0
     for (const code of keys.current) {
@@ -120,23 +128,30 @@ export default function Character({ target, onArrive, onManualMove }) {
       else onArrive?.()
     }
 
-    const moving = dx !== 0 || dz !== 0
+    // 2. vận tốc đuổi theo hướng mong muốn -> khởi hành và dừng đều mượt
+    const v = vel.current
+    v.x = damp(v.x, dx * SPEED, ACCEL, step)
+    v.y = damp(v.y, dz * SPEED, ACCEL, step)
+    const speed = Math.hypot(v.x, v.y)
 
-    if (moving) {
-      g.position.x = clamp(g.position.x + dx * SPEED * step, -BOUND, BOUND)
-      g.position.z = clamp(g.position.z + dz * SPEED * step, -BOUND, BOUND)
-      // model Mixamo quay mặt về +Z nên atan2(dx, dz) là đúng hướng đi
-      g.rotation.y = dampAngle(g.rotation.y, Math.atan2(dx, dz), 9, step)
+    if (speed > 0.02) {
+      g.position.x = clamp(g.position.x + v.x * step, -BOUND, BOUND)
+      g.position.z = clamp(g.position.z + v.y * step, -BOUND, BOUND)
+      // model Mixamo quay mặt về +Z nên atan2(vx, vz) là đúng hướng đi
+      g.rotation.y = dampAngle(g.rotation.y, Math.atan2(v.x, v.y), 9, step)
     }
+    const moving = speed > 0.06
 
     // bước lên/xuống đảo cho mượt thay vì nhảy cấp
     g.position.y = damp(g.position.y, groundY(g.position.x, g.position.z), 8, step)
 
-    // 2. animation: đi thì chạy clip, đứng thì khoá ở frame hai chân chụm + nhún thở
+    // 3. animation: tua clip theo đúng vận tốc thật để chân bám mặt đất,
+    //    đứng yên thì khoá ở frame hai chân chụm + nhún thở
     const a = action.current
     if (a) {
       if (moving) {
         a.paused = false
+        a.timeScale = clamp(speed / CLIP_SPEED, 1, TIMESCALE_MAX)
       } else {
         a.paused = true
         a.time = IDLE_TIME
@@ -152,7 +167,7 @@ export default function Character({ target, onArrive, onManualMove }) {
     <group ref={root} position={[0, PLATFORM_TOP, 0.95]}>
       {/* bóng đổ giả */}
       <mesh rotation-x={-Math.PI / 2} position-y={0.02}>
-        <circleGeometry args={[0.28, 24]} />
+        <circleGeometry args={[0.32, 24]} />
         <meshBasicMaterial color="#000000" transparent opacity={0.4} depthWrite={false} />
       </mesh>
 
