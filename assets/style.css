@@ -215,27 +215,37 @@ body {
 /* Line và chấm cùng bám vào --tl-axis nên không bao giờ lệch nhau nữa,
    đổi --tl-pad hay --tl-dot thì cả hai tự dịch theo. */
 .tl-wrap {
-  --tl-pad: 28px;   /* khoảng thụt của nội dung */
-  --tl-dot: 18px;   /* đường kính chấm */
-  --tl-axis: 13px;  /* trục dọc, tính từ mép trái .tl-wrap */
+  --tl-pad: 28px;      /* khoảng thụt của nội dung */
+  --tl-dot: 18px;      /* đường kính chấm */
+  --tl-dot-top: 4px;   /* chấm cách mép trên item bao nhiêu */
+  --tl-axis: 13px;     /* trục dọc, tính từ mép trái .tl-wrap */
   position: relative;
   padding-left: var(--tl-pad);
 }
-.tl-wrap::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--tl-axis) - 1px); /* line dày 2px -> lùi 1px để tâm trùng trục */
-  top: 8px; bottom: 8px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent), rgba(0,212,170,0.15));
-}
 .tl-item { position: relative; padding-bottom: 24px; }
 .tl-item:last-child { padding-bottom: 0; }
+
+/* Mỗi item tự nối xuống item kế: bắt đầu ở tâm chấm của mình, cao đúng 100%
+   chiều cao item nên kết thúc ngay tâm chấm kế tiếp. Item cuối không vẽ -> hết đuôi thừa. */
+.tl-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--tl-axis) - var(--tl-pad) - 1px); /* line dày 2px -> lùi 1px cho tâm trùng trục */
+  top: calc(var(--tl-dot-top) + var(--tl-dot) / 2);
+  height: 100%;
+  width: 2px;
+  background: linear-gradient(180deg, var(--seg-from, rgba(0,212,170,0.45)), var(--seg-to, rgba(0,212,170,0.22)));
+}
+/* mờ dần theo chiều xuống, giữ đúng cảm giác gradient của line cũ */
+.tl-item:nth-child(1)::before { --seg-from: var(--accent); --seg-to: rgba(0,212,170,0.72); }
+.tl-item:nth-child(2)::before { --seg-from: rgba(0,212,170,0.72); --seg-to: rgba(0,212,170,0.45); }
+.tl-item:nth-child(3)::before { --seg-from: rgba(0,212,170,0.45); --seg-to: rgba(0,212,170,0.22); }
+
 .tl-node {
   position: absolute;
   /* chấm nằm trong .tl-item nên gốc toạ độ đã lùi sẵn --tl-pad */
   left: calc(var(--tl-axis) - var(--tl-pad) - var(--tl-dot) / 2);
-  top: 4px;
+  top: var(--tl-dot-top);
   width: var(--tl-dot); height: var(--tl-dot);
   border-radius: 50%;
   background: var(--bg);
