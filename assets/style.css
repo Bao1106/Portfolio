@@ -111,6 +111,7 @@ body {
 .reveal.armed.visible { opacity: 1; transform: translateY(0); }
 
 .hero { text-align: center; padding: 80px 0 40px; }
+.hero-badge-row { margin-top: 14px; } /* block -> badge tự xuống dòng dưới tên */
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -121,7 +122,6 @@ body {
   background: var(--accent-dim);
   color: var(--accent);
   font-size: 13px;
-  margin-bottom: 20px;
 }
 .hero-badge svg { width: 14px; height: 14px; }
 .hero .role { font-size: 18px; color: var(--text-secondary); margin: 12px 0 16px; }
