@@ -212,11 +212,20 @@ body {
 .edu-date { font-variant-numeric: tabular-nums; }
 
 /* ── Timeline ────────────────────────────────────────────────────────────── */
-.tl-wrap { position: relative; padding-left: 28px; }
+/* Line và chấm cùng bám vào --tl-axis nên không bao giờ lệch nhau nữa,
+   đổi --tl-pad hay --tl-dot thì cả hai tự dịch theo. */
+.tl-wrap {
+  --tl-pad: 28px;   /* khoảng thụt của nội dung */
+  --tl-dot: 18px;   /* đường kính chấm */
+  --tl-axis: 13px;  /* trục dọc, tính từ mép trái .tl-wrap */
+  position: relative;
+  padding-left: var(--tl-pad);
+}
 .tl-wrap::before {
   content: '';
   position: absolute;
-  left: 7px; top: 8px; bottom: 8px;
+  left: calc(var(--tl-axis) - 1px); /* line dày 2px -> lùi 1px để tâm trùng trục */
+  top: 8px; bottom: 8px;
   width: 2px;
   background: linear-gradient(180deg, var(--accent), rgba(0,212,170,0.15));
 }
@@ -224,8 +233,10 @@ body {
 .tl-item:last-child { padding-bottom: 0; }
 .tl-node {
   position: absolute;
-  left: -24px; top: 4px;
-  width: 18px; height: 18px;
+  /* chấm nằm trong .tl-item nên gốc toạ độ đã lùi sẵn --tl-pad */
+  left: calc(var(--tl-axis) - var(--tl-pad) - var(--tl-dot) / 2);
+  top: 4px;
+  width: var(--tl-dot); height: var(--tl-dot);
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--accent);
