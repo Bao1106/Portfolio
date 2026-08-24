@@ -5,7 +5,7 @@ lưới project với ảnh minh hoạ dựng bằng CSS, modal chi tiết, hạ
 
 **Thuần HTML / CSS / JS — không dependency, không build step.**
 
-> Branch này là bản 2D. Bản thế giới isometric 3D (React Three Fiber) nằm ở branch `3d_web`.
+> Branch này là bản 2D. Bản 3D (Unity WebGL) nằm ở branch `3d_web`.
 
 ## Chạy
 
@@ -51,7 +51,7 @@ Repo chỉ có một site GitHub Pages nên workflow gom cả hai bản vào m�
 | Đường dẫn | Bản | Nguồn |
 |---|---|---|
 | https://bao1106.github.io/Portfolio/ | 2D | branch `2d_web` (file tĩnh, copy thẳng) |
-| https://bao1106.github.io/Portfolio/3d/ | 3D | branch `3d_web` (workflow chạy `npm ci && npm run build`) |
+| https://bao1106.github.io/Portfolio/3d/ | 3D (Unity WebGL) | branch `3d_web` (file tĩnh, build sẵn từ Unity) |
 
 File `.github/workflows/deploy.yml` giống hệt nhau ở cả hai branch và checkout cả hai, nên push
 branch nào cũng deploy đủ cả hai bản — không còn cảnh branch này đè branch kia.
