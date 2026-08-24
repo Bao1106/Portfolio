@@ -160,6 +160,7 @@ const WORK_PROJECTS = [
     screen: poseScreen,
     tags: [{ t: 'Motion Tracking' }, { t: 'Healthcare Kiosk', sec: true }, { t: 'PC / Mobile', sec: true }],
     sub: 'Unity Developer · Taggle Pte Ltd · 07/2024 – 07/2026',
+    media: { video: 'assets/media/rehab-platform-demo.mp4', poster: 'assets/media/rehab-platform-poster.jpg', wide: true },
     body: `
       <p>A suite of interactive motion-based games tailored for physical therapy protocols on healthcare kiosks and PC/mobile. Each game targets specific rehabilitation needs through real-time skeletal tracking.</p>
       <h4>Hybrid tracking architecture</h4>
@@ -355,14 +356,14 @@ const PERSONAL_PROJECTS = [
     screen: () => poseScreen(false),
     tags: [{ t: 'MediaPipe' }, { t: 'Balance', sec: true }, { t: 'Reach', sec: true }],
     sub: 'Personal demo · MediaPipe · Unity',
+    media: { video: 'assets/media/motion-tracking-demo.mp4', poster: 'assets/media/motion-tracking-poster.jpg', wide: true },
     body: `
-      <p>A demo of real-time skeletal analysis, built while working on rehabilitation games — the exercise scoring runs entirely on an RGB camera feed.</p>
+      <p>A demo of real-time skeletal analysis, built while working on rehabilitation games — the exercise scoring runs entirely on an RGB camera feed. Clip below: a Hip Abduction exercise, live skeleton overlay bottom-right tracking form in real time.</p>
       <h4>Demos</h4>
       <ul>
         <li>Mediapipe Pose Tracking — <strong>Balance</strong>: holding a stable posture, warning on drift and on leaning against support</li>
         <li>Mediapipe Pose Tracking — <strong>Reach</strong>: reach distance and range of motion scored per repetition</li>
       </ul>
-      <div class="hl-box"><p><strong>Note:</strong> demo videos are shared on request — the clips show patient-facing exercises recorded during development.</p></div>
     `,
     tech: ['MediaPipe', 'Unity', 'C#', 'Pose Estimation'],
   },
@@ -435,6 +436,18 @@ el('skills').innerHTML = SKILLS.map(
 // Project cards
 const ALL_PROJECTS = [...WORK_PROJECTS, ...PERSONAL_PROJECTS]
 
+// meta luôn kết thúc bằng một khoảng ngày ("07/2024 – 07/2026" / "07/2026 – Present").
+// Tách nó ra khỏi phần chữ để đặt riêng một hàng — nhét chung dòng thì hay bị bẻ giữa cụm ngày.
+const DATE_RE = /\s·\s(\d{2}\/\d{4}\s[–-]\s(?:\d{2}\/\d{4}|Present))$/
+const metaHtml = (meta) => {
+  const m = meta.match(DATE_RE)
+  if (!m) return `<div class="pr-meta">${meta}</div>`
+  return `<div class="pr-meta">
+    <span class="pr-meta-info">${meta.slice(0, m.index)}</span>
+    <span class="pr-meta-date">${m[1]}</span>
+  </div>`
+}
+
 const cardHtml = (p) => `
   <button class="pr-card" type="button" data-project="${p.id}" aria-label="Xem chi tiết ${p.title}">
     <div class="pr-inner">
@@ -444,7 +457,7 @@ const cardHtml = (p) => `
       </div>
       <div class="pr-info">
         <h3>${p.title}</h3>
-        <div class="pr-meta">${p.meta}</div>
+        ${metaHtml(p.meta)}
         <div class="pr-tags">${p.tags.map((t) => `<span class="pr-tag${t.sec ? ' sec' : ''}">${t.t}</span>`).join('')}</div>
       </div>
     </div>

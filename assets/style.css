@@ -384,7 +384,19 @@ body {
 .pr-card:hover .pr-play { transform: scale(1.1); background: rgba(255,255,255,0.22); }
 .pr-info { padding: 20px; }
 .pr-info h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
-.pr-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px; }
+/* Chữ mô tả wrap bình thường; ngày tháng luôn đứng riêng 1 hàng bên dưới, không bị bẻ đôi */
+.pr-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px; line-height: 1.6; }
+.pr-meta-info { display: block; }
+.pr-meta-date {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 9px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
 .pr-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .pr-tag {
   font-size: 11px;

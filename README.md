@@ -36,6 +36,8 @@ Sửa các hằng số đầu file [`assets/app.js`](assets/app.js):
 | `WORK_PROJECTS` | 4 project làm ở công ty (phần Projects của CV) |
 | `PERSONAL_PROJECTS` | 3 project cá nhân (phần Portfolio của CV) |
 
+Project có video demo thì thêm `media: { video, poster, wide? }` — `wide: true` cho clip quay ngang (tràn hết modal), bỏ trống cho clip quay dọc (bó 280px).
+
 Mỗi project gồm `title`, `meta`, `tags`, `screenClass` + `screen()` (ảnh minh hoạ CSS),
 và phần modal: `sub`, `body` (HTML), `tech`, `link` (không có thì nút hiện "Demo on request").
 
@@ -65,3 +67,4 @@ Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub A
 - Video demo đặt preload="none" + có poster: 10 MB chỉ tải khi người xem bấm play, không tốn băng thông của khách vãng lai.
 - Video nén bằng ffmpeg trước khi commit: Paw Voyage 17.5 MB -> 10.3 MB (dọc, rộng 540, CRF 27), Tower Defense 81 MB -> 8.0 MB (ngang, rộng 1024, 60fps -> 30fps, CRF 29). Đều thêm +faststart để phát ngay khi chưa tải xong.
 - Clip dọc và clip ngang dùng chung component: đặt `wide: true` trong `media` thì video tràn hết bề ngang modal, không thì bó lại 280px.
+- Ngày tháng trong `meta` (`... · 07/2024 – 07/2026`) luôn đứng riêng 1 hàng dưới dòng mô tả — `metaHtml()` tách bằng regex nên không cần sửa chỗ khác khi đổi format ngày.
