@@ -8,7 +8,7 @@ const PROFILE = {
   phone: '0989 387 642',
   phoneRaw: '+84989387642',
   github: 'https://github.com/Bao1106',
-  linkedin: 'https://www.linkedin.com/in/qu%E1%BB%91c-b%E1%BA%A3o-v%C3%B5-7767862ba/',
+  linkedin: 'https://www.linkedin.com/in/qbv1106/',
   references: [
     { name: 'Toan Le', role: 'Mobile Lead, Taggle Pte Ltd' },
     { name: 'Nguyễn Ngô Minh Trí', role: 'Unity Lead, KBG Group' },
@@ -82,7 +82,7 @@ const SKILLS = [
   { name: 'Motion Tracking', icon: ICON.globe, value: 78, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
   { name: 'Performance', icon: ICON.bolt, value: 80, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
   { name: 'Networking', icon: ICON.monitor, value: 72, tags: ['REST API', 'WebSocket', 'JSON', 'Firebase'] },
-  { name: 'Tools', icon: ICON.tool, value: 75, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'DOTween', 'Spine'] },
+  { name: 'Tools', icon: ICON.tool, value: 75, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'Photoshop', 'DOTween', 'Spine'] },
 ]
 
 /* ── Ảnh minh hoạ mỗi project, dựng bằng CSS thuần ─────────────────────────── */
@@ -266,8 +266,8 @@ const PERSONAL_PROJECTS = [
     meta: 'Solo · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present',
     screenClass: 'sc-paw',
     screen: pawScreen,
-    tags: [{ t: 'Mobile Puzzle' }, { t: '50 Levels', sec: true }, { t: 'Auto Playtest', sec: true }],
-    sub: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present',
+    tags: [{ t: 'Mobile Puzzle' }, { t: '50 Levels', sec: true }, { t: 'Google Play', sec: true }],
+    sub: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Android closed testing on Google Play',
     media: { video: 'assets/media/paw-voyage-demo.mp4', poster: 'assets/media/paw-voyage-poster.jpg' },
     body: `
       <p>A sorting puzzle (Bus-Sort style) designed and shipped solo — from core loop to meta progression.</p>
@@ -293,6 +293,10 @@ const PERSONAL_PROJECTS = [
       <h4>Game feel &amp; art integration</h4>
       <ul>
         <li>Stylized water the boats sit and roll on, pet hops and reactions, boarding/booster effects that stay readable on a small screen</li>
+      </ul>
+      <h4>Release pipeline</h4>
+      <ul>
+        <li>Handled the full Android release path solo — signed build, Play Console setup, store listing, data safety declaration, and closed testing on real devices</li>
       </ul>
       <div class="metric-row">
         <div class="metric-box"><div class="num">50</div><div class="label">levels</div></div>
