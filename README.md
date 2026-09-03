@@ -34,7 +34,7 @@ Sửa các hằng số đầu file [`assets/app.js`](assets/app.js):
 | `EXPERIENCE` | 4 công việc trong timeline, mỗi cái một mảng `points` |
 | `SKILLS` | 6 thẻ skill: tên, icon, %, tag |
 | `WORK_PROJECTS` | 4 project làm ở công ty (phần Projects của CV) |
-| `PERSONAL_PROJECTS` | 3 project cá nhân (phần Portfolio của CV) |
+| `PERSONAL_PROJECTS` | 4 project cá nhân (phần Portfolio của CV) |
 
 Project có video demo thì thêm `media: { video, poster, wide? }` — `wide: true` cho clip quay ngang (tràn hết modal), bỏ trống cho clip quay dọc (bó 280px).
 

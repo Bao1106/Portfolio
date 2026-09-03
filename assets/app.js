@@ -18,7 +18,7 @@ const PROFILE = {
 const STATS = [
   { num: 4, label: 'years exp' },
   { num: 4, label: 'shipped projects' },
-  { num: 2, label: 'personal builds' },
+  { num: 3, label: 'personal builds' },
 ]
 
 const EXPERIENCE = [
@@ -74,10 +74,12 @@ const ICON = {
   bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
   monitor: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
   tool: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  vr: '<rect x="2" y="7" width="20" height="10" rx="3"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/><path d="M10 12h4"/>',
 }
 
 const SKILLS = [
   { name: 'Unity Engine', icon: ICON.cube, value: 85, tags: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Multi-platform'] },
+  { name: 'XR / VR', icon: ICON.vr, value: 65, tags: ['XR Interaction Toolkit', 'OpenXR', 'XR Device Simulator', 'Android/Quest'] },
   { name: 'C# & Architecture', icon: ICON.code, value: 82, tags: ['OOP', 'SOLID', 'Design Patterns', 'Event-driven'] },
   { name: 'Motion Tracking', icon: ICON.globe, value: 78, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
   { name: 'Performance', icon: ICON.bolt, value: 80, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
@@ -260,6 +262,48 @@ const WORK_PROJECTS = [
 /* ── Project cá nhân (phần Portfolio trong CV) ─────────────────────────────── */
 
 const PERSONAL_PROJECTS = [
+  {
+    id: 'vr',
+    title: 'VR Shooting Range',
+    meta: 'Solo · Unity 2022.3 (URP 14) · XR Interaction Toolkit / OpenXR · 08/2026 – 09/2026',
+    screenClass: 'sc-vr',
+    screen: () => '',
+    tags: [{ t: 'VR / XR' }, { t: 'Zero to Demo in 3 Days', sec: true }, { t: 'Zero-Alloc', sec: true }],
+    sub: 'Solo Developer · Unity 2022.3 (URP 14), XR Interaction Toolkit 2.6.5, OpenXR · 08/2026 – 09/2026',
+    media: { video: 'assets/media/vr-shooting-demo.mp4', poster: 'assets/media/vr-shooting-poster.jpg', wide: true },
+    body: `
+      <p>A self-directed introduction to VR, built in 3 days on the XR Device Simulator — no headset on hand. Android/Quest pipeline configured and verified across 3 builds.</p>
+      <h4>VR interaction &amp; locomotion</h4>
+      <ul>
+        <li>Grabbable hitscan weapon on XRI/OpenXR: <code>XRGrabInteractable</code> with a tuned attach pose, fire ray along a barrel axis derived from grip → muzzle, haptic impulse routed to whichever interactor pulled the trigger</li>
+        <li>Teleport locomotion fenced behind the firing line via a dedicated interaction layer, plus snap turn and a tunnelling vignette</li>
+        <li>World-space HUD and a wrist-mounted panel that reveals on wrist rotation</li>
+      </ul>
+      <h4>System architecture</h4>
+      <ul>
+        <li>Decoupled MVC + static Event Bus (Observer) with a single Singleton owning round rules</li>
+        <li>An <code>IShootable</code> interface keeps the weapon independent of any target class — adding feedback (audio, haptics, VFX) is one new listener, never an edit to code that already works</li>
+      </ul>
+      <h4>Performance optimization</h4>
+      <ul>
+        <li>Cut build assets 30% (32.6 → 22.7 MB; APK 45.6 → 41.0 MB) via ASTC 6x6 with resolution caps, particle-shader consolidation, and trimming unused post-processing textures</li>
+        <li>0 B allocation per shot (from 860 B) by pooling shell casings and impact VFX — measured with <code>GC.GetTotalMemory</code> around the call, 200 shots per path</li>
+        <li>Diagnosed 8 particle materials silently skipped by Unity's URP converter from a shader-name mismatch, which were breaking SRP Batcher compatibility</li>
+      </ul>
+      <h4>Editor tooling</h4>
+      <ul>
+        <li>Five editor commands regenerate the whole scene from the raw asset pack — URP material conversion, weapon prefab assembly with third-party script stripping, procedural range layout with static-batching flags, and pooled effect prefabs</li>
+        <li>No part of the scene was assembled by hand</li>
+      </ul>
+      <div class="metric-row">
+        <div class="metric-box"><div class="num">3</div><div class="label">days, zero to demo</div></div>
+        <div class="metric-box"><div class="num">0 B</div><div class="label">alloc / shot</div></div>
+        <div class="metric-box"><div class="num">−30%</div><div class="label">build assets</div></div>
+      </div>
+      <div class="hl-box"><p><strong>Key takeaway:</strong> the pattern that keeps repeating across projects — motion tracking, blockchain, now VR — is shipping in unfamiliar tech fast by keeping the architecture (interfaces, event bus, pooling) the same and only swapping the input/rendering layer underneath it.</p></div>
+    `,
+    tech: ['Unity 2022.3', 'URP 14', 'C#', 'XR Interaction Toolkit', 'OpenXR', 'Android/Quest'],
+  },
   {
     id: 'paw',
     title: 'Paw Voyage: Pet Sort',
