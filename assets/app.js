@@ -16,9 +16,9 @@ const PROFILE = {
 }
 
 const STATS = [
-  { num: 4, label: 'years exp' },
-  { num: 4, label: 'shipped projects' },
-  { num: 3, label: 'personal builds' },
+  { num: 68, prefix: '−', suffix: '%', label: 'draw calls (Tower Defense)' },
+  { num: 0, suffix: ' B', label: 'alloc per shot (VR)' },
+  { num: 2, label: 'countries deployed' },
 ]
 
 const EXPERIENCE = [
@@ -27,11 +27,11 @@ const EXPERIENCE = [
     company: 'Taggle Pte Ltd · Singapore',
     date: '07/2024 – 07/2026',
     points: [
-      'Physical therapy &amp; rehabilitation games running on healthcare kiosks, PC and mobile',
+      'Owned 3 motion-based rehabilitation games end-to-end — kiosk, PC and mobile — and supported them on-site at health exhibitions in Singapore and the Philippines',
       'Architected real-time skeletal tracking with MediaPipe, Nuitrack and Kinect for pose estimation',
       'Exercise monitoring logic: movement accuracy, goal tracking, live feedback on improper posture or obstacles',
-      'Improved stability and frame rate of real-time motion analysis across PCs and Android kiosks',
-      'Healthcare management apps for home-based patient care and medical records',
+      'Profiled motion analysis on PC and Android kiosks — texture compression, async loading, event-driven logic with cached lookups to cut GC alloc in the per-frame path',
+      'Healthcare management app deployed across hospital systems in Singapore and the Philippines — home-based patient care, medical records, Asset Bundle content delivery',
       'Collaborated directly with partners in Singapore inside a 23-person team',
     ],
   },
@@ -182,6 +182,11 @@ const WORK_PROJECTS = [
         <li>Event-driven logic and cached components to minimise GC alloc — kiosks run for long stretches without restarts</li>
         <li>Responsive UGUI built for kiosk screens and patients with limited mobility</li>
       </ul>
+      <div class="metric-row">
+        <div class="metric-box"><div class="num">3</div><div class="label">tracking SDKs</div></div>
+        <div class="metric-box"><div class="num">3</div><div class="label">games on-site</div></div>
+        <div class="metric-box"><div class="num">2</div><div class="label">countries</div></div>
+      </div>
       <div class="hl-box"><p><strong>Why it mattered:</strong> the same exercise logic had to stay accurate on a depth-sensor kiosk and on a phone camera — the tracking layer is swappable, the scoring layer is not.</p></div>
     `,
     tech: ['Unity 3D', 'C#', 'MediaPipe', 'Nuitrack', 'Kinect', 'UGUI', 'Unity Profiler'],
@@ -211,6 +216,11 @@ const WORK_PROJECTS = [
         <li>Refined JSON parsing and data handling for large medical datasets</li>
         <li>Async operations and careful memory management of dynamic resources</li>
       </ul>
+      <div class="metric-row">
+        <div class="metric-box"><div class="num">2</div><div class="label">countries deployed</div></div>
+        <div class="metric-box"><div class="num">✓</div><div class="label">hospital systems</div></div>
+        <div class="metric-box"><div class="num">✓</div><div class="label">Asset Bundle delivery</div></div>
+      </div>
     `,
     tech: ['Unity (Mobile)', 'C#', 'Asset Bundles', 'RESTful API', 'JSON', 'Web Storage'],
   },
@@ -270,6 +280,7 @@ const PERSONAL_PROJECTS = [
     screen: () => '',
     tags: [{ t: 'VR / XR' }, { t: 'Zero to Demo in 3 Days', sec: true }, { t: 'Zero-Alloc', sec: true }],
     sub: 'Solo Developer · Unity 2022.3 (URP 14), XR Interaction Toolkit 2.6.5, OpenXR · 08/2026 – 09/2026',
+    link: { label: 'View on GitHub', href: 'https://github.com/Bao1106/DemoVR' },
     media: { video: 'assets/media/vr-shooting-demo.mp4', poster: 'assets/media/vr-shooting-poster.jpg', wide: true },
     body: `
       <p>A self-directed introduction to VR, built in 3 days on the XR Device Simulator — no headset on hand. Android/Quest pipeline configured and verified across 3 builds.</p>
@@ -312,6 +323,7 @@ const PERSONAL_PROJECTS = [
     screen: pawScreen,
     tags: [{ t: 'Mobile Puzzle' }, { t: '50 Levels', sec: true }, { t: 'Google Play', sec: true }],
     sub: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Android closed testing on Google Play',
+    linkNote: 'Android closed testing — Google Play', // repo riêng tư (không phải không có gì để xem)
     media: { video: 'assets/media/paw-voyage-demo.mp4', poster: 'assets/media/paw-voyage-poster.jpg' },
     body: `
       <p>A sorting puzzle (Bus-Sort style) designed and shipped solo — from core loop to meta progression.</p>
@@ -427,7 +439,7 @@ const svg = (paths, size = 15) =>
 
 // Stats + contact
 el('stats').innerHTML = STATS.map(
-  (s) => `<div class="stat"><div class="stat-num" data-target="${s.num}">${s.num}</div><div class="stat-label">${s.label}</div></div>`
+  (s) => `<div class="stat"><div class="stat-num" data-target="${s.num}" data-prefix="${s.prefix || ''}" data-suffix="${s.suffix || ''}">${s.prefix || ''}${s.num}${s.suffix || ''}</div><div class="stat-label">${s.label}</div></div>`
 ).join('')
 
 el('contact').innerHTML = [
@@ -519,9 +531,10 @@ el('personalProjects').innerHTML = PERSONAL_PROJECTS.map(cardHtml).join('')
 const overlay = el('modalOv')
 let lastFocus = null
 
-function openModal(id) {
+function openModal(id, { skipPush = false } = {}) {
   const p = ALL_PROJECTS.find((x) => x.id === id)
   if (!p) return
+  if (!skipPush) pushProjectRoute(id)
   lastFocus = document.activeElement
   el('mTitle').textContent = p.title
   el('mSub').textContent = p.sub
@@ -534,24 +547,52 @@ function openModal(id) {
     : ''
 
   el('mBody').innerHTML = video + p.body + `<h4>Tech stack</h4><div class="sk-tags">${p.tech.map((t) => `<span class="sk-tag">${t}</span>`).join('')}</div>`
+  // Không có link repo thì hiện lý do cụ thể (linkNote) thay vì im lặng bỏ qua —
+  // "Demo on request" chỉ còn là phao cuối khi không có cả media, link lẫn lời giải thích nào.
   el('mFoot').innerHTML =
     (p.media ? '<button class="btn" data-play-demo type="button">▶ Watch gameplay demo</button>' : '') +
     (p.link
       ? `<a class="btn" href="${p.link.href}" target="_blank" rel="noreferrer">${p.link.label}</a>`
-      : '') +
-    (!p.media && !p.link ? '<span class="btn" aria-disabled="true" title="Liên hệ để xem demo">Demo on request</span>' : '') +
+      : p.linkNote
+        ? `<span class="btn" aria-disabled="true">${p.linkNote}</span>`
+        : !p.media
+          ? '<span class="btn" aria-disabled="true" title="Liên hệ để xem demo">Demo on request</span>'
+          : '') +
     `<a href="mailto:${PROFILE.email}?subject=${encodeURIComponent(p.title)}" class="btn pri">Ask me about this project</a>`
   overlay.classList.add('active')
   document.body.style.overflow = 'hidden'
   el('mClose').focus()
 }
 
-function closeModal() {
+function closeModal({ skipPush = false } = {}) {
   overlay.querySelector('video')?.pause() // đóng modal thì tắt tiếng luôn
   overlay.classList.remove('active')
   document.body.style.overflow = ''
   lastFocus?.focus()
+  if (!skipPush) clearProjectRoute()
 }
+
+/* ── Hash routing: mỗi project một URL riêng, gửi thẳng được, Back đóng modal ── */
+
+function pushProjectRoute(id) {
+  history.pushState(null, '', '#/p/' + id)
+}
+
+function clearProjectRoute() {
+  history.pushState(null, '', location.pathname + location.search)
+}
+
+function syncFromUrl() {
+  const m = location.hash.match(/^#\/p\/([\w-]+)$/)
+  if (m && ALL_PROJECTS.some((p) => p.id === m[1])) {
+    openModal(m[1], { skipPush: true })
+  } else {
+    closeModal({ skipPush: true })
+  }
+}
+
+window.addEventListener('popstate', syncFromUrl)
+syncFromUrl() // vào thẳng bằng link có sẵn hash — script này đã chạy sau khi DOM dựng xong
 
 // Nút trong footer: cuộn tới video rồi phát
 el('mFoot').addEventListener('click', (ev) => {
@@ -587,10 +628,12 @@ document.querySelectorAll('.pr-card').forEach((card) => {
 
 const countUp = (node) => {
   const target = +node.dataset.target
+  const prefix = node.dataset.prefix || ''
+  const suffix = node.dataset.suffix || ''
   const t0 = performance.now()
   const tick = (now) => {
     const p = Math.min((now - t0) / 900, 1)
-    node.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) // ease-out
+    node.textContent = prefix + Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix // ease-out
     if (p < 1) requestAnimationFrame(tick)
   }
   requestAnimationFrame(tick)

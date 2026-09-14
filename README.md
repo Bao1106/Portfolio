@@ -41,6 +41,13 @@ Project có video demo thì thêm `media: { video, poster, wide? }` — `wide: t
 Mỗi project gồm `title`, `meta`, `tags`, `screenClass` + `screen()` (ảnh minh hoạ CSS),
 và phần modal: `sub`, `body` (HTML), `tech`, `link` (không có thì nút hiện "Demo on request").
 
+Repo private (không có `link`) mà vẫn muốn giải thích vì sao thì thêm `linkNote` — hiện thành
+badge mờ thay vì bặt tăm ("Demo on request" chỉ còn là phao cuối khi thiếu cả `media`, `link` lẫn
+`linkNote"). Xem `paw` (`Android closed testing — Google Play`) làm ví dụ.
+
+`STATS` nhận thêm `prefix`/`suffix` tuỳ chọn (vd `{ num: 68, prefix: '−', suffix: '%' }` ra `−68%`) —
+`num` vẫn phải là số thuần vì `countUp()` animate bằng phép tính, chỉ prefix/suffix là chữ dán vào.
+
 Thêm project mới: thêm một object vào mảng tương ứng, nếu muốn ảnh minh hoạ riêng thì viết một hàm
 `screen()` trả về HTML và thêm class nền vào `style.css` (xem `.sc-paw`, `.sc-tower`, `.sc-pose`…).
 
@@ -67,4 +74,10 @@ Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub A
 - Video demo đặt preload="none" + có poster: 10 MB chỉ tải khi người xem bấm play, không tốn băng thông của khách vãng lai.
 - Video nén bằng ffmpeg trước khi commit: Paw Voyage 17.5 MB -> 10.3 MB (dọc, rộng 540, CRF 27), Tower Defense 81 MB -> 8.0 MB (ngang, rộng 1024, 60fps -> 30fps, CRF 29). Đều thêm +faststart để phát ngay khi chưa tải xong.
 - Clip dọc và clip ngang dùng chung component: đặt `wide: true` trong `media` thì video tràn hết bề ngang modal, không thì bó lại 280px.
+- **Hash routing**: mở project nào thì URL đổi thành `#/p/<id>` (`pushProjectRoute`), đóng thì xoá hash
+  (`clearProjectRoute`). `syncFromUrl()` chạy lúc script tải (đọc hash hiện có) và mỗi lần `popstate`
+  (nút Back/Forward) — nên paste thẳng link `.../#/p/vr` là mở đúng modal, và Back đóng modal thay vì
+  rời trang. `openModal`/`closeModal` nhận cờ `{ skipPush: true }` để tự đồng bộ mà không đẩy thêm
+  entry vào history (tránh vòng lặp). Hash không có trong `ALL_PROJECTS` thì trang hiển thị bình
+  thường, không vỡ.
 - Ngày tháng trong `meta` (`... · 07/2024 – 07/2026`) luôn đứng riêng 1 hàng dưới dòng mô tả — `metaHtml()` tách bằng regex nên không cần sửa chỗ khác khi đổi format ngày.
