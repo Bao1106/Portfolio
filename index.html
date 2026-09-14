@@ -6,11 +6,22 @@
   <title>Vo Quoc Bao — Unity Developer Portfolio</title>
   <meta name="description" content="Unity Developer with 4+ years in mobile games and interactive 3D apps. Motion tracking, performance optimization, end-to-end game development." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🎮</text></svg>" />
-  <link rel="stylesheet" href="assets/style.css?v=3" />
+  <link rel="stylesheet" href="assets/style.css?v=4" />
+  <!-- Áp theme đã lưu TRƯỚC khi trang vẽ khung hình đầu, tránh flash sáng->tối -->
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light')
+    } catch (e) {}
+  </script>
 </head>
 <body>
 
 <canvas id="particles" aria-hidden="true"></canvas>
+
+<div class="pref-bar">
+  <button type="button" id="langToggle" class="pref-btn" aria-label="Switch to Vietnamese">VI</button>
+  <button type="button" id="themeToggle" class="pref-btn" aria-label="Switch to light mode" aria-pressed="false">🌙</button>
+</div>
 
 <div class="container">
   <!-- Hero -->
@@ -21,15 +32,15 @@
     <div class="hero-badge-row">
       <span class="hero-badge float">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Available for opportunities
+        <span data-i18n="heroBadge">Available for opportunities</span>
       </span>
     </div>
 
-    <p class="role"><span class="typewriter">Unity Developer · 4+ Years Experience</span></p>
-    <p class="tagline">Shipping mobile games &amp; interactive 3D apps. Specialized in motion tracking, performance optimization, and end-to-end game development.</p>
+    <p class="role"><span class="typewriter" data-i18n="heroRole">Unity Developer · 4+ Years Experience</span></p>
+    <p class="tagline" data-i18n="heroTagline">Shipping mobile games &amp; interactive 3D apps. Specialized in motion tracking, performance optimization, and end-to-end game development.</p>
 
     <p class="version-switch">
-      <a href="3d/">🎮 Xem bản 3D (Unity WebGL) →</a>
+      <a href="3d/" data-i18n="versionSwitch">🎮 Xem bản 3D (Unity WebGL) →</a>
     </p>
 
     <div class="stats-bar" id="stats"></div>
@@ -40,17 +51,17 @@
   <section class="section reveal">
     <div class="sec-head">
       <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <h2 class="sec-title">About</h2>
+      <h2 class="sec-title" data-i18n="secAbout">About</h2>
       <div class="sec-line"></div>
     </div>
     <div class="about-grid">
       <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>What I do</h4>
-        <p>Unity Developer with 4+ years shipping mobile games and interactive 3D applications. Specialized in performance optimization, system architecture, and real-time interactive systems. Repeatedly moved into unfamiliar technology and shipped with it — skeletal tracking (MediaPipe, Nuitrack, Kinect) for clinical rehabilitation, blockchain game systems, and most recently VR: a self-directed XR Interaction Toolkit / OpenXR project taken from zero to a working, profiled demo in 3 days. Owning features end-to-end from design through release, working with teams of up to 23 people and partners in Singapore.</p>
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span data-i18n="aboutWhatTitle">What I do</span></h4>
+        <p data-i18n="aboutWhatBody">Unity Developer with 4+ years shipping mobile games and interactive 3D applications. Specialized in performance optimization, system architecture, and real-time interactive systems. Repeatedly moved into unfamiliar technology and shipped with it — skeletal tracking (MediaPipe, Nuitrack, Kinect) for clinical rehabilitation, blockchain game systems, and most recently VR: a self-directed XR Interaction Toolkit / OpenXR project taken from zero to a working, profiled demo in 3 days. Owning features end-to-end from design through release, working with teams of up to 23 people and partners in Singapore.</p>
       </div>
       <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Core strengths</h4>
-        <ul>
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-i18n="aboutCoreTitle">Core strengths</span></h4>
+        <ul id="aboutCoreList">
           <li>End-to-end game development (core loop → meta)</li>
           <li>Real-time skeletal tracking &amp; pose estimation</li>
           <li>VR/XR interaction — XR Interaction Toolkit, OpenXR</li>
@@ -60,12 +71,12 @@
         </ul>
       </div>
       <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Education</h4>
-        <p><strong class="edu-major">Communications and Computer Networks</strong><br />University of Information Technology — HCM<br /><span class="edu-date">08/2017 – 08/2022</span></p>
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><span data-i18n="aboutEduTitle">Education</span></h4>
+        <p><strong class="edu-major" data-i18n="aboutEduMajor">Communications and Computer Networks</strong><br /><span data-i18n="aboutEduSchool">University of Information Technology — HCM</span><br /><span class="edu-date">08/2017 – 08/2022</span></p>
       </div>
       <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Languages &amp; ways of working</h4>
-        <ul>
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="aboutLangTitle">Languages &amp; ways of working</span></h4>
+        <ul id="aboutLangList">
           <li>Fluent English for day-to-day team collaboration</li>
           <li>Design log: every gameplay/balance call written down with its reasoning</li>
           <li>Comfortable owning a feature from spec to store build</li>
@@ -78,7 +89,7 @@
   <section class="section reveal">
     <div class="sec-head">
       <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-      <h2 class="sec-title">Experience</h2>
+      <h2 class="sec-title" data-i18n="secExperience">Experience</h2>
       <div class="sec-line"></div>
     </div>
     <div class="tl-wrap" id="timeline"></div>
@@ -88,7 +99,7 @@
   <section class="section reveal">
     <div class="sec-head">
       <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-      <h2 class="sec-title">Skills</h2>
+      <h2 class="sec-title" data-i18n="secSkills">Skills</h2>
       <div class="sec-line"></div>
     </div>
     <div class="sk-grid" id="skills"></div>
@@ -98,7 +109,7 @@
   <section class="section reveal">
     <div class="sec-head">
       <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-      <h2 class="sec-title">Work Projects</h2>
+      <h2 class="sec-title" data-i18n="secWork">Work Projects</h2>
       <div class="sec-line"></div>
     </div>
     <div class="pr-grid" id="workProjects"></div>
@@ -108,7 +119,7 @@
   <section class="section reveal">
     <div class="sec-head">
       <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <h2 class="sec-title">Personal Projects</h2>
+      <h2 class="sec-title" data-i18n="secPersonal">Personal Projects</h2>
       <div class="sec-line"></div>
     </div>
     <div class="pr-grid" id="personalProjects"></div>
@@ -118,11 +129,11 @@
   <section class="section reveal">
     <div class="cta">
       <div class="cta-inner">
-        <h3>Let's build something together</h3>
-        <p>Interested in collaborating or have a project in mind? I'm open to new opportunities.</p>
+        <h3 data-i18n="ctaTitle">Let's build something together</h3>
+        <p data-i18n="ctaBody">Interested in collaborating or have a project in mind? I'm open to new opportunities.</p>
         <a href="mailto:baovo110699@gmail.com" class="btn pri">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Get in touch
+          <span data-i18n="ctaButton">Get in touch</span>
         </a>
         <p class="refs" id="refs"></p>
       </div>
@@ -138,7 +149,7 @@
         <h2 id="mTitle">Project</h2>
         <div class="modal-sub" id="mSub"></div>
       </div>
-      <button class="modal-close" id="mClose" aria-label="Close">
+      <button class="modal-close" id="mClose" aria-label="Close" data-i18n-attr="aria-label:modalClose">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -147,6 +158,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=3"></script>
+<script src="assets/app.js?v=4"></script>
 </body>
 </html>
