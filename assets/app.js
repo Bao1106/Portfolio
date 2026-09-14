@@ -371,7 +371,7 @@ const PERSONAL_PROJECTS = [
     screen: towerScreen,
     tags: [{ t: '3D Sci-Fi' }, { t: 'MVC + Event Bus', sec: true }, { t: 'Procedural', sec: true }],
     sub: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026',
-    link: { label: 'View on GitHub', href: PROFILE.github },
+    link: { label: 'View on GitHub', href: 'https://github.com/Bao1106/TowerDefense/tree/develop' },
     media: { video: 'assets/media/tower-defense-demo.mp4', poster: 'assets/media/tower-defense-poster.jpg', wide: true },
     body: `
       <p>A 3D sci-fi tower defense with decoupled architecture, procedural maze generation and aggressive performance work.</p>
