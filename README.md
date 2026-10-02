@@ -18,7 +18,7 @@ npx vite
 ## Cấu trúc
 
 ```
-index.html         # Khung trang: hero, About, các section rỗng để JS đổ nội dung vào, modal
+index.html         # Khung trang: hero, Gameplay Videos, các section rỗng để JS đổ nội dung vào, modal
 assets/style.css   # Toàn bộ phần nhìn + ảnh minh hoạ project (CSS thuần)
 assets/app.js      # Nội dung (từ CV) + render + tương tác
 ```
@@ -30,15 +30,15 @@ Sửa các hằng số đầu file [`assets/app.js`](assets/app.js):
 | Hằng số | Nội dung |
 |---|---|
 | `PROFILE` | email, phone, GitHub, LinkedIn, references |
-| `STATS` | 4 con số chạy ở hero |
+| `STATS` | 3 con số chạy ở hero |
 | `EXPERIENCE` | 4 công việc trong timeline, mỗi cái một mảng `points` |
-| `SKILLS` | 6 thẻ skill: tên, icon, %, tag |
+| `SKILLS` | thẻ skill: tên, icon, tag (không còn thanh %) |
 | `WORK_PROJECTS` | 4 project làm ở công ty (phần Projects của CV) |
 | `PERSONAL_PROJECTS` | 4 project cá nhân (phần Portfolio của CV) |
 
-Project có video demo thì thêm `media: { video, poster, wide? }` — `wide: true` cho clip quay ngang (tràn hết modal), bỏ trống cho clip quay dọc (bó 280px).
+Project có video demo thì thêm `media: { video, poster, wide? }` — `wide: true` cho clip quay ngang (tràn hết modal), bỏ trống cho clip quay dọc (bó 280px). Thẻ của project có video hiện luôn `poster`, và thứ tự trong section "Gameplay Videos" lấy theo `VIDEO_ORDER`; project không có video tự xuống "More Projects".
 
-Mỗi project gồm `title`, `meta`, `tags`, `screenClass` + `screen()` (ảnh minh hoạ CSS),
+Mỗi project gồm `title`, `meta`, `tags`, `screenClass` + `screen()` (ảnh minh hoạ CSS, chỉ cần khi không có video),
 và phần modal: `sub`, `body` (HTML), `tech`, `link` (không có thì nút hiện "Demo on request").
 
 Repo private (không có `link`) mà vẫn muốn giải thích vì sao thì thêm `linkNote` — hiện thành
@@ -67,7 +67,7 @@ Lần đầu phải bật thủ công: **Settings → Pages → Source: GitHub A
 
 ## Ghi chú kỹ thuật
 
-- Thanh skill và số liệu chỉ chạy một lần khi cuộn tới (`IntersectionObserver` + `unobserve`).
+- Số liệu chỉ chạy một lần khi cuộn tới (`IntersectionObserver` + `unobserve`).
 - Card project là `<button>` nên bấm được bằng bàn phím; modal trả focus về đúng card khi đóng.
 - Tôn trọng `prefers-reduced-motion`: tắt glitch, typewriter, hạt bay và các transition.
 - Ảnh minh hoạ project mặc định không dùng file ảnh nào — tất cả là div + CSS. Riêng Paw Voyage dùng icon thật (WebP 512, 33 KB).

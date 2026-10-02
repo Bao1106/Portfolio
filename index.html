@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vo Quoc Bao — Unity Developer Portfolio</title>
-  <meta name="description" content="Unity Developer with 4+ years in mobile games and interactive 3D apps. Motion tracking, performance optimization, end-to-end game development." />
+  <title>Vo Quoc Bao — Mobile Game Developer (Unity)</title>
+  <meta name="description" content="Mobile Game Developer (Unity) with 4+ years shipping mobile games. Gameplay videos of a solo-built puzzle game, a tower defense, a VR range and motion-tracking rehab games." />
+  <!-- Ảnh xem trước khi dán link vào LinkedIn / Zalo / Messenger (og:image phải là URL tuyệt đối) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bao1106.github.io/Portfolio/" />
+  <meta property="og:title" content="Vo Quoc Bao — Mobile Game Developer (Unity)" />
+  <meta property="og:description" content="Gameplay videos: a solo-built mobile puzzle (100 levels), a 3D tower defense, a VR shooting range and motion-tracking rehab games." />
+  <meta property="og:image" content="https://bao1106.github.io/Portfolio/assets/media/tower-defense-poster.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🎮</text></svg>" />
-  <link rel="stylesheet" href="assets/style.css?v=4" />
+  <link rel="stylesheet" href="assets/style.css?v=5" />
   <!-- Áp theme đã lưu TRƯỚC khi trang vẽ khung hình đầu, tránh flash sáng->tối -->
   <script>
     try {
@@ -36,8 +43,8 @@
       </span>
     </div>
 
-    <p class="role"><span class="typewriter" data-i18n="heroRole">Unity Developer · 4+ Years Experience</span></p>
-    <p class="tagline" data-i18n="heroTagline">Shipping mobile games &amp; interactive 3D apps. Specialized in motion tracking, performance optimization, and end-to-end game development.</p>
+    <p class="role"><span class="typewriter" data-i18n="heroRole">Mobile Game Developer (Unity) · 4+ Years</span></p>
+    <p class="tagline" data-i18n="heroTagline">Shipping mobile games with Unity, from core loop to store release.</p>
 
     <p class="version-switch">
       <a href="3d/" data-i18n="versionSwitch">🎮 Xem bản 3D (Unity WebGL) →</a>
@@ -47,42 +54,14 @@
     <div class="contact-bar" id="contact"></div>
   </section>
 
-  <!-- About -->
+  <!-- Gameplay videos: đặt ngay dưới hero vì portfolio này chủ yếu để xem gameplay -->
   <section class="section reveal">
     <div class="sec-head">
-      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <h2 class="sec-title" data-i18n="secAbout">About</h2>
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+      <h2 class="sec-title" data-i18n="secVideos">Gameplay Videos</h2>
       <div class="sec-line"></div>
     </div>
-    <div class="about-grid">
-      <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span data-i18n="aboutWhatTitle">What I do</span></h4>
-        <p data-i18n="aboutWhatBody">Unity Developer with 4+ years shipping mobile games and interactive 3D applications. Specialized in performance optimization, system architecture, and real-time interactive systems. Repeatedly moved into unfamiliar technology and shipped with it — skeletal tracking (MediaPipe, Nuitrack, Kinect) for clinical rehabilitation, blockchain game systems, and most recently VR: a self-directed XR Interaction Toolkit / OpenXR project taken from zero to a working, profiled demo in 3 days. Owning features end-to-end from design through release, working with teams of up to 23 people and partners in Singapore.</p>
-      </div>
-      <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-i18n="aboutCoreTitle">Core strengths</span></h4>
-        <ul id="aboutCoreList">
-          <li>End-to-end game development (core loop → meta)</li>
-          <li>Real-time skeletal tracking &amp; pose estimation</li>
-          <li>VR/XR interaction — XR Interaction Toolkit, OpenXR</li>
-          <li>Performance: draw calls, memory, GC alloc</li>
-          <li>Clean architecture: SOLID, patterns, event-driven</li>
-          <li>Cross-functional &amp; international collaboration</li>
-        </ul>
-      </div>
-      <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><span data-i18n="aboutEduTitle">Education</span></h4>
-        <p><strong class="edu-major" data-i18n="aboutEduMajor">Communications and Computer Networks</strong><br /><span data-i18n="aboutEduSchool">University of Information Technology — HCM</span><br /><span class="edu-date">08/2017 – 08/2022</span></p>
-      </div>
-      <div class="about-card">
-        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="aboutLangTitle">Languages &amp; ways of working</span></h4>
-        <ul id="aboutLangList">
-          <li>Fluent English for day-to-day team collaboration</li>
-          <li>Design log: every gameplay/balance call written down with its reasoning</li>
-          <li>Comfortable owning a feature from spec to store build</li>
-        </ul>
-      </div>
-    </div>
+    <div class="pr-grid" id="videoProjects"></div>
   </section>
 
   <!-- Experience -->
@@ -95,6 +74,16 @@
     <div class="tl-wrap" id="timeline"></div>
   </section>
 
+  <!-- Project không có video (demo theo yêu cầu) -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <h2 class="sec-title" data-i18n="secMore">More Projects</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="pr-grid" id="moreProjects"></div>
+  </section>
+
   <!-- Skills -->
   <section class="section reveal">
     <div class="sec-head">
@@ -105,24 +94,31 @@
     <div class="sk-grid" id="skills"></div>
   </section>
 
-  <!-- Work projects -->
+  <!-- About -->
   <section class="section reveal">
     <div class="sec-head">
-      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-      <h2 class="sec-title" data-i18n="secWork">Work Projects</h2>
+      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <h2 class="sec-title" data-i18n="secAbout">About</h2>
       <div class="sec-line"></div>
     </div>
-    <div class="pr-grid" id="workProjects"></div>
-  </section>
-
-  <!-- Personal projects -->
-  <section class="section reveal">
-    <div class="sec-head">
-      <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <h2 class="sec-title" data-i18n="secPersonal">Personal Projects</h2>
-      <div class="sec-line"></div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span data-i18n="aboutWhatTitle">What I do</span></h4>
+        <p data-i18n="aboutWhatBody"></p>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-i18n="aboutCoreTitle">Core strengths</span></h4>
+        <ul id="aboutCoreList"></ul>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><span data-i18n="aboutEduTitle">Education</span></h4>
+        <p><strong class="edu-major" data-i18n="aboutEduMajor">Communications and Computer Networks</strong><br /><span data-i18n="aboutEduSchool">Bachelor's Degree · University of Information Technology — HCM</span><br /><span class="edu-date">08/2017 – 08/2022</span></p>
+      </div>
+      <div class="about-card">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="aboutLangTitle">Languages &amp; ways of working</span></h4>
+        <ul id="aboutLangList"></ul>
+      </div>
     </div>
-    <div class="pr-grid" id="personalProjects"></div>
   </section>
 
   <!-- CTA -->
@@ -158,6 +154,6 @@
   </div>
 </div>
 
-<script src="assets/app.js?v=4"></script>
+<script src="assets/app.js?v=5"></script>
 </body>
 </html>

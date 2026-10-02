@@ -15,14 +15,14 @@ const PROFILE = {
   linkedin: 'https://www.linkedin.com/in/qbv1106/',
   references: [
     { name: 'Toan Le', role: 'Mobile Lead, Taggle Pte Ltd' },
-    { name: 'Nguyễn Ngô Minh Trí', role: 'Unity Lead, KBG Group' },
+    { name: 'Nguyễn Ngô Minh Trí', role: 'Unity Lead, KBG Studio' },
   ],
 }
 
 const STATS = [
+  { num: 100, label: { en: 'levels built solo (Paw Voyage)', vi: 'level tự làm một mình (Paw Voyage)' } },
   { num: 68, prefix: '−', suffix: '%', label: { en: 'draw calls (Tower Defense)', vi: 'draw calls (Tower Defense)' } },
   { num: 0, suffix: ' B', label: { en: 'alloc per shot (VR)', vi: 'alloc mỗi phát bắn (VR)' } },
-  { num: 2, label: { en: 'countries deployed', vi: 'quốc gia đã triển khai' } },
 ]
 
 const EXPERIENCE = [
@@ -36,24 +36,24 @@ const EXPERIENCE = [
         vi: 'Own end-to-end 3 game motion-based rehabilitation — kiosk, PC và mobile — và support on-site tại các triển lãm y tế ở Singapore và Philippines',
       },
       {
-        en: 'Architected real-time skeletal tracking with MediaPipe, Nuitrack and Kinect for pose estimation',
-        vi: 'Kiến trúc skeletal tracking real-time với MediaPipe, Nuitrack và Kinect cho pose estimation',
+        en: 'Hybrid tracking: depth sensors (Kinect, Nuitrack) and RGB computer vision (MediaPipe) behind one interface, so each deployment picks its backend without touching gameplay code',
+        vi: 'Tracking lai: depth sensor (Kinect, Nuitrack) và computer vision RGB (MediaPipe) sau cùng một interface, mỗi bản deploy chọn backend mà không đụng tới code gameplay',
       },
       {
-        en: 'Exercise monitoring logic: movement accuracy, goal tracking, live feedback on improper posture or obstacles',
-        vi: 'Logic theo dõi bài tập: tính accuracy động tác, goal tracking, feedback real-time khi sai tư thế hoặc vướng vật cản',
+        en: 'Exercise engine scoring joint angles and range of motion against per-protocol therapy goals, with real-time posture feedback; owned it across the game suite and reviewed other developers\' calculation code',
+        vi: 'Engine bài tập chấm góc khớp và range of motion theo mục tiêu trị liệu từng phác đồ, kèm feedback tư thế real-time; own lớp này cho cả bộ game và review code tính toán của các dev khác',
       },
       {
-        en: 'Profiled motion analysis on PC and Android kiosks — texture compression, async loading, event-driven logic with cached lookups to cut GC alloc in the per-frame path',
-        vi: 'Profile motion analysis trên PC và kiosk Android — nén texture, async loading, logic event-driven kèm cache lookup để giảm GC alloc trong per-frame path',
+        en: 'Profiled real-time motion analysis on PC and Android kiosks — texture compression for memory, async loading, event-driven logic with cached lookups to keep GC alloc out of the per-frame path',
+        vi: 'Profile motion analysis real-time trên PC và kiosk Android — nén texture để giảm memory, async loading, logic event-driven kèm cache lookup để giữ GC alloc ngoài per-frame path',
       },
       {
-        en: 'Healthcare management app deployed across hospital systems in Singapore and the Philippines — home-based patient care, medical records, Asset Bundle content delivery',
-        vi: 'App quản lý y tế deploy vào hệ thống bệnh viện ở Singapore và Philippines — chăm sóc bệnh nhân tại nhà, hồ sơ bệnh án, content delivery bằng Asset Bundle',
+        en: 'Patient-care app deployed across hospital systems in Singapore and the Philippines; Asset Bundles and REST APIs let modules ship without a full client rebuild',
+        vi: 'App chăm sóc bệnh nhân deploy vào hệ thống bệnh viện ở Singapore và Philippines; Asset Bundle và REST API cho phép ship module mà không cần build lại cả client',
       },
       {
-        en: 'Collaborated directly with partners in Singapore inside a 23-person team',
-        vi: 'Làm việc trực tiếp với đối tác ở Singapore trong team 23 người',
+        en: 'Responsive UGUI for kiosk screens and patients with limited mobility, inside a 23-person product team',
+        vi: 'UGUI responsive cho màn hình kiosk và bệnh nhân hạn chế vận động, trong team sản phẩm 23 người',
       },
     ],
   },
@@ -63,16 +63,20 @@ const EXPERIENCE = [
     date: '02/2023 – 05/2024',
     points: [
       {
-        en: 'Blockchain game with multiple mini games and complex management systems (marketplace, shop, mint, inventory) in a 15-person team',
-        vi: 'Game blockchain gồm nhiều mini game và hệ thống quản lý phức tạp (marketplace, shop, mint, inventory) trong team 15 người',
+        en: 'Mobile game with multiple mini-games and an in-game economy on blockchain, in a 15-person team',
+        vi: 'Game mobile gồm nhiều mini-game và nền kinh tế in-game trên blockchain, trong team 15 người',
       },
       {
-        en: 'Optimized game performance, build size and resolved technical issues on mobile',
-        vi: 'Tối ưu hiệu năng game, build size và xử lý các vấn đề kỹ thuật trên mobile',
+        en: 'Developed mini-games and the systems behind them: marketplace, shop, mint and inventory',
+        vi: 'Phát triển mini-game và các hệ thống phía sau: marketplace, shop, mint và inventory',
       },
       {
-        en: 'Worked with artists, designers and QA to deliver on schedule',
-        vi: 'Phối hợp với artist, designer và QA để deliver đúng tiến độ',
+        en: 'Profiled and optimized runtime performance and build size for mobile, and fixed platform-specific issues',
+        vi: 'Profile và tối ưu hiệu năng runtime, build size cho mobile, xử lý các lỗi riêng từng platform',
+      },
+      {
+        en: 'Worked daily with artists, designers and QA to deliver releases on schedule',
+        vi: 'Phối hợp hằng ngày với artist, designer và QA để release đúng tiến độ',
       },
     ],
   },
@@ -81,25 +85,34 @@ const EXPERIENCE = [
     company: 'Playground., Ltd',
     date: '01/2022 – 02/2023',
     points: [
-      { en: 'NFT games (Monopoly, Bingo) for Android and WebGL', vi: 'Game NFT (Monopoly, Bingo) cho Android và WebGL' },
       {
-        en: 'Gameplay mechanics and features, content creation and maintenance',
-        vi: 'Xây dựng gameplay mechanic và feature, tạo và maintain content',
+        en: 'NFT board games (Monopoly, Bingo) for Android and WebGL. Released: Creature Hunter NFT, Bingo NFT',
+        vi: 'Board game NFT (Monopoly, Bingo) cho Android và WebGL. Đã release: Creature Hunter NFT, Bingo NFT',
       },
-      { en: 'Released: Creature Hunter NFT, Bingo NFT', vi: 'Đã release: Creature Hunter NFT, Bingo NFT' },
+      {
+        en: 'Led a 3-person team: task breakdown, technical decisions and code review',
+        vi: 'Lead team 3 người: chia task, ra quyết định kỹ thuật và review code',
+      },
+      {
+        en: 'Online multiplayer: rooms are created automatically and the match starts once enough players join',
+        vi: 'Multiplayer online: room tự tạo và trận đấu bắt đầu khi đủ người',
+      },
+      {
+        en: 'Delivered final content by the testing deadline, then maintained and extended content after release',
+        vi: 'Deliver content cuối đúng deadline test, sau đó maintain và mở rộng content sau release',
+      },
     ],
   },
   {
     role: 'Software Developer',
-    company: 'Hitachi Vantara VN',
+    company: 'Hitachi Vantara Vietnam',
     date: '09/2020 – 09/2021',
     points: [
-      { en: 'High-performance UI/WPF applications', vi: 'Ứng dụng UI/WPF hiệu năng cao' },
+      { en: 'Developed high-performance desktop applications in C# / WPF', vi: 'Phát triển ứng dụng desktop hiệu năng cao bằng C# / WPF' },
       {
-        en: 'Analyzed customer requirements, defined and implemented solutions',
-        vi: 'Phân tích yêu cầu khách hàng, định nghĩa và triển khai giải pháp',
+        en: 'Analyzed customer requirements, defined and implemented solutions, and wrote test cases',
+        vi: 'Phân tích yêu cầu khách hàng, định nghĩa và triển khai giải pháp, viết test case',
       },
-      { en: 'Wrote test cases', vi: 'Viết test case' },
     ],
   },
 ]
@@ -115,57 +128,18 @@ const ICON = {
 }
 
 const SKILLS = [
-  { name: { en: 'Unity Engine', vi: 'Unity Engine' }, icon: ICON.cube, value: 85, tags: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Multi-platform'] },
-  { name: { en: 'XR / VR', vi: 'XR / VR' }, icon: ICON.vr, value: 65, tags: ['XR Interaction Toolkit', 'OpenXR', 'XR Device Simulator', 'Android/Quest'] },
-  { name: { en: 'C# & Architecture', vi: 'C# & Architecture' }, icon: ICON.code, value: 82, tags: ['OOP', 'SOLID', 'Design Patterns', 'Event-driven'] },
-  { name: { en: 'Motion Tracking', vi: 'Motion Tracking' }, icon: ICON.globe, value: 78, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
-  { name: { en: 'Performance', vi: 'Hiệu năng' }, icon: ICON.bolt, value: 80, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
-  { name: { en: 'Networking', vi: 'Networking' }, icon: ICON.monitor, value: 72, tags: ['REST API', 'WebSocket', 'JSON', 'Firebase'] },
-  { name: { en: 'Tools', vi: 'Công cụ' }, icon: ICON.tool, value: 75, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'Photoshop', 'DOTween', 'Spine'] },
+  { name: { en: 'Unity Engine', vi: 'Unity Engine' }, icon: ICON.cube, tags: ['2D/3D', 'UGUI', 'URP', 'Asset Bundles', 'Editor Tooling'] },
+  { name: { en: 'Platforms', vi: 'Nền tảng' }, icon: ICON.monitor, tags: ['Android (Google Play)', 'iOS (TestFlight)', 'WebGL', 'PC', 'Kiosk'] },
+  { name: { en: 'C# & Architecture', vi: 'C# & Architecture' }, icon: ICON.code, tags: ['OOP', 'SOLID', 'Design Patterns', 'async/await', 'A*'] },
+  { name: { en: 'Performance', vi: 'Hiệu năng' }, icon: ICON.bolt, tags: ['Unity Profiler', 'Draw Calls', 'Memory', 'GC Alloc'] },
+  { name: { en: 'Networking & Data', vi: 'Networking & Data' }, icon: ICON.globe, tags: ['Online Multiplayer', 'WebSocket', 'REST API', 'OAuth', 'Cloud Save', 'JSON'] },
+  { name: { en: 'Motion Tracking', vi: 'Motion Tracking' }, icon: ICON.globe, tags: ['MediaPipe', 'Nuitrack', 'Kinect', 'Pose Estimation'] },
+  { name: { en: 'XR / VR', vi: 'XR / VR' }, icon: ICON.vr, tags: ['XR Interaction Toolkit', 'OpenXR', 'XR Device Simulator', 'Android/Quest'] },
+  { name: { en: 'Tools', vi: 'Công cụ' }, icon: ICON.tool, tags: ['Git', 'Sourcetree', 'Jira', 'Rider', 'Photoshop', 'DOTween', 'Spine'] },
 ]
 
-/* ── Ảnh minh hoạ mỗi project, dựng bằng CSS thuần ─────────────────────────── */
-
-// Paw Voyage có icon thật nên dùng luôn thay vì vẽ lưới giả
-const pawScreen = () => `
-  <img class="pr-icon" src="assets/media/paw-voyage-icon.webp" alt="Icon game Paw Voyage: Pet Sort"
-       width="512" height="512" loading="lazy" decoding="async" />`
-
-const towerScreen = () => `
-  <div class="tower-map">
-    <div class="tower-path" style="left:10px;top:10px;width:110px;height:7px"></div>
-    <div class="tower-path" style="left:113px;top:10px;width:7px;height:110px"></div>
-    <div class="tower-path" style="left:10px;top:113px;width:110px;height:7px"></div>
-    <div class="tower-path" style="left:10px;top:10px;width:7px;height:110px"></div>
-    ${[[28, 28], [88, 28], [28, 88], [88, 88]].map(([l, t]) => `<div class="tower-turret" style="left:${l}px;top:${t}px"></div>`).join('')}
-    <div class="tower-enemy"></div>
-  </div>`
-
-// Khung xương: vẽ khớp + nối xương bằng cách xoay từng thanh
-const poseScreen = (rings = true) => {
-  const J = {
-    head: [60, 20], neck: [60, 40], hip: [60, 82],
-    shL: [40, 46], shR: [80, 46], elL: [28, 68], elR: [92, 68], hdL: [24, 92], hdR: [96, 92],
-    hipL: [48, 84], hipR: [72, 84], knL: [44, 112], knR: [76, 112], ftL: [40, 140], ftR: [80, 140],
-  }
-  const BONES = [
-    ['neck', 'hip'], ['shL', 'shR'], ['neck', 'shL'], ['neck', 'shR'],
-    ['shL', 'elL'], ['elL', 'hdL'], ['shR', 'elR'], ['elR', 'hdR'],
-    ['hip', 'hipL'], ['hip', 'hipR'], ['hipL', 'knL'], ['knL', 'ftL'], ['hipR', 'knR'], ['knR', 'ftR'],
-  ]
-  const bones = BONES.map(([a, b]) => {
-    const [x1, y1] = J[a]; const [x2, y2] = J[b]
-    const len = Math.hypot(x2 - x1, y2 - y1)
-    const deg = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI
-    return `<span class="pose-bone" style="left:${x1}px;top:${y1}px;width:${len}px;transform:rotate(${deg}deg)"></span>`
-  }).join('')
-  const joints = Object.entries(J).map(([k, [x, y]], i) => {
-    const big = k === 'head' ? 'width:18px;height:18px;margin:-9px 0 0 -9px;' : ''
-    return `<span class="pose-joint" style="left:${x}px;top:${y}px;${big}animation-delay:${(i * 0.11).toFixed(2)}s"></span>`
-  }).join('')
-  const ring = rings ? '<span class="pose-ring" style="left:6px;top:-2px;width:108px;height:108px"></span>' : ''
-  return `<div class="pose-fig">${ring}${bones}${joints}</div>`
-}
+/* ── Ảnh minh hoạ cho project KHÔNG có video, dựng bằng CSS thuần ─────────────
+   (project có video thì thẻ dùng luôn poster của video — xem screenHtml) */
 
 const healthScreen = () => `
   <div class="health-ui">
@@ -195,8 +169,6 @@ const WORK_PROJECTS = [
     id: 'rehab',
     title: 'Multi-Game Rehabilitation Platform',
     meta: 'Taggle Pte Ltd · Unity 3D · MediaPipe / Nuitrack / Kinect · 07/2024 – 07/2026',
-    screenClass: 'sc-pose',
-    screen: poseScreen,
     tags: [{ t: 'Motion Tracking' }, { t: { en: 'Healthcare Kiosk', vi: 'Healthcare Kiosk' }, sec: true }, { t: 'PC / Mobile', sec: true }],
     sub: { en: 'Unity Developer · Taggle Pte Ltd · 07/2024 – 07/2026', vi: 'Unity Developer · Taggle Pte Ltd · 07/2024 – 07/2026' },
     media: { video: 'assets/media/rehab-platform-demo.mp4', poster: 'assets/media/rehab-platform-poster.jpg', wide: true },
@@ -215,7 +187,7 @@ const WORK_PROJECTS = [
       </ul>
       <h4>Performance &amp; UX</h4>
       <ul>
-        <li>Unity Profiler to find bottlenecks; texture compression to cut draw calls and memory footprint</li>
+        <li>Unity Profiler to find bottlenecks; texture compression to cut memory footprint</li>
         <li>Async loading and efficient resource management for faster start-up</li>
         <li>Event-driven logic and cached components to minimise GC alloc — kiosks run for long stretches without restarts</li>
         <li>Responsive UGUI built for kiosk screens and patients with limited mobility</li>
@@ -241,7 +213,7 @@ const WORK_PROJECTS = [
       </ul>
       <h4>Hiệu năng &amp; UX</h4>
       <ul>
-        <li>Dùng Unity Profiler để tìm bottleneck; nén texture để giảm draw call và memory footprint</li>
+        <li>Dùng Unity Profiler để tìm bottleneck; nén texture để giảm memory footprint</li>
         <li>Async loading và quản lý resource hiệu quả để start-up nhanh hơn</li>
         <li>Logic event-driven và cache component để giảm GC alloc — kiosk chạy liên tục thời gian dài không restart</li>
         <li>UGUI responsive xây riêng cho màn hình kiosk và bệnh nhân hạn chế vận động</li>
@@ -355,19 +327,19 @@ const WORK_PROJECTS = [
   {
     id: 'nft',
     title: 'Playground NFT Games',
-    meta: 'Playground., Ltd · Unity 2D · Android / WebGL · Firebase · 01/2022 – 02/2023',
+    meta: 'Playground., Ltd · Unity 2D · Android / WebGL · 01/2022 – 02/2023',
     screenClass: 'sc-nft',
     screen: nftScreen,
-    tags: [{ t: { en: 'NFT Board Game', vi: 'NFT Board Game' } }, { t: 'Android / WebGL', sec: true }, { t: 'Firebase', sec: true }],
+    tags: [{ t: { en: 'NFT Board Game', vi: 'NFT Board Game' } }, { t: { en: 'Multiplayer', vi: 'Multiplayer' }, sec: true }, { t: 'Android / WebGL', sec: true }],
     sub: { en: 'Unity Developer · Playground., Ltd · 01/2022 – 02/2023', vi: 'Unity Developer · Playground., Ltd · 01/2022 – 02/2023' },
     body: {
       en: `
       <p>NFT board games — Monopoly and Bingo — shipped for Android and WebGL. Released titles: Creature Hunter NFT and Bingo NFT.</p>
       <h4>What I built</h4>
       <ul>
-        <li>Player controls and game mechanics in C# for NFT-based board games</li>
-        <li>2D assets and Spine animations integrated into the UI/UX</li>
-        <li>Client-server socket API for real-time multiplayer and blockchain transactions</li>
+        <li>Led a 3-person team: task breakdown, technical decisions and code review</li>
+        <li>Online multiplayer over a client-server socket API: rooms are created automatically and the match starts once enough players join</li>
+        <li>Player controls and game mechanics in C#; 2D assets and Spine animations integrated into the UI/UX</li>
         <li>Maintained and extended content creation; delivered final content by the testing deadline</li>
       </ul>
     `,
@@ -375,14 +347,14 @@ const WORK_PROJECTS = [
       <p>Game board NFT — Monopoly và Bingo — ship cho Android và WebGL. Đã release: Creature Hunter NFT và Bingo NFT.</p>
       <h4>Những gì đã làm</h4>
       <ul>
-        <li>Player control và gameplay mechanic bằng C# cho board game NFT</li>
-        <li>Tích hợp asset 2D và Spine animation vào UI/UX</li>
-        <li>Client-server socket API cho multiplayer real-time và giao dịch blockchain</li>
+        <li>Lead team 3 người: chia task, ra quyết định kỹ thuật và review code</li>
+        <li>Multiplayer online qua client-server socket API: room tự tạo và trận đấu bắt đầu khi đủ người</li>
+        <li>Player control và gameplay mechanic bằng C#; tích hợp asset 2D và Spine animation vào UI/UX</li>
         <li>Maintain và mở rộng content creation; deliver content cuối đúng deadline test</li>
       </ul>
     `,
     },
-    tech: ['Unity 2D', 'Android', 'WebGL', 'Firebase SDK', 'Blockchain', 'REST / WebSocket'],
+    tech: ['Unity 2D', 'Android', 'WebGL', 'Blockchain', 'REST / WebSocket', 'Spine'],
   },
 ]
 
@@ -393,9 +365,7 @@ const PERSONAL_PROJECTS = [
     id: 'vr',
     title: 'VR Shooting Range',
     meta: 'Solo · Unity 2022.3 (URP 14) · XR Interaction Toolkit / OpenXR · 08/2026 – 09/2026',
-    screenClass: 'sc-vr',
-    screen: () => '',
-    tags: [{ t: { en: 'VR / XR', vi: 'VR / XR' } }, { t: { en: 'Zero to Demo in 3 Days', vi: 'Zero đến Demo trong 3 ngày' }, sec: true }, { t: 'Zero-Alloc', sec: true }],
+    tags: [{ t: { en: 'VR / XR', vi: 'VR / XR' } }, { t: { en: 'Zero to Demo in 3 Days', vi: 'Zero đến Demo trong 3 ngày' }, sec: true }, { t: '0 B / shot', sec: true }],
     sub: { en: 'Solo Developer · Unity 2022.3 (URP 14), XR Interaction Toolkit 2.6.5, OpenXR · 08/2026 – 09/2026', vi: 'Solo Developer · Unity 2022.3 (URP 14), XR Interaction Toolkit 2.6.5, OpenXR · 08/2026 – 09/2026' },
     link: { label: { en: 'View on GitHub', vi: 'Xem trên GitHub' }, href: 'https://github.com/Bao1106/DemoVR' },
     media: { video: 'assets/media/vr-shooting-demo.mp4', poster: 'assets/media/vr-shooting-poster.jpg', wide: true },
@@ -470,8 +440,7 @@ const PERSONAL_PROJECTS = [
     title: 'Paw Voyage: Pet Sort',
     meta: 'Solo · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present',
     screenClass: 'sc-paw',
-    screen: pawScreen,
-    tags: [{ t: { en: 'Mobile Puzzle', vi: 'Mobile Puzzle' } }, { t: { en: '50 Levels', vi: '50 Level' }, sec: true }, { t: 'Google Play', sec: true }],
+    tags: [{ t: { en: 'Mobile Puzzle', vi: 'Mobile Puzzle' } }, { t: { en: '100 Levels', vi: '100 Level' }, sec: true }, { t: 'Google Play', sec: true }],
     sub: {
       en: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Android closed testing on Google Play',
       vi: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Đang closed testing trên Google Play',
@@ -480,86 +449,74 @@ const PERSONAL_PROJECTS = [
     media: { video: 'assets/media/paw-voyage-demo.mp4', poster: 'assets/media/paw-voyage-poster.jpg' },
     body: {
       en: `
-      <p>A sorting puzzle (Bus-Sort style) designed and shipped solo — from core loop to meta progression.</p>
-      <h4>End-to-end game ownership</h4>
+      <p>A sorting puzzle (Bus-Sort style) designed and built solo, from core loop to meta progression. The video plays one full session: sign-in and cloud backup, a purchase in the shop, then level 67 with hungry and thirsty pets, the Shuffle and Remove boosters, and a 3-star win.</p>
+      <h4>Game &amp; meta</h4>
       <ul>
-        <li>50 levels, a level map with stars and chest rewards, boosters, onboarding, win/lose flow, UI, VFX and audio</li>
+        <li>100 levels across 2 zones, a level map with stars and chest rewards, boosters, pet hunger and thirst with food and water items, a shop and bag, onboarding, UI, VFX and audio</li>
       </ul>
-      <h4>Difficulty curve &amp; pacing</h4>
+      <h4>Deterministic level pipeline</h4>
       <ul>
-        <li>Owned progression across all 50 levels — when each new idea is introduced and how much pressure the board applies</li>
-        <li>Validated with data instead of gut feel: every level is auto-playtested and only ships if a careful player clears it at least 95% of the time</li>
+        <li>Each level is generated from its index; an offline solver searches placement seeds</li>
+        <li>A simulator gates every level from 16 on at a ≥95% clear rate for a careful player, so a new level takes minutes and can never ship unsolvable or soft-locked</li>
       </ul>
-      <h4>Level design tooling</h4>
+      <h4>Architecture &amp; testing</h4>
       <ul>
-        <li>Authoring tool a designer actually works in: set a handful of tuning values and it generates, validates and rates the board</li>
-        <li>New content takes minutes and can never ship unsolvable or soft-locked</li>
+        <li>Layered assemblies (Model / View / Controller) with a service registry</li>
+        <li>A headless EditMode simulation plays all 100 levels on every change; scripted bots record playthrough videos like the one above</li>
       </ul>
-      <h4>Automated playtesting</h4>
+      <h4>Account &amp; cloud save</h4>
       <ul>
-        <li>A bot plays the game and records video, so any balance change is verified across the whole game before it reaches players</li>
-        <li>36/36 levels cleared, no stalls</li>
+        <li>Google and Apple sign-in (web OAuth) with whole-save cloud sync over a REST backend, offline handling and a conflict-choice screen</li>
       </ul>
-      <h4>Game feel &amp; art integration</h4>
+      <h4>Game feel &amp; release</h4>
       <ul>
-        <li>Stylized water the boats sit and roll on, pet hops and reactions, boarding/booster effects that stay readable on a small screen</li>
-      </ul>
-      <h4>Release pipeline</h4>
-      <ul>
-        <li>Handled the full Android release path solo — signed build, Play Console setup, store listing, data safety declaration, and closed testing on real devices</li>
+        <li>Stylized water the boats sit and roll on, pet hops and reactions, boarding and booster effects readable on a small screen</li>
+        <li>Full Android release path solo: signed build, Play Console setup, store listing, data safety declaration and closed testing on real devices</li>
       </ul>
       <div class="metric-row">
-        <div class="metric-box"><div class="num">50</div><div class="label">levels</div></div>
-        <div class="metric-box"><div class="num">95%</div><div class="label">clear rate</div></div>
-        <div class="metric-box"><div class="num">36/36</div><div class="label">bot pass</div></div>
+        <div class="metric-box"><div class="num">100</div><div class="label">levels</div></div>
+        <div class="metric-box"><div class="num">≥95%</div><div class="label">clear-rate gate</div></div>
+        <div class="metric-box"><div class="num">100/100</div><div class="label">levels simulated per change</div></div>
       </div>
-      <div class="hl-box"><p><strong>Key takeaway:</strong> data-driven balance plus automated playtesting means shipping without relying on gut feel — and a design log that records why every call was made.</p></div>
     `,
       vi: `
-      <p>Puzzle sắp xếp (kiểu Bus-Sort) tự thiết kế và ship một mình — từ core loop đến meta progression.</p>
-      <h4>Own toàn bộ game end-to-end</h4>
+      <p>Puzzle sắp xếp (kiểu Bus-Sort) tự thiết kế và làm một mình, từ core loop đến meta progression. Video là một phiên chơi trọn vẹn: đăng nhập và backup lên cloud, mua đồ trong shop, rồi level 67 với pet đói và khát, booster Shuffle và Remove, và thắng 3 sao.</p>
+      <h4>Game &amp; meta</h4>
       <ul>
-        <li>50 level, level map kèm sao và chest reward, booster, onboarding, win/lose flow, UI, VFX và audio</li>
+        <li>100 level chia 2 zone, level map kèm sao và chest reward, booster, pet đói và khát với đồ ăn và nước, shop và túi đồ, onboarding, UI, VFX và audio</li>
       </ul>
-      <h4>Difficulty curve &amp; pacing</h4>
+      <h4>Pipeline level deterministic</h4>
       <ul>
-        <li>Own progression xuyên suốt 50 level — khi nào giới thiệu ý tưởng mới và board tạo áp lực bao nhiêu</li>
-        <li>Validate bằng data thay vì cảm tính: mọi level đều auto-playtest và chỉ ship nếu người chơi cẩn thận clear được ít nhất 95% số lần</li>
+        <li>Mỗi level được sinh từ chỉ số của nó; một solver chạy offline tìm seed xếp bàn</li>
+        <li>Simulator chặn mọi level từ 16 trở đi ở ngưỡng clear ≥95% với người chơi cẩn thận, nên level mới ra đời trong vài phút và không bao giờ ship được bàn unsolvable hay soft-locked</li>
       </ul>
-      <h4>Level design tooling</h4>
+      <h4>Kiến trúc &amp; test</h4>
       <ul>
-        <li>Authoring tool designer dùng thật: chỉnh vài tuning value là tool tự generate, validate và chấm điểm board</li>
-        <li>Content mới ra đời trong vài phút và không bao giờ ship được board unsolvable hay soft-locked</li>
+        <li>Assembly chia lớp (Model / View / Controller) với service registry</li>
+        <li>Simulation EditMode chạy headless qua cả 100 level sau mỗi thay đổi; bot có kịch bản quay video playthrough như video ở trên</li>
       </ul>
-      <h4>Automated playtesting</h4>
+      <h4>Tài khoản &amp; cloud save</h4>
       <ul>
-        <li>Bot tự chơi game và ghi video, nên mọi thay đổi balance đều được verify xuyên suốt game trước khi tới tay người chơi</li>
-        <li>Clear 36/36 level, không stall</li>
+        <li>Đăng nhập Google và Apple (web OAuth), đồng bộ cả save lên cloud qua REST backend, xử lý offline và màn chọn khi xung đột</li>
       </ul>
-      <h4>Game feel &amp; art integration</h4>
+      <h4>Game feel &amp; release</h4>
       <ul>
-        <li>Nước stylized để thuyền nổi và lắc, pet nhảy và phản ứng, hiệu ứng boarding/booster vẫn rõ trên màn hình nhỏ</li>
-      </ul>
-      <h4>Release pipeline</h4>
-      <ul>
-        <li>Tự lo trọn con đường release Android — signed build, setup Play Console, store listing, khai báo data safety, và closed testing trên thiết bị thật</li>
+        <li>Nước stylized để thuyền nổi và lắc, pet nhảy và phản ứng, hiệu ứng boarding và booster vẫn rõ trên màn hình nhỏ</li>
+        <li>Tự lo trọn đường release Android: signed build, setup Play Console, store listing, khai báo data safety và closed testing trên thiết bị thật</li>
       </ul>
       <div class="metric-row">
-        <div class="metric-box"><div class="num">50</div><div class="label">level</div></div>
-        <div class="metric-box"><div class="num">95%</div><div class="label">clear rate</div></div>
-        <div class="metric-box"><div class="num">36/36</div><div class="label">bot pass</div></div>
+        <div class="metric-box"><div class="num">100</div><div class="label">level</div></div>
+        <div class="metric-box"><div class="num">≥95%</div><div class="label">ngưỡng clear</div></div>
+        <div class="metric-box"><div class="num">100/100</div><div class="label">level simulate mỗi thay đổi</div></div>
       </div>
-      <div class="hl-box"><p><strong>Điều rút ra:</strong> balance dựa trên data cộng automated playtesting nghĩa là ship được mà không cần dựa vào cảm tính — kèm một design log ghi lại lý do cho từng quyết định.</p></div>
     `,
     },
-    tech: ['Unity 6', 'URP', 'C#', 'Editor Tooling', 'Automated Playtest', 'Level Design'],
+    tech: ['Unity 6', 'URP', 'C#', 'Level Solver', 'Automated Playtest', 'OAuth', 'Cloud Save'],
   },
   {
     id: 'tower',
     title: 'Tower Defense (3D Sci-Fi)',
     meta: 'Solo · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026',
-    screenClass: 'sc-tower',
-    screen: towerScreen,
     tags: [{ t: { en: '3D Sci-Fi', vi: '3D Sci-Fi' } }, { t: 'MVC + Event Bus', sec: true }, { t: { en: 'Procedural', vi: 'Procedural' }, sec: true }],
     sub: { en: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026', vi: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026' },
     link: { label: { en: 'View on GitHub', vi: 'Xem trên GitHub' }, href: 'https://github.com/Bao1106/TowerDefense/tree/develop' },
@@ -572,7 +529,7 @@ const PERSONAL_PROJECTS = [
         <li><strong>MVC + static Event Bus</strong> for cross-system communication</li>
         <li><strong>Strategy:</strong> operator behaviours and gate assignment across 4 modes</li>
         <li><strong>Flyweight:</strong> shared unit configs via ScriptableObject</li>
-        <li><strong>Object Pool:</strong> entities, VFX and SFX reused for a zero-allocation runtime</li>
+        <li><strong>Object Pool:</strong> entities, VFX and SFX reused instead of instantiated</li>
         <li><strong>State Machine:</strong> Arknights-style 2-phase deploy — drag-to-place, then direction select</li>
       </ul>
       <h4>Graphics &amp; rendering (URP)</h4>
@@ -590,12 +547,12 @@ const PERSONAL_PROJECTS = [
       <ul>
         <li>Build size 255 → 102 MB via shader variant stripping and ASTC 6x6 compression</li>
         <li>Draw calls 2792 → 887 batches with Static Batching</li>
-        <li>Zero-alloc runtime: Object Pooling plus an async wave loop (async/await + CancellationToken + PauseAwareDelay)</li>
+        <li>Pooling plus an async wave loop (async/await + CancellationToken + PauseAwareDelay) keep allocation out of the frame loop</li>
       </ul>
       <div class="metric-row">
         <div class="metric-box"><div class="num">−60%</div><div class="label">build size</div></div>
         <div class="metric-box"><div class="num">−68%</div><div class="label">draw calls</div></div>
-        <div class="metric-box"><div class="num">0</div><div class="label">GC alloc</div></div>
+        <div class="metric-box"><div class="num">6</div><div class="label">map layouts</div></div>
       </div>
     `,
       vi: `
@@ -605,7 +562,7 @@ const PERSONAL_PROJECTS = [
         <li><strong>MVC + static Event Bus</strong> cho giao tiếp giữa các hệ thống</li>
         <li><strong>Strategy:</strong> hành vi operator và gán gate trên 4 mode</li>
         <li><strong>Flyweight:</strong> config unit dùng chung qua ScriptableObject</li>
-        <li><strong>Object Pool:</strong> entity, VFX và SFX tái dùng cho runtime zero-allocation</li>
+        <li><strong>Object Pool:</strong> entity, VFX và SFX tái dùng thay vì instantiate mới</li>
         <li><strong>State Machine:</strong> deploy 2 pha kiểu Arknights — drag-to-place rồi chọn hướng</li>
       </ul>
       <h4>Graphics &amp; rendering (URP)</h4>
@@ -623,12 +580,12 @@ const PERSONAL_PROJECTS = [
       <ul>
         <li>Build size 255 → 102 MB nhờ strip shader variant và nén ASTC 6x6</li>
         <li>Draw call 2792 → 887 batch nhờ Static Batching</li>
-        <li>Runtime zero-alloc: Object Pooling cộng async wave loop (async/await + CancellationToken + PauseAwareDelay)</li>
+        <li>Pooling cộng async wave loop (async/await + CancellationToken + PauseAwareDelay) giữ allocation ngoài frame loop</li>
       </ul>
       <div class="metric-row">
         <div class="metric-box"><div class="num">−60%</div><div class="label">build size</div></div>
         <div class="metric-box"><div class="num">−68%</div><div class="label">draw calls</div></div>
-        <div class="metric-box"><div class="num">0</div><div class="label">GC alloc</div></div>
+        <div class="metric-box"><div class="num">6</div><div class="label">layout map</div></div>
       </div>
     `,
     },
@@ -638,8 +595,6 @@ const PERSONAL_PROJECTS = [
     id: 'pose',
     title: 'Motion Tracking & Pose Estimation',
     meta: 'Demo · MediaPipe · Real-time skeletal analysis',
-    screenClass: 'sc-pose',
-    screen: () => poseScreen(false),
     tags: [{ t: 'MediaPipe' }, { t: { en: 'Balance', vi: 'Balance' }, sec: true }, { t: { en: 'Reach', vi: 'Reach' }, sec: true }],
     sub: { en: 'Personal demo · MediaPipe · Unity', vi: 'Demo cá nhân · MediaPipe · Unity' },
     media: { video: 'assets/media/motion-tracking-demo.mp4', poster: 'assets/media/motion-tracking-poster.jpg', wide: true },
@@ -671,34 +626,34 @@ const PERSONAL_PROJECTS = [
 
 const I18N = {
   heroBadge: { en: 'Available for opportunities', vi: 'Đang mở cho cơ hội mới' },
-  heroRole: { en: 'Unity Developer · 4+ Years Experience', vi: 'Unity Developer · 4+ năm kinh nghiệm' },
+  heroRole: { en: 'Mobile Game Developer (Unity) · 4+ Years', vi: 'Mobile Game Developer (Unity) · 4+ năm' },
   heroTagline: {
-    en: 'Shipping mobile games &amp; interactive 3D apps. Specialized in motion tracking, performance optimization, and end-to-end game development.',
-    vi: 'Phát triển game mobile &amp; ứng dụng 3D tương tác. Chuyên về motion tracking, tối ưu hiệu năng và phát triển game end-to-end.',
+    en: 'Shipping mobile games with Unity, from core loop to store release. Every project below has a gameplay video.',
+    vi: 'Làm game mobile bằng Unity, từ core loop đến lúc lên store. Mỗi project bên dưới đều có video gameplay.',
   },
   versionSwitch: { en: '🎮 View the 3D build (Unity WebGL) →', vi: '🎮 Xem bản 3D (Unity WebGL) →' },
   secAbout: { en: 'About', vi: 'Giới thiệu' },
   secExperience: { en: 'Experience', vi: 'Kinh nghiệm' },
   secSkills: { en: 'Skills', vi: 'Kỹ năng' },
-  secWork: { en: 'Work Projects', vi: 'Dự án đi làm' },
-  secPersonal: { en: 'Personal Projects', vi: 'Dự án cá nhân' },
+  secVideos: { en: 'Gameplay Videos', vi: 'Video gameplay' },
+  secMore: { en: 'More Projects', vi: 'Dự án khác' },
   aboutWhatTitle: { en: 'What I do', vi: 'Tôi làm gì' },
   aboutWhatBody: {
-    en: 'Unity Developer with 4+ years shipping mobile games and interactive 3D applications. Specialized in performance optimization, system architecture, and real-time interactive systems. Repeatedly moved into unfamiliar technology and shipped with it — skeletal tracking (MediaPipe, Nuitrack, Kinect) for clinical rehabilitation, blockchain game systems, and most recently VR: a self-directed XR Interaction Toolkit / OpenXR project taken from zero to a working, profiled demo in 3 days. Owning features end-to-end from design through release, working with teams of up to 23 people and partners in Singapore.',
-    vi: 'Unity Developer với 4+ năm ship game mobile và ứng dụng 3D tương tác. Chuyên về tối ưu hiệu năng, kiến trúc hệ thống, và hệ thống tương tác real-time. Liên tục nhảy vào công nghệ lạ và vẫn ship được — skeletal tracking (MediaPipe, Nuitrack, Kinect) cho rehabilitation lâm sàng, hệ thống game blockchain, và gần nhất là VR: một project XR Interaction Toolkit / OpenXR tự học, đi từ zero đến một demo chạy được, đã profile trong 3 ngày. Own feature end-to-end từ design đến release, làm việc với team lên tới 23 người và đối tác ở Singapore.',
+    en: 'Unity game developer with 4+ years shipping mobile games and 5+ years of professional C#. Builds and releases for Android (Google Play) and iOS (TestFlight), as well as WebGL, PC and kiosk. Solo-built a Bus-Sort puzzle from core loop to Google Play closed testing: 100 levels, an offline level solver and bake pipeline that keeps every level solvable, bot playtesting, and Google/Apple sign-in with cloud save. Built online multiplayer with automatic rooms and matchmaking for NFT board games. Picks up new technology fast: skeletal tracking for clinical rehab games, blockchain game systems, VR.',
+    vi: 'Unity game developer với 4+ năm ship game mobile và 5+ năm làm C# chuyên nghiệp. Build và release cho Android (Google Play) và iOS (TestFlight), cùng WebGL, PC và kiosk. Tự làm một mình một game puzzle Bus-Sort từ core loop đến closed testing trên Google Play: 100 level, solver và pipeline bake level chạy offline đảm bảo level nào cũng giải được, bot tự playtest, đăng nhập Google/Apple kèm cloud save. Làm multiplayer online với room tự tạo và ghép trận cho board game NFT. Nắm công nghệ mới nhanh: skeletal tracking cho game phục hồi chức năng, hệ thống game blockchain, VR.',
   },
   aboutCoreTitle: { en: 'Core strengths', vi: 'Thế mạnh' },
   aboutCoreList: [
-    { en: 'End-to-end game development (core loop → meta)', vi: 'Phát triển game end-to-end (core loop → meta)' },
-    { en: 'Real-time skeletal tracking &amp; pose estimation', vi: 'Skeletal tracking &amp; pose estimation real-time' },
-    { en: 'VR/XR interaction — XR Interaction Toolkit, OpenXR', vi: 'Tương tác VR/XR — XR Interaction Toolkit, OpenXR' },
+    { en: 'End-to-end mobile game development (core loop → meta → store)', vi: 'Phát triển game mobile end-to-end (core loop → meta → store)' },
+    { en: 'Level tooling: solver, bake pipeline, automated playtest', vi: 'Tooling level: solver, pipeline bake, playtest tự động' },
+    { en: 'Clean architecture: SOLID, patterns, layered assemblies', vi: 'Kiến trúc sạch: SOLID, design pattern, assembly chia lớp' },
     { en: 'Performance: draw calls, memory, GC alloc', vi: 'Hiệu năng: draw calls, memory, GC alloc' },
-    { en: 'Clean architecture: SOLID, patterns, event-driven', vi: 'Kiến trúc sạch: SOLID, design pattern, event-driven' },
-    { en: 'Cross-functional &amp; international collaboration', vi: 'Phối hợp cross-functional &amp; làm việc quốc tế' },
+    { en: 'Online multiplayer, REST, OAuth sign-in, cloud save', vi: 'Multiplayer online, REST, đăng nhập OAuth, cloud save' },
+    { en: 'Real-time skeletal tracking &amp; VR interaction', vi: 'Skeletal tracking real-time &amp; tương tác VR' },
   ],
   aboutEduTitle: { en: 'Education', vi: 'Học vấn' },
   aboutEduMajor: { en: 'Communications and Computer Networks', vi: 'Truyền thông và Mạng máy tính' },
-  aboutEduSchool: { en: 'University of Information Technology — HCM', vi: 'Đại học Công nghệ Thông tin (UIT) — TP.HCM' },
+  aboutEduSchool: { en: 'Bachelor\'s Degree · University of Information Technology — HCM', vi: 'Cử nhân · Đại học Công nghệ Thông tin (UIT) — TP.HCM' },
   aboutLangTitle: { en: 'Languages &amp; ways of working', vi: 'Ngôn ngữ &amp; cách làm việc' },
   aboutLangList: [
     { en: 'Fluent English for day-to-day team collaboration', vi: 'Tiếng Anh thành thạo, giao tiếp hằng ngày với team quốc tế' },
@@ -822,9 +777,7 @@ function renderSkills() {
     <div class="sk-item">
       <div class="sk-head">
         <span class="sk-name">${svg(s.icon, 16)}${t(s.name)}</span>
-        <span class="sk-val">${s.value}%</span>
       </div>
-      <div class="sk-bar-bg"><div class="sk-bar-fill" data-width="${s.value}"></div></div>
       <div class="sk-tags">${s.tags.map((tag) => `<span class="sk-tag">${tag}</span>`).join('')}</div>
     </div>`
   ).join('')
@@ -833,11 +786,20 @@ function renderSkills() {
 // Project cards
 const ALL_PROJECTS = [...WORK_PROJECTS, ...PERSONAL_PROJECTS]
 
+// Portfolio chủ yếu để xem gameplay: project có video lên đầu, theo thứ tự này
+const VIDEO_ORDER = ['paw', 'tower', 'vr', 'rehab', 'pose']
+
+// Có video thì thẻ hiện khung hình thật (poster) thay cho hình vẽ CSS
+const screenHtml = (p) =>
+  p.media
+    ? `<img class="pr-thumb${p.media.wide ? '' : ' tall'}" src="${p.media.poster}" alt="" loading="lazy" decoding="async" />`
+    : p.screen()
+
 const cardHtml = (p) => `
   <button class="pr-card" type="button" data-project="${p.id}" aria-label="${t(I18N.cardViewDetails)} ${p.title}">
     <div class="pr-inner">
-      <div class="pr-screen ${p.screenClass}">
-        ${p.screen()}
+      <div class="pr-screen ${p.screenClass || ''}">
+        ${screenHtml(p)}
         <div class="pr-overlay"><div class="pr-play">${svg('<path d="M8 5v14l11-7z"/>', 20).replace('fill="none"', 'fill="white"')}</div></div>
       </div>
       <div class="pr-info">
@@ -849,8 +811,8 @@ const cardHtml = (p) => `
   </button>`
 
 function renderProjectCards() {
-  el('workProjects').innerHTML = WORK_PROJECTS.map(cardHtml).join('')
-  el('personalProjects').innerHTML = PERSONAL_PROJECTS.map(cardHtml).join('')
+  el('videoProjects').innerHTML = VIDEO_ORDER.map((id) => ALL_PROJECTS.find((p) => p.id === id)).map(cardHtml).join('')
+  el('moreProjects').innerHTML = ALL_PROJECTS.filter((p) => !p.media).map(cardHtml).join('')
 }
 
 /* ── Hiệu ứng nghiêng thẻ theo chuột ──────────────────────────────────────── */
@@ -881,7 +843,7 @@ function openModal(id, { skipPush = false } = {}) {
   lastFocus = document.activeElement
   el('mTitle').textContent = p.title
   el('mSub').textContent = t(p.sub)
-  // preload="none": video 10 MB chỉ tải khi người xem thật sự bấm play
+  // preload="none": video chỉ tải khi mở modal của nó (cuối hàm tự play), không tải lúc vào trang
   const video = p.media
     ? `<video class="modal-video${p.media.wide ? ' wide' : ''}" controls playsinline preload="none" poster="${p.media.poster}">
          <source src="${p.media.video}" type="video/mp4" />
@@ -904,8 +866,19 @@ function openModal(id, { skipPush = false } = {}) {
           : '') +
     `<a href="mailto:${PROFILE.email}?subject=${encodeURIComponent(p.title)}" class="btn pri">${t(I18N.askAbout)}</a>`
   overlay.classList.add('active')
+  // #mBody là node dùng lại giữa các lần mở, giữ vị trí cuộn của project trước — đưa về đầu
+  // (sau khi overlay đã hiện, lúc display:none thì set scrollTop không ăn) để thấy video
+  el('mBody').scrollTop = 0
   document.body.style.overflow = 'hidden'
   el('mClose').focus()
+
+  // Mở thẻ là phát video luôn. Bấm thẻ là user gesture nên phát có tiếng được; vào thẳng
+  // bằng link #/p/... (không có gesture) thì trình duyệt chặn, lùi về phát không tiếng.
+  const v = el('mBody').querySelector('video')
+  v?.play().catch(() => {
+    v.muted = true
+    v.play().catch(() => {})
+  })
 }
 
 function closeModal({ skipPush = false } = {}) {
@@ -1059,7 +1032,6 @@ const countUp = (node) => {
 
 const activate = (node) => {
   node.classList.add('visible')
-  node.querySelectorAll('.sk-bar-fill').forEach((bar) => { bar.style.width = bar.dataset.width + '%' })
   node.querySelectorAll('.stat-num').forEach(countUp)
 }
 
