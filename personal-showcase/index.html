@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Showcase — Vo Quoc Bao</title>
+  <meta name="description" content="Two personal Unity games, each told as problem, cause, fix and result: a tower defense and Paw Voyage, a bus-sort puzzle." />
+  <meta property="og:type" content="video.other" />
+  <meta property="og:url" content="https://bao1106.github.io/Portfolio/personal-showcase/" />
+  <meta property="og:title" content="Personal Showcase — Vo Quoc Bao" />
+  <meta property="og:description" content="Two personal Unity games, each told as problem, cause, fix and result." />
+  <meta property="og:image" content="https://bao1106.github.io/Portfolio/assets/media/personal-showcase-poster.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🎮</text></svg>" />
+  <link rel="stylesheet" href="../assets/style.css?v=5" />
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light')
+    } catch (e) {}
+  </script>
+  <style>
+    .sc-back { display: inline-block; margin-top: 28px; font-size: 13px; color: var(--accent); text-decoration: none; }
+    .sc-back:hover { text-decoration: underline; }
+    .sc-head { margin: 24px 0 20px; }
+    .sc-head h1 { font-size: clamp(26px, 5vw, 36px); margin: 0 0 8px; color: var(--text-primary); }
+    .sc-head p { margin: 0; color: var(--text-secondary); line-height: 1.6; }
+    .sc-video { width: 100%; aspect-ratio: 16 / 9; display: block; background: #000; border-radius: 10px; border: 1px solid var(--accent-border); }
+    .sc-chapters { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 16px; }
+    .sc-chapters button {
+      width: 100%; display: flex; gap: 12px; align-items: baseline; text-align: left;
+      background: none; border: 0; padding: 6px 8px; border-radius: 6px; cursor: pointer;
+      color: var(--text-secondary); font: inherit; font-size: 14px;
+    }
+    .sc-chapters button:hover { background: var(--accent-dim); color: var(--text-primary); }
+    .sc-chapters time { color: var(--accent); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+    .sc-chapters .game { color: var(--text-tertiary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; padding: 14px 8px 2px; }
+    .sc-credits { color: var(--text-tertiary); font-size: 13px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<div class="pref-bar">
+  <button type="button" id="themeToggle" class="pref-btn" aria-label="Switch to light mode" aria-pressed="false">🌙</button>
+</div>
+
+<div class="container">
+  <a class="sc-back" href="../">← Vo Quoc Bao · Portfolio</a>
+
+  <header class="sc-head">
+    <h1>Personal Showcase</h1>
+    <p>Two personal Unity games, each told as problem → cause → fix → result. 6:52, English voice with subtitles.</p>
+  </header>
+
+  <video id="showcase" class="sc-video" controls playsinline preload="metadata"
+         poster="../assets/media/personal-showcase-poster.jpg">
+    <source src="../assets/media/personal-showcase.mp4" type="video/mp4" />
+    Your browser can't play this video — <a href="../assets/media/personal-showcase.mp4">download it</a>.
+  </video>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2 class="sec-title">Chapters</h2>
+      <div class="sec-line"></div>
+    </div>
+    <ul class="sc-chapters" id="chapters">
+      <li><button data-t="0"><time>0:00</time>Intro</button></li>
+      <li class="game">Tower Defense · Unity 2022 URP · Android</li>
+      <li><button data-t="20"><time>0:20</time>The game</button></li>
+      <li><button data-t="45"><time>0:45</time>Architecture</button></li>
+      <li><button data-t="70"><time>1:10</time>Problem 1: memorized maps → procedural maze</button></li>
+      <li><button data-t="104"><time>1:44</time>Problem 2: no hard choice → stress system</button></li>
+      <li><button data-t="155"><time>2:35</time>Problem 3: placement on a real phone</button></li>
+      <li><button data-t="188"><time>3:08</time>Problem 4: APK from 255 to 102 MB</button></li>
+      <li><button data-t="217"><time>3:37</time>Takeaway</button></li>
+      <li class="game">Paw Voyage: Pet Sort · Unity 6 URP</li>
+      <li><button data-t="228"><time>3:48</time>The game</button></li>
+      <li><button data-t="247"><time>4:07</time>Architecture</button></li>
+      <li><button data-t="270"><time>4:30</time>Problem 1: a hundred solvable, fair levels</button></li>
+      <li><button data-t="319"><time>5:19</time>Problem 2: rebuilding the water for Unity 6</button></li>
+      <li><button data-t="359"><time>5:59</time>Problem 3: a bot wrote to the real save</button></li>
+      <li><button data-t="391"><time>6:31</time>Takeaway</button></li>
+      <li><button data-t="400"><time>6:40</time>Closing</button></li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <p class="sc-credits">
+      Personal projects. Paw Voyage is published through a friend's publisher account.<br />
+      Art: Synty Studios and Sidekick. The stress mechanic is inspired by Darkest Dungeon.
+    </p>
+  </section>
+</div>
+
+<script>
+  const video = document.getElementById('showcase')
+  document.getElementById('chapters').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-t]')
+    if (!b) return
+    video.currentTime = Number(b.dataset.t)
+    video.play()
+    video.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  })
+
+  const btn = document.getElementById('themeToggle')
+  const apply = (theme) => {
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light')
+    else document.documentElement.removeAttribute('data-theme')
+    btn.textContent = theme === 'light' ? '☀️' : '🌙'
+    btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode')
+    btn.setAttribute('aria-pressed', String(theme === 'light'))
+  }
+  apply(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark')
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
+    try { localStorage.setItem('theme', next) } catch (e) {}
+    apply(next)
+  })
+</script>
+</body>
+</html>

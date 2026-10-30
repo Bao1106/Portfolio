@@ -632,6 +632,7 @@ const I18N = {
     vi: 'Làm game mobile bằng Unity, từ core loop đến lúc lên store. Mỗi project bên dưới đều có video gameplay.',
   },
   versionSwitch: { en: '🎮 View the 3D build (Unity WebGL) →', vi: '🎮 Xem bản 3D (Unity WebGL) →' },
+  showcaseLink: { en: '🎬 Personal showcase video (6:52) →', vi: '🎬 Video giới thiệu 2 game cá nhân (6:52) →' },
   secAbout: { en: 'About', vi: 'Giới thiệu' },
   secExperience: { en: 'Experience', vi: 'Kinh nghiệm' },
   secSkills: { en: 'Skills', vi: 'Kỹ năng' },
