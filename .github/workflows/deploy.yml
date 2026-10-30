@@ -3,6 +3,7 @@ name: Deploy portfolio (2D + 3D)
 # Repo chỉ có 1 site GitHub Pages, nên workflow này gom cả hai bản vào một lần deploy:
 #   /            -> bản 2D          (branch 2d_web,  file tĩnh)
 #   /3d/         -> bản 3D Unity WebGL (branch 3d_web, file tĩnh — không còn build step)
+#   /personal-showcase/ -> trang video giới thiệu 2 game cá nhân (branch 2d_web)
 # File này giống hệt nhau ở cả 2 branch, push branch nào cũng deploy đủ cả hai.
 on:
   push:
@@ -41,7 +42,7 @@ jobs:
         run: |
           mkdir -p _site/3d
           cp site-2d/index.html _site/
-          cp -r site-2d/assets _site/
+          cp -r site-2d/assets site-2d/personal-showcase _site/
           cp -r site-3d/index.html site-3d/Build site-3d/StreamingAssets _site/3d/
           echo "--- noi dung _site ---"
           find _site -maxdepth 2 | sort
