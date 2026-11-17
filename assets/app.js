@@ -517,13 +517,21 @@ const PERSONAL_PROJECTS = [
     id: 'tower',
     title: 'Tower Defense (3D Sci-Fi)',
     meta: 'Solo · Unity 2022 (URP) · DOTween · 05/2026 – Present',
-    tags: [{ t: { en: '3D Sci-Fi', vi: '3D Sci-Fi' } }, { t: 'MVC + Event Bus', sec: true }, { t: { en: 'Procedural', vi: 'Procedural' }, sec: true }],
+    tags: [{ t: { en: '3D Sci-Fi', vi: '3D Sci-Fi' } }, { t: 'Morale System', sec: true }, { t: 'MVC + Event Bus', sec: true }],
     sub: { en: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – Present', vi: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – Present' },
     link: { label: { en: 'View on GitHub', vi: 'Xem trên GitHub' }, href: 'https://github.com/Bao1106/TowerDefense/tree/develop' },
     media: { video: 'assets/media/tower-defense-demo.mp4', poster: 'assets/media/tower-defense-poster.jpg', wide: true },
     body: {
       en: `
-      <p>A 3D sci-fi tower defense with decoupled architecture, procedural maze generation and aggressive performance work.</p>
+      <p>A 3D sci-fi lane defense in the style of Arknights, built around a morale system, with decoupled architecture, procedural maze generation and measured performance work.</p>
+      <h4>Morale system (core mechanic)</h4>
+      <ul>
+        <li><strong>Inspired by Darkest Dungeon's stress:</strong> enemies that leak past a blocker add stress to the operators covering that lane; at 100 an operator breaks and stops fighting</li>
+        <li><strong>Rescue:</strong> tap a broken operator and the calmest neighbour who can pay spends skill points to bring them back; ranged operators can be rescued from two cells away</li>
+        <li><strong>Consequences:</strong> each operator death costs 3 lives; Horde packs, Heralds and the boss amplify leaks</li>
+        <li><strong>Readable at a glance:</strong> morale badges over 3D models and on deploy cards, a BROKEN pop with sound, a rescue arc and a one-time tutorial hint</li>
+        <li><strong>Tuned by playtest:</strong> an in-editor pressure probe reports leaks, stress, breaks and lives per wave; the load model was calibrated against bot runs, then human playtests on Hard went from 0/5 wins to 3/3 after the stress-clock and rescue rework</li>
+      </ul>
       <h4>System architecture</h4>
       <ul>
         <li><strong>MVC + static Event Bus</strong> for cross-system communication</li>
@@ -534,8 +542,8 @@ const PERSONAL_PROJECTS = [
       </ul>
       <h4>Graphics &amp; rendering (URP)</h4>
       <ul>
-        <li>Stylized toon-shading and geometry outlines via custom URP Renderer Features</li>
-        <li>Custom depth-testing shaders so world-space HP bars render correctly over 3D geometry</li>
+        <li>Toon shading and outlines with Toon Shaders Pro (Asset Store); an editor converter gives every model a toon twin of its material without editing the art packs</li>
+        <li>A custom always-on-top shader so HP bars and morale badges draw over 3D models</li>
       </ul>
       <h4>Algorithms &amp; procedural generation</h4>
       <ul>
@@ -556,7 +564,15 @@ const PERSONAL_PROJECTS = [
       </div>
     `,
       vi: `
-      <p>Tower defense 3D sci-fi với kiến trúc decoupled, sinh maze procedural và tối ưu hiệu năng mạnh tay.</p>
+      <p>Tower defense 3D sci-fi theo lối Arknights, xoay quanh hệ thống morale, với kiến trúc decoupled, sinh maze procedural và tối ưu hiệu năng có đo đạc.</p>
+      <h4>Hệ thống morale (cơ chế lõi)</h4>
+      <ul>
+        <li><strong>Lấy cảm hứng từ stress của Darkest Dungeon:</strong> địch lọt qua lính chặn sẽ cộng stress cho các operator đang giữ lane đó; chạm 100 thì operator suy sụp và ngừng chiến đấu</li>
+        <li><strong>Rescue:</strong> bấm vào operator đang suy sụp, đồng đội đứng kề bình tĩnh nhất và đủ skill point sẽ bỏ điểm ra cứu; operator đánh xa được cứu từ cách 2 ô</li>
+        <li><strong>Hệ quả:</strong> mỗi operator chết mất 3 mạng; bầy Horde, Herald và boss khuếch đại lượt lọt</li>
+        <li><strong>Nhìn là hiểu:</strong> huy hiệu morale trên model 3D và trên thẻ deploy, hiệu ứng BROKEN có âm thanh, đường cong cứu viện và hint tutorial một lần</li>
+        <li><strong>Cân bằng bằng playtest:</strong> pressure probe trong Editor báo lượt lọt, stress, số lần suy sụp và mạng theo từng wave; load model được hiệu chỉnh bằng bot, rồi playtest người ở Hard đi từ thắng 0/5 lên 3/3 sau khi làm lại đồng hồ stress và Rescue</li>
+      </ul>
       <h4>Kiến trúc hệ thống</h4>
       <ul>
         <li><strong>MVC + static Event Bus</strong> cho giao tiếp giữa các hệ thống</li>
@@ -567,8 +583,8 @@ const PERSONAL_PROJECTS = [
       </ul>
       <h4>Graphics &amp; rendering (URP)</h4>
       <ul>
-        <li>Toon-shading stylized và geometry outline qua URP Renderer Feature tự viết</li>
-        <li>Shader custom depth-testing để HP bar world-space render đúng phía trên geometry 3D</li>
+        <li>Toon shading và outline bằng Toon Shaders Pro (Asset Store); converter trong Editor tạo bản toon cho material của mọi model mà không sửa asset pack gốc</li>
+        <li>Shader always-on-top tự viết để HP bar và huy hiệu morale luôn vẽ đè lên model 3D</li>
       </ul>
       <h4>Thuật toán &amp; procedural generation</h4>
       <ul>
