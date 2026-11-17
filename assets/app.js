@@ -442,14 +442,14 @@ const PERSONAL_PROJECTS = [
     screenClass: 'sc-paw',
     tags: [{ t: { en: 'Mobile Puzzle', vi: 'Mobile Puzzle' } }, { t: { en: '100 Levels', vi: '100 Level' }, sec: true }, { t: 'Google Play', sec: true }],
     sub: {
-      en: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Android closed testing on Google Play',
-      vi: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Đang closed testing trên Google Play',
+      en: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Live on Google Play',
+      vi: 'Solo Developer · Unity 6 (URP) · Portrait Mobile · 07/2026 – Present · Đã phát hành trên Google Play',
     },
-    linkNote: { en: 'Android closed testing — Google Play', vi: 'Đang closed testing — Google Play' },
+    link: { label: { en: 'Get it on Google Play', vi: 'Tải trên Google Play' }, href: 'https://play.google.com/store/apps/details?id=com.tdk.pawvoyage.petsort' },
     media: { video: 'assets/media/paw-voyage-demo.mp4', poster: 'assets/media/paw-voyage-poster.jpg' },
     body: {
       en: `
-      <p>A sorting puzzle (Bus-Sort style) designed and built solo, from core loop to meta progression. The video plays one full session: sign-in and cloud backup, a purchase in the shop, then level 67 with hungry and thirsty pets, the Shuffle and Remove boosters, and a 3-star win.</p>
+      <p>A sorting puzzle (Bus-Sort style) designed and built solo, from core loop to meta progression. The video plays one session: the Sea Chart map, buying food in the shop and checking the bag, then level 67 and a 3-star win.</p>
       <h4>Game &amp; meta</h4>
       <ul>
         <li>100 levels across 2 zones, a level map with stars and chest rewards, boosters, pet hunger and thirst with food and water items, a shop and bag, onboarding, UI, VFX and audio</li>
@@ -471,7 +471,7 @@ const PERSONAL_PROJECTS = [
       <h4>Game feel &amp; release</h4>
       <ul>
         <li>Stylized water the boats sit and roll on, pet hops and reactions, boarding and booster effects readable on a small screen</li>
-        <li>Full Android release path solo: signed build, Play Console setup, store listing, data safety declaration and closed testing on real devices</li>
+        <li>Full Android release path solo: signed build, Play Console setup, store listing, data safety declaration, and the move from closed testing to a public release</li>
       </ul>
       <div class="metric-row">
         <div class="metric-box"><div class="num">100</div><div class="label">levels</div></div>
@@ -480,7 +480,7 @@ const PERSONAL_PROJECTS = [
       </div>
     `,
       vi: `
-      <p>Puzzle sắp xếp (kiểu Bus-Sort) tự thiết kế và làm một mình, từ core loop đến meta progression. Video là một phiên chơi trọn vẹn: đăng nhập và backup lên cloud, mua đồ trong shop, rồi level 67 với pet đói và khát, booster Shuffle và Remove, và thắng 3 sao.</p>
+      <p>Puzzle sắp xếp (kiểu Bus-Sort) tự thiết kế và làm một mình, từ core loop đến meta progression. Video là một phiên chơi: bản đồ Sea Chart, mua đồ ăn trong shop và xem túi đồ, rồi level 67 và thắng 3 sao.</p>
       <h4>Game &amp; meta</h4>
       <ul>
         <li>100 level chia 2 zone, level map kèm sao và chest reward, booster, pet đói và khát với đồ ăn và nước, shop và túi đồ, onboarding, UI, VFX và audio</li>
@@ -502,7 +502,7 @@ const PERSONAL_PROJECTS = [
       <h4>Game feel &amp; release</h4>
       <ul>
         <li>Nước stylized để thuyền nổi và lắc, pet nhảy và phản ứng, hiệu ứng boarding và booster vẫn rõ trên màn hình nhỏ</li>
-        <li>Tự lo trọn đường release Android: signed build, setup Play Console, store listing, khai báo data safety và closed testing trên thiết bị thật</li>
+        <li>Tự lo trọn đường release Android: signed build, setup Play Console, store listing, khai báo data safety, rồi từ closed testing lên bản phát hành công khai</li>
       </ul>
       <div class="metric-row">
         <div class="metric-box"><div class="num">100</div><div class="label">level</div></div>
@@ -516,9 +516,9 @@ const PERSONAL_PROJECTS = [
   {
     id: 'tower',
     title: 'Tower Defense (3D Sci-Fi)',
-    meta: 'Solo · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026',
+    meta: 'Solo · Unity 2022 (URP) · DOTween · 05/2026 – Present',
     tags: [{ t: { en: '3D Sci-Fi', vi: '3D Sci-Fi' } }, { t: 'MVC + Event Bus', sec: true }, { t: { en: 'Procedural', vi: 'Procedural' }, sec: true }],
-    sub: { en: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026', vi: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – 06/2026' },
+    sub: { en: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – Present', vi: 'Solo Developer · Unity 2022 (URP) · DOTween · 05/2026 – Present' },
     link: { label: { en: 'View on GitHub', vi: 'Xem trên GitHub' }, href: 'https://github.com/Bao1106/TowerDefense/tree/develop' },
     media: { video: 'assets/media/tower-defense-demo.mp4', poster: 'assets/media/tower-defense-poster.jpg', wide: true },
     body: {
@@ -640,8 +640,8 @@ const I18N = {
   secMore: { en: 'More Projects', vi: 'Dự án khác' },
   aboutWhatTitle: { en: 'What I do', vi: 'Tôi làm gì' },
   aboutWhatBody: {
-    en: 'Unity game developer with 4+ years shipping mobile games and 5+ years of professional C#. Builds and releases for Android (Google Play) and iOS (TestFlight), as well as WebGL, PC and kiosk. Solo-built a Bus-Sort puzzle from core loop to Google Play closed testing: 100 levels, an offline level solver and bake pipeline that keeps every level solvable, bot playtesting, and Google/Apple sign-in with cloud save. Built online multiplayer with automatic rooms and matchmaking for NFT board games. Picks up new technology fast: skeletal tracking for clinical rehab games, blockchain game systems, VR.',
-    vi: 'Unity game developer với 4+ năm ship game mobile và 5+ năm làm C# chuyên nghiệp. Build và release cho Android (Google Play) và iOS (TestFlight), cùng WebGL, PC và kiosk. Tự làm một mình một game puzzle Bus-Sort từ core loop đến closed testing trên Google Play: 100 level, solver và pipeline bake level chạy offline đảm bảo level nào cũng giải được, bot tự playtest, đăng nhập Google/Apple kèm cloud save. Làm multiplayer online với room tự tạo và ghép trận cho board game NFT. Nắm công nghệ mới nhanh: skeletal tracking cho game phục hồi chức năng, hệ thống game blockchain, VR.',
+    en: 'Unity game developer with 4+ years shipping mobile games and 5+ years of professional C#. Builds and releases for Android (Google Play) and iOS (TestFlight), as well as WebGL, PC and kiosk. Solo-built and released a Bus-Sort puzzle on Google Play: 100 levels, an offline level solver and bake pipeline that keeps every level solvable, bot playtesting, and Google/Apple sign-in with cloud save. Built online multiplayer with automatic rooms and matchmaking for NFT board games. Picks up new technology fast: skeletal tracking for clinical rehab games, blockchain game systems, VR.',
+    vi: 'Unity game developer với 4+ năm ship game mobile và 5+ năm làm C# chuyên nghiệp. Build và release cho Android (Google Play) và iOS (TestFlight), cùng WebGL, PC và kiosk. Tự làm một mình và phát hành một game puzzle Bus-Sort trên Google Play: 100 level, solver và pipeline bake level chạy offline đảm bảo level nào cũng giải được, bot tự playtest, đăng nhập Google/Apple kèm cloud save. Làm multiplayer online với room tự tạo và ghép trận cho board game NFT. Nắm công nghệ mới nhanh: skeletal tracking cho game phục hồi chức năng, hệ thống game blockchain, VR.',
   },
   aboutCoreTitle: { en: 'Core strengths', vi: 'Thế mạnh' },
   aboutCoreList: [
